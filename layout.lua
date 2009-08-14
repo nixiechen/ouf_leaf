@@ -355,6 +355,11 @@ local function styleFunc(self, unit)
 		self.Combat:SetTexture('Interface\\CharacterFrame\\UI-StateIcon')
 		self.Combat:SetTexCoord(0.58, 0.90, 0.08, 0.41)
 		
+		self.PvP = self.Health:CreateTexture(nil, 'OVERLAY')
+		self.PvP:SetHeight(14)
+		self.PvP:SetWidth(14)
+		self.PvP:SetPoint('CENTER', self, 'TOPLEFT')
+		
 		self.ThreatBar = CreateFrame('StatusBar', nil, self)
 		self.ThreatBar:SetPoint('TOPLEFT',self,'BOTTOMLEFT')
 		self.ThreatBar:SetPoint('TOPRIGHT',self,'BOTTOMRIGHT')

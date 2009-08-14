@@ -1,0 +1,58 @@
+yleaf (yaroot@gmail.com)
+
+
+
+
+TOT for PT,MT,MA
+
+TODO List:
+	Set Focus Menu: http://paste.wowace.com/781/
+----------------------------------------------------------------
+-- SHORT VERSION
+    self:SetAttribute("_menu", TargetFrame.menu)
+    self:SetScript("PostClick", function(self)
+        if UIDROPDOWNMENU_OPEN_MENU == TargetFrameDropDown and DropDownList1:IsShown() then
+            DropDownList1:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, 0 )
+        end
+    end)
+
+----------------------------------------------------------------
+-- LONG VERSION THAT MOVES THE MENU SO IT DOES NOT GO OFFSCREEN
+    local function AdjustMenu(listFrame, point, relativeTo, relativePoint, xOffset, yOffset)
+        -- Determine whether the menu is off the screen or not
+        local x, y = listFrame:GetCenter();
+        local offscreenY, offscreenX;
+        if ( (y - listFrame:GetHeight()/2) < 0 ) then
+            offscreenY = 1;
+        end
+        if ( listFrame:GetRight() > GetScreenWidth() ) then
+            offscreenX = 1;    
+        end
+
+        if ( offscreenY and offscreenX ) then
+            point = gsub(point, "TOP(.*)", "BOTTOM%1");
+            point = gsub(point, "(.*)LEFT", "%1RIGHT");
+            relativePoint = gsub(relativePoint, "BOTTOM(.*)", "TOP%1");
+            relativePoint = gsub(relativePoint, "(.*)RIGHT", "%1LEFT");
+        elseif ( offscreenY ) then
+            point = gsub(point, "TOP(.*)", "BOTTOM%1");
+            relativePoint = gsub(relativePoint, "BOTTOM(.*)", "TOP%1");
+        elseif ( offscreenX ) then
+            point = gsub(point, "(.*)LEFT", "%1RIGHT");
+            relativePoint = gsub(relativePoint, "(.*)RIGHT", "%1LEFT");
+        end
+
+        if offscreenY or offscreenX then
+            listFrame:ClearAllPoints()
+            listFrame:SetPoint(point, relativeTo, relativePoint, xOffset, yOffset);
+        end
+    end
+
+    self:SetAttribute("_menu", TargetFrame.menu)
+    self:SetScript("PostClick", function(self)
+        if UIDROPDOWNMENU_OPEN_MENU == TargetFrameDropDown and DropDownList1:IsShown() then
+            DropDownList1:ClearAllPoints()
+            DropDownList1:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, 0)
+            AdjustMenu(DropDownList1, "TOPLEFT", self, "BOTTOMLEFT", 0, 0)
+        end
+    end)

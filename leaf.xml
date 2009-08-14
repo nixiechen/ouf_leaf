@@ -1,0 +1,97 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/../FrameXML/UI.xsd">
+	<Script file="libs\LibStub.lua" />
+	<Script file="libs\CallbackHandler-1.0.lua" />
+	<Script file="libs\LibDataBroker-1.1.lua" />
+	<Script file="libs\LibHealComm-3.0.lua" />
+	<!--Script file="libs\utf8.lua" /-->
+
+	<!--Script file="plugins\oUF_BarFader.lua" /-->
+	<!--Script file="plugins\oUF_CornerIndicators.lua" /-->
+	<Script file="plugins\oUF_DebuffHighlight.lua" />
+	<Script file="plugins\oUF_DruidPower.lua" />
+	<Script file="plugins\oUF_FSR.lua" />
+	<Script file="plugins\oUF_GCDBar.lua" />
+	<Script file="plugins\oUF_HealComm.lua" />
+	<!--Script file="plugins\oUF_RaidDebuff.lua" /-->
+	<!--Script file="plugins\oUF_RaidDebuff_Data.lua" /-->
+	<Script file="plugins\oUF_ReadyCheck.lua" />
+	<!--Script file="plugins\oUF_RuneBar.lua" /-->
+	<Script file="plugins\oUF_SpellRange.lua" />
+	<Script file="plugins\oUF_ThreatBar.lua" />
+	<Script file="plugins\oUF_TotemBar.lua" />
+
+	<Button name="ouf_leaf_tar" inherits="SecureUnitButtonTemplate" hidden="true" virtual="true">
+		<Frames>
+			<Button name="$parentTarget" inherits="SecureUnitButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parent">
+						<Offset>
+							<AbsDimension x="5" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Attributes>
+					<Attribute name="unitsuffix" type="string" value="target"/>
+					<Attribute name="useparent-unit" type="boolean" value="true"/>
+					<Attribute name="type1" type="string" value="target"/>
+					<Attribute name="initial-unitWatch" type="boolean" value="true"/>
+				</Attributes>
+			</Button>
+		</Frames>
+	</Button>
+
+	<Button name="ouf_leaf_tar_tartar" inherits="SecureUnitButtonTemplate" hidden="true" virtual="true">
+		<Frames>
+			<Button name="$parentTarget" inherits="SecureUnitButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parent">
+						<Offset>
+							<AbsDimension x="5" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Attributes>
+					<Attribute name="unitsuffix" type="string" value="target"/>
+					<Attribute name="useparent-unit" type="boolean" value="true"/>
+					<Attribute name="type1" type="string" value="target"/>
+					<Attribute name="initial-unitWatch" type="boolean" value="true"/>
+				</Attributes>
+			</Button>
+			<Button name="$parentTargetTarget" inherits="SecureUnitButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parentTarget">
+						<Offset>
+							<AbsDimension x="5" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Attributes>
+					<Attribute name="unitsuffix" type="string" value="targettarget"/>
+					<Attribute name="useparent-unit" type="boolean" value="true"/>
+					<Attribute name="type1" type="string" value="targettarget"/>
+					<Attribute name="initial-unitWatch" type="boolean" value="true"/>
+				</Attributes>
+			</Button>
+		</Frames>
+	</Button>
+
+	<Button name="ouf_leaf_pet" inherits="SecureUnitButtonTemplate" hidden="true" virtual="true">
+		<Frames>
+			<Button name="$parentPet" inherits="SecureUnitButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parent">
+						<Offset>
+							<AbsDimension x="5" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Attributes>
+					<Attribute name="unitsuffix" type="string" value="pet"/>
+					<Attribute name="useparent-unit" type="boolean" value="true"/>
+					<Attribute name="type1" type="string" value="target"/>
+					<Attribute name="initial-unitWatch" type="boolean" value="true"/>
+				</Attributes>
+			</Button>
+		</Frames>
+	</Button>
+</Ui>

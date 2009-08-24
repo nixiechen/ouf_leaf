@@ -2,8 +2,8 @@
 	by yleaf (yaroot@gmail.com)
 	A GridStatusRaidDebuff-like ouf plugin
 	
-	THE DEBUFF DATA ARE COPIED FROM GridStatusRaidDebuff WITHOUT THE AUTHOR'S PERMITION
-	DO NOT REDISTRIBUTE
+	Debuff data come from GridStatusRaidDebuff
+	
 	
 	* layout setup
 	- RaidDebuffIcon

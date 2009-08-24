@@ -7,7 +7,7 @@
 	.anchor: (string)       Initial anchor to the parent rune frame
 	.growth: (string)       LEFT or RIGHT
 	.height: (int)          Height of the bar
-	.width: (int)           Width of each frame
+	.width: (int)           Width of each bar
 ]]
 
 if select(2, UnitClass("player")) ~= "DEATHKNIGHT" then return end
@@ -36,25 +36,29 @@ local OnUpdate = function(self, elapsed)
 	end
 end
 
-local TypeUpdate = function(self, event)
-	local runes = self.runes
-	for i = 1, 6 do
-		local r, g, b = unpack(self.colors.runes[GetRuneType(i)])
-		local bar = runes[i]
-		bar:SetStatusBarColor(r, g, b)
+local TypeUpdate = function(self, event, i)
+	local bar = self.runes[i]
+	if not bar then return end -- Just in case
 
-		if(bar.bg) then
-			local mu = bar.bg.multiplier or 1
-			bar.bg:SetVertexColor(r * mu, g * mu, b * mu)
-		end
+	local r, g, b = unpack(self.colors.runes[GetRuneType(i)])
+	bar:SetStatusBarColor(r, g, b)
+
+	if(bar.bg) then
+		local mu = bar.bg.multiplier or 1
+		bar.bg:SetVertexColor(r * mu, g * mu, b * mu)
 	end
 end
 
 local Update = function(self, event, rune)
-	if event == "PLAYER_ENTERING_WORLD" then return TypeUpdate(self, event) end
+	if event == "PLAYER_ENTERING_WORLD" or not coloured then
+		for i = 1, 6 do
+			TypeUpdate(self, event, i)
+		end
+		return
+	end
 
+	-- Bar could be 7, 8 for some reason
 	local bar = self.runes[rune]
-
 	if not bar then return end
 
 	local start, dur, ready = GetRuneCooldown(rune)

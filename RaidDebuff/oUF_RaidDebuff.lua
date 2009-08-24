@@ -1,7 +1,9 @@
 --[[
 	by yleaf (yaroot@gmail.com)
-	A GridStatusRaidDebuff-like ouf plugin, we can heal with ouf now!
-	debuff data are copied from GridStatusRaidDebuff
+	A GridStatusRaidDebuff-like ouf plugin
+	
+	THE DEBUFF DATA ARE COPIED FROM GridStatusRaidDebuff WITHOUT THE AUTHOR'S PERMITION
+	DO NOT REDISTRIBUTE
 	
 	* layout setup
 	- RaidDebuffIcon
@@ -13,10 +15,8 @@
 		/raiddebuff
 		/ord
 ]]
-if ouf_leaf.noraid or (not ouf_leaf.raid_debuff) then return end
 
 local debug, debugf = function() end
-local L
 local SetFontString = ouf_leaf.createfont
 local frame_pool, roster = {}, {}
 
@@ -26,6 +26,7 @@ addon:SetScript('OnEvent', function(self, event, ...) self[event](self, event, .
 
 function addon:GetDebufFrameByGUID(GUID)
 	local unit = roster[GUID]
+	--print(GUID, unit)
 	if not unit then return end
 	local uframe
 	
@@ -52,7 +53,6 @@ function addon:PLAYER_LOGIN()
 		debug = function(...) debugf:AddMessage(string.join(', ', ...)) end
 	end
 	
-	L = setmetatable(self.locale or {}, {__index=function(t,i) return i end})
 	self.roster = roster
 	self.frame_pool = frame_pool
 	
@@ -79,9 +79,12 @@ function addon:COMBAT_LOG_EVENT_UNFILTERED(event, timeStamp, eventType, sourceGU
 end
 
 -- GUID => UNIT ID
-function self:RAID_ROSTER_UPDATE()
+function addon:RAID_ROSTER_UPDATE()
 	debug'RAID_ROSTER_UPDATE'
 	wipe(roster)
+	if ouf_leaf.test_mod then
+		roster[UnitGUID('player')] = 'player'
+	end
 	local num = GetRealNumRaidMembers()
 	debug('raid num', num)
 	if num > 1 then
@@ -95,19 +98,16 @@ function self:RAID_ROSTER_UPDATE()
 end
 
 function addon:PLAYER_ENTERING_WORLD()
-	debug'PLAYER_ENTERING_WORLD'
 	local curZone = GetRealZoneText()
-	local zone = L[curZone] or curZone
-	debug(curZone, zone)
-	local DebuffList = self.DebuffData[zone]
+	local DebuffList = self.DebuffData[curZone]
 	if DebuffList then
 		self.DebuffList = DebuffList
 		self:RegisterEvent'COMBAT_LOG_EVENT_UNFILTERED'
-		debug'POWER ON'
+		debug('POWER ON', curZone)
 	else
 		self.DebuffList = {}
 		self:UnregisterEvent'COMBAT_LOG_EVENT_UNFILTERED'
-		debug'POWER OFF'
+		debug('POWER OFF', curZone)
 	end
 	
 	for dummy, frame in pairs(frame_pool) do
@@ -119,15 +119,13 @@ function addon:PLAYER_ENTERING_WORLD()
 end
 
 function addon:Add(destGUID, spellID)
-	--debug('Add', destGUID, spellID)
+	debug('Add', destGUID, spellID)
 	local debuffinfo = self.DebuffList[spellID]
 	if debuffinfo then
 		debug'adding'
-		
 		local frame, unit = self:GetDebufFrameByGUID(destGUID)
 		if not (frame and unit) then return end
-		
-		debug('adding unit',unit)
+		debug('Adding',unit, 'spellID', spellID)
 		
 		frame.Debuffs[spellID] = frame.Debuffs[spellID] or {}
 		local gained = frame.Debuffs[spellID]
@@ -219,28 +217,29 @@ local function Setup(self)
 	if not self.RaidDebuffIcon then return end
 	local size = self.RaidDebuffIcon_Size or 20
 	
-	self.RaidDebuff = CreateFrame('Frame', nil, self)
-	self.RaidDebuff:SetWidth(size)
-	self.RaidDebuff:SetHeight(size)
-	self.RaidDebuff:SetPoint('CENTER', self)
-	self.RaidDebuff:SetFrameStrata('HIGH')
-	self.RaidDebuff:Hide()
+	local f = CreateFrame('Frame', nil, self)
+	f:SetWidth(size)
+	f:SetHeight(size)
+	f:SetPoint('CENTER', self)
+	f:SetFrameStrata('HIGH')
+	f:Hide()
 	
-	self.RaidDebuff.cd = CreateFrame'Cooldown'
-	self.RaidDebuff.cd:SetParent(self.RaidDebuff)
-	self.RaidDebuff.cd:SetAllPoints(self.RaidDebuff)
+	f.cd = CreateFrame'Cooldown'
+	f.cd:SetParent(f)
+	f.cd:SetAllPoints(f)
 	
-	self.RaidDebuff.icon = self.RaidDebuff:CreateTexture()
-	self.RaidDebuff.icon:SetDrawLayer'BACKGROUND'
-	self.RaidDebuff.icon:SetAllPoints(self.RaidDebuff)
-	self.RaidDebuff.icon:SetTexCoord(.1,.9,.1,.9)
+	f.icon = f:CreateTexture()
+	f.icon:SetDrawLayer'BACKGROUND'
+	f.icon:SetAllPoints(f)
+	f.icon:SetTexCoord(.1,.9,.1,.9)
 	
-	self.RaidDebuff.stack = SetFontString(self.RaidDebuff, 10, 'ARTWORK')
-	self.RaidDebuff.stack:SetPoint('BOTTOMRIGHT', self.RaidDebuff, 0, 0)
-	self.RaidDebuff.stack:SetJustifyH'RIGHT'
+	f.stack = SetFontString(f, 10)
+	f.stack:SetPoint('BOTTOMRIGHT', f, -2, 0)
+	f.stack:SetJustifyH'RIGHT'
 	
-	self.RaidDebuff.Debuffs = {}
+	f.Debuffs = {}
 	
+	self.RaidDebuff = f
 	tinsert(frame_pool, self)
 	
 	return self
@@ -259,11 +258,11 @@ SLASH_OUFRAIDDEBUFF2 = '/oufraiddebuff'
 SLASH_OUFRAIDDEBUFF3 = '/raiddebuff'
 SLASH_OUFRAIDDEBUFF4 = '/ord'
 
-local LDB = LibStub and  LibStub:GetLibrary('LibDataBroker-1.1', true)
+local LDB = LibStub and LibStub:GetLibrary('LibDataBroker-1.1', true)
 
 addon.dataobj = LDB and LDB:NewDataObject('oUF_RaidDebuff',{
 	type = 'launcher',
 	lable = 'oUF_RaidDebuff',
-	icon = [[Interface\Icons\spell_fire_felfire]]
-	OnClick = SlashCmdList.OUFRAIDDEBUFF
+	icon = [[Interface\Icons\spell_fire_felfire]],
+	OnClick = SlashCmdList.OUFRAIDDEBUFF,
 })

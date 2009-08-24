@@ -18,30 +18,27 @@ local statusTexture = {
 	waiting = [=[Interface\RAIDFRAME\ReadyCheck-Waiting]=],
 }
 
-local onUpdate
-do
-	function onUpdate(self, elapsed)
-		if(self.finish) then
-			self.finish = self.finish - elapsed
-			if(self.finish <= 0) then
-				self.finish = nil
-			end
-		elseif(self.fade) then
-			self.fade = self.fade - elapsed
-			if(self.fade <= 0) then
-				self.fade = nil
-				self:SetScript('OnUpdate', nil)
+function onUpdate(self, elapsed)
+	if(self.finish) then
+		self.finish = self.finish - elapsed
+		if(self.finish <= 0) then
+			self.finish = nil
+		end
+	elseif(self.fade) then
+		self.fade = self.fade - elapsed
+		if(self.fade <= 0) then
+			self.fade = nil
+			self:SetScript('OnUpdate', nil)
 
-				for k, v in next, oUF.objects do
-					if(v.ReadyCheck and v.unit == self.unit) then
-						v.ReadyCheck:Hide()
-					end
+			for k, v in next, oUF.objects do
+				if(v.ReadyCheck and v.unit == self.unit) then
+					v.ReadyCheck:Hide()
 				end
-			else
-				for k, v in next, oUF.objects do
-					if(v.ReadyCheck and v.unit == self.unit) then
-						v.ReadyCheck:SetAlpha(self.fade / self.offset)
-					end
+			end
+		else
+			for k, v in next, oUF.objects do
+				if(v.ReadyCheck and v.unit == self.unit) then
+					v.ReadyCheck:SetAlpha(self.fade / self.offset)
 				end
 			end
 		end
@@ -51,9 +48,12 @@ end
 local function update(self)
 	if(not IsRaidLeader() and not IsRaidOfficer() and not IsPartyLeader()) then return end
 
-	self.ReadyCheck:SetTexture(statusTexture[GetReadyCheckStatus(self.unit)])
-	self.ReadyCheck:SetAlpha(1)
-	self.ReadyCheck:Show()
+	local status = GetReadyCheckStatus(self.unit)
+	if(status) then
+		self.ReadyCheck:SetTexture(statusTexture[status])
+		self.ReadyCheck:SetAlpha(1)
+		self.ReadyCheck:Show()
+	end
 end
 
 local function prepare(self)
@@ -65,7 +65,7 @@ local function prepare(self)
 	dummy.fade = readycheck.fadeTime or 1.5
 	dummy.offset = readycheck.fadeTime or 1.5
 
-	dummy:SetScript('OnUpdate', OnUpdate)
+	dummy:SetScript('OnUpdate', onUpdate)
 end
 
 local function enable(self)

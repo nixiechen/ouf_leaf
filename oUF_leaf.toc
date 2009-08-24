@@ -2,6 +2,7 @@
 ## Title: |cffff8800o|rUF |cffff8800leaf|r
 ## Notes: Simple layout
 ## X-oUF: oUF
+## OptionalDeps: !ClassColors
 
 oUF\oUF.xml
 

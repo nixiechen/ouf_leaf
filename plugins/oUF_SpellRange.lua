@@ -32,7 +32,7 @@ function IsInRange(u)
 		return true
 	elseif UnitCanAttack('player', u) then
 		return IsSpellInRange(mySpell, u) == 1
-	elseif UnitCanAssist('player', u) and (UnitIsUnit(u, 'pet') or UnitPlayerOrPetInParty(u) or UnitPlayerOrPetInRaid(u)) then
+	elseif (UnitIsUnit(u, 'pet') or UnitPlayerOrPetInParty(u) or UnitPlayerOrPetInRaid(u)) then -- UnitCanAssist('player', u)
 		return UnitInRange(u)
 	else
 		return true

@@ -3,9 +3,11 @@ yleaf (yaroot@gmail.com)
 this is a ouf layout for self-usage
 
 
-TOT for PT,MT,MA
 
 TODO List:
+
+Finish raid debuff
+
 	Set Focus Menu: http://paste.wowace.com/781/
 ----------------------------------------------------------------
 -- SHORT VERSION

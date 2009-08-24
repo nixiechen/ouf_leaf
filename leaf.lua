@@ -3,10 +3,10 @@
 _G.ouf_leaf = {}
 ouf_leaf.noarena = false
 ouf_leaf.noraid = false
-ouf_leaf.raid_debuff = false
-ouf_leaf.corner_indicators = false
+ouf_leaf.corner_indicators = true
 ouf_leaf.nofsr = true
 ouf_leaf.nogcd = true
+ouf_leaf.test_mod = false
 
 ouf_leaf.units = {}
 
@@ -53,10 +53,11 @@ end
 
 function ouf_leaf.createfont(parent, fontHeight, fontStyle, font)
 	local fontObj = parent:CreateFontString(nil, 'OVERLAY')
-	fontObj:SetFont(font or STANDARD_TEXT_FONT, fontHeight or 11, fontStyle)
-	--fontObj:SetJustifyH('LEFT')
-	fontObj:SetShadowColor(0,0,0)
-	fontObj:SetShadowOffset(1, -1)
+	fontObj:SetFont(font or STANDARD_TEXT_FONT, fontHeight or 11, fontStyle or 'OUTLINE')
+	fontObj:SetJustifyH('CENTER')
+	fontObj:SetJustifyV('CENTER')
+	--fontObj:SetShadowColor(0,0,0)
+	--fontObj:SetShadowOffset(1, -1)
 	return fontObj
 end
 
@@ -161,11 +162,6 @@ local function Hex(r, g, b)
 end
 ouf_leaf.hex = Hex
 
-local smoothcolor = {
-	health	= {	240/255,55/255,0/255, 225/255,225/255,65/255, 80/255,160/255,80/255	},
-	mana	= {	140/255,185/255,235/255, 0/255,100/255,255/255	},
-}
-
 local function truncate(value)
 	if(value >= 1e6) then
 		value = format('%.1fm', value / 1e6)
@@ -185,13 +181,16 @@ end
 
 ---------------------------------------------------------------------
 
-oUF.Tags['[leafdifficulty]']  = function(u) local l = UnitLevel(u); return Hex(GetDifficultyColor((l > 0) and l or 99)) end
+local diffColor = GetQuestDifficultyColor or GetDifficultyColor
+oUF.Tags['[leafdifficulty]']  = function(u) local l = UnitLevel(u); return Hex(diffColor((l > 0) and l or 99)) end
 oUF.Tags['[leafcolorpower]'] = function(u) local n,s = UnitPowerType(u) return Hex(colors.power[s]) end
 oUF.Tags['[leafcurhp]'] = function(u) return truncate(UnitHealth(u)) end
 oUF.Tags['[leafcurpp]'] = function(u) return truncate(UnitPower(u)) end
 oUF.Tags['[leafmaxhp]'] = function(u) return truncate(UnitHealthMax(u)) end
 oUF.Tags['[leafmaxpp]'] = function(u) return truncate(UnitPowerMax(u)) end
 oUF.Tags['[leafraidcolor]']   = function(u) local _, x = UnitClass(u); return x and classColors[x] or '|cffffffff' end
+
+
 do
 	local lb = GetSpellInfo(33763)
 	oUF.Tags['[leaflifebloom]'] = function(u)
@@ -217,10 +216,29 @@ oUF.Tags['[leafsmartlevel]'] = function(u)
 	end
 end
 
+oUF.Tags['[leafthreatpct]'] = function(u)
+	local isTanking, status, threatpct, rawthreatpct, threatvalue = UnitDetailedThreatSituation(u, 'target')
+	if not threatpct then return end
+	
+	if isTanking then threatpct = 100 end
+	local r,g,b = oUF.ColorGradient(threatpct/100, unpack(colors.smooth))
+	return Hex(r,g,b) .. (isTanking and 'Aggro' or ceil(threatpct) .. '%')
+end
+
+oUF.Tags['[leafdruidpower]'] = function(u)
+	local mana = UnitPowerType(u) == 0
+	local min, max = UnitPower(u, mana and 3 or 0), UnitPowerMax(u, mana and 3 or 0)
+	if min~=max then
+		local r,g,b = unpack(colors.power[mana and 'ENERGY' or 'MANA'])
+		local text = mana and format('%d', truncate(min)) or format('%d%%', floor(min/max*100))
+		return Hex(r,g,b) .. text
+	end
+end
+
 local raidtag_saved_names = setmetatable({}, {
 	__index = function(t,i)
 		local str
-		if 3 and (strbyte(i,1) > 224) then -- check the first alphabet of the string is enough
+		if (strbyte(i,1) > 224) then
 			str = utf8sub(i, 3)
 		else
 			str = utf8sub(i, 5)
@@ -240,17 +258,9 @@ oUF.Tags['[leafraid]'] = function(u)
 	return c .. raidtag_saved_names[UnitName(u)]
 end
 
-local diffColor = GetQuestDifficultyColor or GetDifficultyColor
-
-oUF.Tags['[leafdifficulty]']  = function(u) local l = UnitLevel(u); return Hex(diffColor((l > 0) and l or 99)) end
-oUF.Tags['[leafcolorpower]'] = function(u) local n,s = UnitPowerType(u) return Hex(colors.power[s]) end
-oUF.Tags['[leafcurhp]'] = function(u) return truncate(UnitHealth(u)) end
-oUF.Tags['[leafcurpp]'] = function(u) return truncate(UnitPower(u)) end
-oUF.Tags['[leafmaxhp]'] = function(u) return truncate(UnitHealthMax(u)) end
-oUF.Tags['[leafmaxpp]'] = function(u) return truncate(UnitPowerMax(u)) end
-
 oUF.TagEvents['[leafcurhp]'] = 'UNIT_HEALTH'
 oUF.TagEvents['[leafcurpp]'] = 'UNIT_ENERGY UNIT_FOCUS UNIT_MANA UNIT_RAGE UNIT_RUNIC_POWER'
 oUF.TagEvents['[leafmaxhp]'] = 'UNIT_MAXHEALTH'
 oUF.TagEvents['[leafmaxpp]'] = 'UNIT_MAXENERGY UNIT_MAXFOCUS UNIT_MAXMANA UNIT_MAXRAGE UNIT_MAXRUNIC_POWER'
 oUF.TagEvents['[leafraid]'] = 'UNIT_NAME_UPDATE'
+oUF.TagEvents['[leafdruidpower]'] = 'UNIT_MANA UNIT_ENERGY UPDATE_SHAPESHIFT_FORM'

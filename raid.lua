@@ -65,16 +65,16 @@ local function styleFunc(self, unit)
 	self.Power.bg.multiplier = .3
 	
 	local text = SetFontString(self.Health)
-	text:SetPoint('CENTER', self.Health)
+	text:SetPoint('CENTER', self.Health, 1, 0)
 	--text.frequentUpdates = .5
 	self:Tag(text, '[leafraid]')
 	
-	if class == 'DRUID' then
+	--[[if class == 'DRUID' then
 		local lifebloom = SetFontString(self.Health, 10)
-		lifebloom:SetPoint('BOTTOM', self.Health, 0, 1)
+		lifebloom:SetPoint('BOTTOM', self.Health, 1, 1)
 		lifebloom.frequentUpdates = 1
-		self:Tag(lifebloom, '[leaflifebloom]')
-	end
+		self:Tag(lifebloom, '|cff64ff64[leaflifebloom]')
+	end]]
 	
 	self.DebuffHighlightBackdrop = true
 	self.DebuffHighlightFilter = true
@@ -171,9 +171,10 @@ f:SetScript('OnEvent', function(self, event, ...)
 	end
 end)
 
-
---oUF:Spawn('player'):SetPoint('CENTER', UIParent)
---oUF:Spawn('target'):SetPoint('CENTER', UIParent,55,0)
+if ouf_leaf.test_mod then
+	oUF:Spawn('player'):SetPoint('CENTER', UIParent)
+	oUF:Spawn('target'):SetPoint('CENTER', UIParent,55,0)
+end
 
 --[[
 

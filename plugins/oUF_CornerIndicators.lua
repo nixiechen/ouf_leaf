@@ -35,20 +35,21 @@ local ci_data = {
 local indicators = ci_data[eclass]
 if not indicators then return end
 
-local id2name = {}
+local id2name = setmetatable({}, {
+	__index = function(t,i)
+		t[i] = GetSpellInfo(i)
+		return t[i]
+	end
+})
+local mine = {['player'] = true, ['vehicle'] = true}
+
 local function aurafunc(unit, spellid, is_mine)
 	local spell = id2name[spellid]
-	
-	if not spell then
-		spell = GetSpellInfo(spellid)
-		if not spell then return end
-		id2name[spellid] = spell
-	end
 	
 	local name, _, _, count, _, _, _, caster, _ = UnitAura(unit, spell)
 	if not name then return end
 	
-	if is_mine and (caster ~= 'player') and (caster ~= 'vehicle') then return end
+	if is_mine and (not mine[caster]) then return end
 	return name, count
 end
 

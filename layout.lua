@@ -10,38 +10,6 @@ local function updateCPoints(self, event, unit)
 	if(unit == PlayerFrame.unit and unit ~= self.CPoints.unit) then
 		self.CPoints.unit = unit
 	end
-	
-	if (class ~= 'DRUID') then return end
-	local shown = self.CPoints:IsShown()
-	if (select(2, UnitPowerType'player') == 'ENERGY') or (PlayerFrame.unit ~= 'player') then
-		if not shown then self.CPoints:Show() end
-	else
-		if shown then self.CPoints:Hide() end
-	end
-end
-
-local function ThreatBarPostUpdate(self, isTanking, status, threatpct, rawthreatpct, threatvalue)
-	if (threatpct) and (not self.moved) then
-		local parent = self:GetParent()
-		parent.Threat:SetPoint('BOTTOMRIGHT', self, 4.5, -4.5)
-		self.moved = true
-	elseif (not threatpct) and (self.moved) then
-		local parent = self:GetParent()
-		parent.Threat:SetPoint('BOTTOMRIGHT', parent, 4.5, -4.5)
-		self.moved = false
-	end
-end
-
-local function DruidBarPostUpdate(self, isshown)
-	if (isshown) and (not self.moved) then
-		local parent = self:GetParent()
-		parent.Threat:SetPoint('TOPLEFT', self, -4.5, 4.5)
-		self.moved = true
-	elseif (not isshown) and (self.moved) then
-		local parent = self:GetParent()
-		parent.Threat:SetPoint('TOPLEFT', parent, -4.5, 4.5)
-		self.moved = false
-	end
 end
 
 local function playerAuraFilter(icons, unit, icon, name, rank, texture, count, dtype, duration, timeLeft, caster)
@@ -79,10 +47,10 @@ local function styleFunc(self, unit)
 	self:SetScript('OnEnter', UnitFrame_OnEnter)
 	self:SetScript('OnLeave', UnitFrame_OnLeave)
 	--self:SetScript('OnLeave', function(...) UnitFrame_OnLeave(...); GameTooltip:Hide() end)
-
+	
 	self:SetBackdrop(backdrop)
 	self:SetBackdropColor(0, 0, 0, .6)
-
+	
 	self.Health = CreateFrame('StatusBar', nil, self)
 	self.Health:SetPoint('TOPRIGHT', self)
 	self.Health:SetPoint('TOPLEFT', self)
@@ -178,7 +146,7 @@ local function styleFunc(self, unit)
 		
 		self:SetAttribute('initial-height', 23)
 		self:SetAttribute('initial-width', 190)
-
+		
 	elseif(unit == 'focus' or unit == 'focustarget' or unit == 'targettarget' or unit == 'targettargettarget') then
 		self.Health:SetHeight(18)
 		
@@ -199,7 +167,7 @@ local function styleFunc(self, unit)
 		
 		self:SetAttribute('initial-height', 22)
 		self:SetAttribute('initial-width', 180)
-	
+		
 	elseif not unit then
 		self.Health:SetHeight(18)
 		self:SetAttribute('initial-height', 22)
@@ -233,7 +201,7 @@ local function styleFunc(self, unit)
 			
 			self.Castbar.CustomTimeText = CustomTimeText
 			
-			if (not ouf_leaf.nogcd) then
+			--[[if (not ouf_leaf.nogcd) then
 				self.GCDBar = CreateFrame('StatusBar', nil, self)
 				self.GCDBar:SetHeight(1)
 				self.GCDBar:SetWidth(self.Castbar:GetWidth())
@@ -243,7 +211,7 @@ local function styleFunc(self, unit)
 				self.GCDBar:SetBackdrop(backdrop)
 				self.GCDBar:SetBackdropColor(0, 0, 0, .3)
 				self.GCDBar:SetPoint('TOPLEFT', self.Castbar, 'BOTTOMLEFT', 0, -1)
-			end
+			end]]
 		elseif unit == 'pet' then
 			self.Castbar:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', 0, 0)
 			self.Castbar:SetPoint('TOPRIGHT', self, 0, 20)
@@ -313,7 +281,7 @@ local function styleFunc(self, unit)
 			self.CustomAuraFilter = playerAuraFilter
 		end
 		
-		if (not ouf_leaf.nofsr) then
+		--[=[if (not ouf_leaf.nofsr) then
 			self.FSR = CreateFrame('frame', nil, self)
 			self.FSR:SetAllPoints(self.Power)
 			self.FSR.width = 230
@@ -324,7 +292,7 @@ local function styleFunc(self, unit)
 			self.FSR.Spark:SetBlendMode('ADD')
 			self.FSR.Spark:SetHeight(self.FSR.height*2)
 			self.FSR.Spark:SetWidth(self.FSR.height)
-		end
+		end]=]
 		
 		self.Leader = self.Health:CreateTexture(nil, 'OVERLAY')
 		self.Leader:SetPoint('TOPLEFT', self, 0, 8)
@@ -360,33 +328,15 @@ local function styleFunc(self, unit)
 		self.PvP:SetWidth(14)
 		self.PvP:SetPoint('CENTER', self, 'TOPLEFT')
 		
-		self.ThreatBar = CreateFrame('StatusBar', nil, self)
-		self.ThreatBar:SetPoint('TOPLEFT',self,'BOTTOMLEFT')
-		self.ThreatBar:SetPoint('TOPRIGHT',self,'BOTTOMRIGHT')
-		self.ThreatBar:SetStatusBarTexture(texture)
-		self.ThreatBar:SetHeight(7)
-		self.ThreatBar.smooth = true
-		self.ThreatBar.frequent = .5
-		
-		self.ThreatBar.Text = SetFontString(self.Health, 14)
-		self.ThreatBar.Text:SetPoint('BOTTOM', self.ThreatBar, 'CENTER')
-		self.ThreatBar.Text.smooth = true
-		
-		self.ThreatBar.PostUpdate = ThreatBarPostUpdate
+		local threatText = SetFontString(self.Health, 14)
+		threatText:SetPoint('CENTER', self.Health)
+		threatText.frequentUpdates = .5
+		self:Tag(threatText, '[leafthreatpct]')
 		
 		if class == 'DRUID' then
-			self.DruidPower = CreateFrame('StatusBar', nil, self)
-			self.DruidPower:SetBackdrop(backdrop)
-			self.DruidPower:SetBackdropColor(0, 0, 0, .6)
-			self.DruidPower:SetPoint('BOTTOMLEFT', self, 'TOPLEFT')
-			self.DruidPower:SetPoint('BOTTOMRIGHT', self, 'TOPRIGHT')
-			self.DruidPower:SetStatusBarTexture(texture)
-			self.DruidPower:SetHeight(7)
-			
-			self.DruidPower.Text = SetFontString(self.DruidPower)
-			self.DruidPower.Text:SetPoint('CENTER', self.Health)
-			
-			self.DruidPower.PostUpdate = DruidBarPostUpdate
+			local druidPower = SetFontString(self.Health)
+			druidPower:SetPoint('BOTTOM', self.Power)
+			self:Tag(druidPower, '[leafdruidpower]')
 		elseif class == 'DEATHKNIGHT' then
 			self.runes = CreateFrame('Frame', nil, self)
 			self.runes:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', 0, 1)
@@ -428,7 +378,7 @@ local function styleFunc(self, unit)
 	self.RaidIcon:SetWidth(16)
 	
 	if (unit == 'pet') or (unit == 'player') then
-		self.BarFade = true
+		--self.BarFade = true
 		
 		self.Threat = CreateFrame('Frame', nil, self)
 		if (unit == 'player') and (class == 'DEATHKNIGHT' or class == 'SHAMAN') then

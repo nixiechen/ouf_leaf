@@ -7,7 +7,7 @@
 	<!--Script file="libs\utf8.lua" /-->
 	
 	<!--Script file="plugins\oUF_BarFader.lua" /-->
-	<Script file="plugins\oUF_CornerIndicators.lua" />
+	<!--Script file="plugins\oUF_CornerIndicators.lua" /-->
 	<Script file="plugins\oUF_DebuffHighlight.lua" />
 	<!--Script file="plugins\oUF_DruidPower.lua" /-->
 	<!--Script file="plugins\oUF_FSR.lua" /-->
@@ -21,6 +21,7 @@
 	<Script file="plugins\oUF_TotemBar.lua" />
 	
 	<!--  RAID DEBUFF  -->
+	<!--
 	
 	<Script file="RaidDebuff\oUF_RaidDebuff.lua" />
 	<Script file="RaidDebuff\oUF_RaidDebuff_Data.lua" />
@@ -40,6 +41,7 @@
 	
 	<Script file="RaidDebuff\oUF_RaidDebuff_Close.lua" />
 	
+	-->
 	<!--  END  -->
 	
 	<Button name="ouf_leaf_tar" inherits="SecureUnitButtonTemplate" hidden="true" virtual="true">

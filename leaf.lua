@@ -3,7 +3,7 @@
 _G.ouf_leaf = {}
 ouf_leaf.noarena = false
 ouf_leaf.noraid = false
-ouf_leaf.corner_indicators = true
+ouf_leaf.corner_indicators = false
 ouf_leaf.nofsr = true
 ouf_leaf.nogcd = true
 ouf_leaf.test_mod = false

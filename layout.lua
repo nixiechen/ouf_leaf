@@ -324,9 +324,9 @@ local function styleFunc(self, unit)
 		self.Combat:SetTexCoord(0.58, 0.90, 0.08, 0.41)
 		
 		self.PvP = self.Health:CreateTexture(nil, 'OVERLAY')
-		self.PvP:SetHeight(14)
-		self.PvP:SetWidth(14)
-		self.PvP:SetPoint('CENTER', self, 'TOPLEFT')
+		self.PvP:SetHeight(30)
+		self.PvP:SetWidth(30)
+		self.PvP:SetPoint('CENTER', self, 'TOPLEFT', 5, -10)
 		
 		local threatText = SetFontString(self.Health, 14)
 		threatText:SetPoint('CENTER', self.Health)
@@ -340,10 +340,24 @@ local function styleFunc(self, unit)
 		elseif class == 'DEATHKNIGHT' then
 			self.runes = CreateFrame('Frame', nil, self)
 			self.runes:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', 0, 1)
-			self.runes:SetPoint('BOTTOMRIGHT', self, 'TOPRIGHT', 0, 1)
+			self.runes:SetPoint('RIGHT', self, 'RIGHT')
 			self.runes:SetHeight(7)
-			self.runes.texture = texture
-			--self.runes.width = 230/6 - .85
+			self.runes:SetBackdrop(backdrop)
+			self.runes:SetBackdropColor(0, 0, 0, .5)
+			
+			self.runes.growth = 'RIGHT'
+			self.runes.spacing = 1
+			self.runes.width = 230/6 - 1
+			
+			for i = 1, 6 do
+				self.runes[i] = CreateFrame('StatusBar', nil, self.runes)
+				self.runes[i]:SetStatusBarTexture(texture)
+				
+				self.runes[i].bg = self.runes[i]:CreateTexture(nil, 'BORDER')
+				self.runes[i].bg:SetAllPoints(self.runes[i])
+				self.runes[i].bg:SetTexture(texture)
+				self.runes[i].bg.multiplier = .5
+			end
 		elseif class == 'SHAMAN' then
 			self.TotemBar = {}
 			self.TotemBar.destroy = true
@@ -400,13 +414,13 @@ local function styleFunc(self, unit)
 		self.ignoreHealComm = true
 	end
 	
-	if (unit == 'player') then
-		self.disallowVehicleSwap = true
-	else
+	if (unit ~= 'player') then
 		self.SpellRange = .5
 		self.inRangeAlpha = 1
 		self.outsideRangeAlpha = .4
 	end
+	
+	self.disallowVehicleSwap = true
 	
 	self.DebuffHighlightBackdrop = true
 	self.DebuffHighlightFilter = true

@@ -5,9 +5,9 @@ this is a ouf layout for self-usage
 
 
 TODO List:
+	* LibHealComm-4.0 support
 
-
-	Set Focus Menu: http://paste.wowace.com/781/
+	* Set Focus Menu: http://paste.wowace.com/781/
 ----------------------------------------------------------------
 -- SHORT VERSION
     self:SetAttribute("_menu", TargetFrame.menu)

@@ -20,7 +20,7 @@
 	<!--Script file="plugins\oUF_ThreatBar.lua" /-->
 	<Script file="plugins\oUF_TotemBar.lua" />
 	
-	<!--  RAID DEBUFF  -->
+	<!--   RAID DEBUFF BEGIN   -->
 	<!--
 	
 	<Script file="RaidDebuff\oUF_RaidDebuff.lua" />
@@ -42,7 +42,7 @@
 	<Script file="RaidDebuff\oUF_RaidDebuff_Close.lua" />
 	
 	-->
-	<!--  END  -->
+	<!--   RAID DEBUFF END   -->
 	
 	<Button name="ouf_leaf_tar" inherits="SecureUnitButtonTemplate" hidden="true" virtual="true">
 		<Frames>

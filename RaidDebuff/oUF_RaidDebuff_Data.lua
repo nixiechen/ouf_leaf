@@ -88,6 +88,7 @@ end
 function GridStatusRaidDebuff:RegisterDebuffDelMod(zone, delID, debuffID, duration, stackable, color)
 end
 
+if not ouf_leaf.test_mod then return end
 
 GridStatusRaidDebuff:RegisterDebuff('沙塔斯城', 33763, 1, 7, true)
 GridStatusRaidDebuff:RegisterDebuff('沙塔斯城', 33763, 1, 7, true)

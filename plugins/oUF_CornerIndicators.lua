@@ -12,15 +12,15 @@ if ouf_leaf.noraid or (not ouf_leaf.corner_indicators) then return end
 local _, eclass = UnitClass'player'
 local ci_data = {
 	['DRUID'] = {
-		['TR'] = '[cirejuv][ciregrow][ciwg]',
-		['BR'] = '[cilb]',
+		['TR'] = '[ci:rejuv][ci:regrow][ci:wg]',
+		['BR'] = '[ci:lb]',
 	},
 	['PRIEST'] = {
-		['TR'] = '[cirenew][cishield][ciws]',
-		['BR'] = '[cipom]',
+		['TR'] = '[ci:renew][ci:shield][ci:ws]',
+		['BR'] = '[ci:pom]',
 	},
 --[[	['WARRIOR'] = {
-		['TR'] = '[cishout]',
+		['TR'] = '[ci:shout]',
 	},	]]
 --[[
 	['EN-CLASS'] = {
@@ -35,7 +35,7 @@ local ci_data = {
 local indicators = ci_data[eclass]
 if not indicators then return end
 
-local id2name = setmetatable({}, {
+local id2spell = setmetatable({}, {
 	__index = function(t,i)
 		t[i] = GetSpellInfo(i)
 		return t[i]
@@ -44,7 +44,7 @@ local id2name = setmetatable({}, {
 local mine = {['player'] = true, ['vehicle'] = true}
 
 local function aurafunc(unit, spellid, is_mine)
-	local spell = id2name[spellid]
+	local spell = id2spell[spellid]
 	
 	local name, _, _, count, _, _, _, caster, _ = UnitAura(unit, spell)
 	if not name then return end
@@ -54,41 +54,41 @@ local function aurafunc(unit, spellid, is_mine)
 end
 
 -- priest
-oUF.Tags['[cipom]'] = function(u)
+oUF.Tags['[ci:pom]'] = function(u)
 	--local c = select(4, UnitAura(u, 'Prayer of Mending')) return c and '|cffFFCF7F'..oUF.pomCount[c]..'|r' or '' 
 	local name, count = aurafunc(u, 33076, true)
 	if name and count then
 		return '|cffFFCF7F'..count..'|r'
 	end
 end
-oUF.TagEvents['[cipom]'] = 'UNIT_AURA'
+oUF.TagEvents['[ci:pom]'] = 'UNIT_AURA'
 
-oUF.Tags['[cirenew]'] = function(u) if aurafunc(u, 139, true) then return '|cff33FF33.|r' end end
-oUF.TagEvents['[cirenew]'] = 'UNIT_AURA'
+oUF.Tags['[ci:renew]'] = function(u) if aurafunc(u, 139, true) then return '|cff33FF33.|r' end end
+oUF.TagEvents['[ci:renew]'] = 'UNIT_AURA'
 
-oUF.Tags['[cishield]'] = function(u) if aurafunc(u, 17) then return '|cff33FF33.|r' end end
-oUF.TagEvents['[cishield]'] = 'UNIT_AURA'
+oUF.Tags['[ci:shield]'] = function(u) if aurafunc(u, 17) then return '|cff33FF33.|r' end end
+oUF.TagEvents['[ci:shield]'] = 'UNIT_AURA'
 
-oUF.Tags['[ciws]'] = function(u) if aurafunc(u, 6788) then return '|cffFF5500.|r' end end
-oUF.TagEvents['[ciws]'] = 'UNIT_AURA'
+oUF.Tags['[ci:ws]'] = function(u) if aurafunc(u, 6788) then return '|cffFF5500.|r' end end
+oUF.TagEvents['[ci:ws]'] = 'UNIT_AURA'
 
 
 --druid
 
-oUF.Tags['[cilb]'] = function(u)
+oUF.Tags['[ci:lb]'] = function(u)
 	local name, count = aurafunc(u, 33763, true)
 	if count then
 		return '|cffA7FD0A'..count..'|r'
 	end
 end
-oUF.Tags['[cirejuv]'] = function(u) if aurafunc(u, 774, true) then return '|cff00FEBF.|r' end end
-oUF.Tags['[ciregrow]'] = function(u) if aurafunc(u, 8936, true) then return '|cff00FF10.|r' end end
-oUF.Tags['[ciwg]'] = function(u) if aurafunc(u, 48438, true) then return '|cff33FF33.|r' end end
+oUF.Tags['[ci:rejuv]'] = function(u) if aurafunc(u, 774, true) then return '|cff00FEBF.|r' end end
+oUF.Tags['[ci:regrow]'] = function(u) if aurafunc(u, 8936, true) then return '|cff00FF10.|r' end end
+oUF.Tags['[ci:wg]'] = function(u) if aurafunc(u, 48438, true) then return '|cff33FF33.|r' end end
 
-oUF.TagEvents['[cilb]'] = 'UNIT_AURA'
-oUF.TagEvents['[cirejuv]'] = 'UNIT_AURA'
-oUF.TagEvents['[ciregrow]'] = 'UNIT_AURA'
-oUF.TagEvents['[ciwg]'] = 'UNIT_AURA'
+oUF.TagEvents['[ci:lb]'] = 'UNIT_AURA'
+oUF.TagEvents['[ci:rejuv]'] = 'UNIT_AURA'
+oUF.TagEvents['[ci:regrow]'] = 'UNIT_AURA'
+oUF.TagEvents['[ci:wg]'] = 'UNIT_AURA'
 
 --warrior
 --oUF.Tags['[cishout]'] = function(u) if aurafunc(u, 11553) or aurafunc(u, 469) then return '|cffffff00.|r' end end

@@ -5,11 +5,12 @@ if ouf_leaf.noraid then return end
 local _, class = UnitClass'player'
 local texture = [[Interface\AddOns\oUF_leaf\media\white]]
 local SetFontString = ouf_leaf.createfont
+local backdrop = ouf_leaf.backdrop
 
-local backdrop = {
+--[[local backdrop = {
 	bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=], tile = true, tileSize = 16,
 	insets = {top = -1, left = -1, bottom = -1, right = -1},
-}
+}]]
 
 local function OverrideUpdateHealth(self, event, unit, bar, min, max)
 	if bar.disconnected or UnitIsDeadOrGhost(unit) then
@@ -17,8 +18,97 @@ local function OverrideUpdateHealth(self, event, unit, bar, min, max)
 	else
 		bar.c = self.colors.class[select(2, UnitClass(unit))]
 	end
-	bar.bg:SetVertexColor(unpack(bar.c))
+	if bar.c then
+		bar.bg:SetVertexColor(unpack(bar.c))
+	end
 end
+
+local ci_data = {
+	['DRUID'] = {
+		['TR'] = '[ci:rejuv][ci:regrowth][ci:wg]',
+		['BR'] = '[ci:lb]',
+	},
+	['PRIEST'] = {
+		['TR'] = '[ci:renew][ci:shield][ci:ws]',
+		['BR'] = '[ci:pom]',
+	},
+	['PALADIN'] = {
+		['TR'] = '[ci:bol]'
+	}
+--[[	['WARRIOR'] = {
+		['TR'] = '[ci:shout]',
+	},	]]
+--[[
+	['EN-CLASS'] = {
+		['TL'] = '',
+		['TR'] = '',
+		['BL'] = '',
+		['BR'] = '',
+	},
+]]
+}
+
+local indicators = ci_data[class]
+
+local id2spell = setmetatable({}, {
+	__index = function(t,i)
+		t[i] = GetSpellInfo(i)
+		return t[i]
+	end
+})
+
+local mine = {['player'] = true, ['vehicle'] = true}
+
+local function aurafunc(unit, spellid, is_mine)
+	local spell = id2spell[spellid]
+	
+	local name, _, _, count, _, _, _, caster, _ = UnitAura(unit, spell)
+	if not name then return end
+	
+	if is_mine and (not mine[caster]) then return end
+	return name, count
+end
+
+-- priest
+oUF.Tags['[ci:pom]'] = function(u)
+	local name, count = aurafunc(u, 33076, true)
+	if name and count then
+		return '|cffFFCF7F'..count..'|r'
+	end
+end
+oUF.Tags['[ci:renew]'] = function(u) if aurafunc(u, 139, true) then return '|cff33FF33.|r' end end
+oUF.Tags['[ci:shield]'] = function(u) if aurafunc(u, 17) then return '|cff33FF33.|r' end end
+oUF.Tags['[ci:ws]'] = function(u) if aurafunc(u, 6788) then return '|cffFF5500.|r' end end
+
+oUF.TagEvents['[ci:pom]'] = 'UNIT_AURA'
+oUF.TagEvents['[ci:renew]'] = 'UNIT_AURA'
+oUF.TagEvents['[ci:shield]'] = 'UNIT_AURA'
+oUF.TagEvents['[ci:ws]'] = 'UNIT_AURA'
+
+-- druid
+oUF.Tags['[ci:lb]'] = function(u)
+	local name, count = aurafunc(u, 33763, true)
+	if count then
+		return '|cffA7FD0A'..count..'|r'
+	end
+end
+oUF.Tags['[ci:rejuv]'] = function(u) if aurafunc(u, 774, true) then return '|cff00FEBF.|r' end end
+oUF.Tags['[ci:regrowth]'] = function(u) if aurafunc(u, 8936, true) then return '|cff00FF10.|r' end end
+oUF.Tags['[ci:wg]'] = function(u) if aurafunc(u, 48438, true) then return '|cff33FF33.|r' end end
+
+oUF.TagEvents['[ci:lb]'] = 'UNIT_AURA'
+oUF.TagEvents['[ci:rejuv]'] = 'UNIT_AURA'
+oUF.TagEvents['[ci:regrowth]'] = 'UNIT_AURA'
+oUF.TagEvents['[ci:wg]'] = 'UNIT_AURA'
+
+-- warrior
+--oUF.Tags['[cishout]'] = function(u) if aurafunc(u, 11553) or aurafunc(u, 469) then return '|cffffff00.|r' end end
+--oUF.TagEvents['[cishout]'] = 'UNIT_AURA'
+
+-- paladin
+oUF.Tags['[ci:bol]'] = function(u) if aurafunc(u, 53563, true) then return '|cffff0100.|r' end end
+oUF.TagEvents['[ci:bol]'] = 'UNIT_AURA'
+
 
 local function styleFunc(self, unit)
 	self.colors = ouf_leaf.colors
@@ -118,11 +208,50 @@ local function styleFunc(self, unit)
 		insets = {left = 3, right = 3, top = 3, bottom = 3}
 	})
 	
-	self.CornerIndicators = true
 	self.RaidDebuffIcon = true
 	self.RaidDebuffIcon_Size = 20
 	
 	self.OverrideUpdateThreat = ouf_leaf.OverrideUpdateThreat
+	
+	if ouf_leaf.corner_indicators then
+		local fu = ouf_leaf.corner_indicators_frequent_update and 1
+		
+		self.CI = {}
+		
+		local tl, tr, bl, br
+		tl = indicators['TL']
+		tr = indicators['TR']
+		bl = indicators['BL']
+		br = indicators['BR']
+		
+		if tl then
+			self.CI.TL = SetFontString(self.Health, 22)
+			self.CI.TL:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', -5, -5)
+			self.CI.TL.frequentUpdates = fu
+			self:Tag(self.CI.TL, tl)
+		end
+		
+		if tr then
+			self.CI.TR = SetFontString(self.Health, 22)
+			self.CI.TR:SetPoint('BOTTOMRIGHT', self, 'TOPRIGHT', 5, -5)
+			self.CI.TR.frequentUpdates = fu
+			self:Tag(self.CI.TR, tr)
+		end
+		
+		if bl then
+			self.CI.BL = SetFontString(self.Health, 22)
+			self.CI.BL:SetPoint('BOTTOMLEFT', self, 'BOTTOMLEFT', -5, 5)
+			self.CI.BL.frequentUpdates = fu
+			self:Tag(self.CI.BL, bl)
+		end
+		
+		if br then
+			self.CI.BR = SetFontString(self.Health, 10)
+			self.CI.BR:SetPoint('BOTTOMRIGHT', self, 'BOTTOMRIGHT', -5, 0)
+			self.CI.BR.frequentUpdates = fu
+			self:Tag(self.CI.BR, br)
+		end
+	end
 	
 	return self
 end

@@ -4,6 +4,7 @@ _G.ouf_leaf = {}
 ouf_leaf.noarena = false
 ouf_leaf.noraid = false
 ouf_leaf.corner_indicators = false
+ouf_leaf.corner_indicators_frequent_update = true
 ouf_leaf.nofsr = true
 ouf_leaf.nogcd = true
 ouf_leaf.test_mod = false
@@ -202,6 +203,15 @@ do
 	end
 end
 
+do
+	local mark = GetSpellInfo(1126)
+	local gmark = GetSpellInfo(21849)
+	oUF.Tags['[leafmisswild]'] = function(u)
+		if UnitAura(u, mark) or UnitAura(u, gmark) then return end
+		return '|cff00FEBF.|r'
+	end
+end
+
 oUF.Tags['[leafsmartlevel]'] = function(u)
 	local c = UnitClassification(u)
 	if(c == 'worldboss') then
@@ -235,27 +245,27 @@ oUF.Tags['[leafdruidpower]'] = function(u)
 	end
 end
 
-local raidtag_saved_names = setmetatable({}, {
-	__index = function(t,i)
-		local str
-		if (strbyte(i,1) > 224) then
-			str = utf8sub(i, 3)
-		else
-			str = utf8sub(i, 5)
-		end
-		
-		t[i] = str
-		return t[i]
+local raidtag_cache = {}
+local function cache_tag(u)
+	local name = UnitName(u)
+	local c = oUF.Tags['[leafraidcolor]'](u) or ''
+	local str
+	if (strbyte(name,1) > 224) then
+		str = utf8sub(name, 3)
+	else
+		str = utf8sub(name, 5)
 	end
-})
+	
+	raidtag_cache[name] = c .. str
+	return raidtag_cache[name]
+end
 
 --local c_red = '|cffff8080'
 --local c_green = '|cff559655'
 --local c_gray = '|cffD7BEA5'
 
 oUF.Tags['[leafraid]'] = function(u)
-	local c = oUF.Tags['[leafraidcolor]'](u) or ''
-	return c .. raidtag_saved_names[UnitName(u)]
+	return raidtag_cache[UnitName(u)] or cache_tag(u)
 end
 
 oUF.TagEvents['[leafcurhp]'] = 'UNIT_HEALTH'
@@ -264,3 +274,4 @@ oUF.TagEvents['[leafmaxhp]'] = 'UNIT_MAXHEALTH'
 oUF.TagEvents['[leafmaxpp]'] = 'UNIT_MAXENERGY UNIT_MAXFOCUS UNIT_MAXMANA UNIT_MAXRAGE UNIT_MAXRUNIC_POWER'
 oUF.TagEvents['[leafraid]'] = 'UNIT_NAME_UPDATE'
 oUF.TagEvents['[leafdruidpower]'] = 'UNIT_MANA UNIT_ENERGY UPDATE_SHAPESHIFT_FORM'
+oUF.TagEvents['[leafmisswild]'] = 'UNIT_AURA'

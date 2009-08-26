@@ -7,39 +7,19 @@
 	<!--Script file="libs\utf8.lua" /-->
 	
 	<!--Script file="plugins\oUF_BarFader.lua" /-->
-	<!--Script file="plugins\oUF_CornerIndicators.lua" /-->
 	<Script file="plugins\oUF_DebuffHighlight.lua" />
-	<!--Script file="plugins\oUF_DruidPower.lua" /-->
 	<!--Script file="plugins\oUF_FSR.lua" /-->
 	<!--Script file="plugins\oUF_GCDBar.lua" /-->
 	<Script file="plugins\oUF_HealComm.lua" />
-	<!--Script file="plugins\oUF_HealComm4.lua" /-->
+	<!--Script file="plugins\oUF_leafHealComm.lua" /-->
 	<Script file="plugins\oUF_ReadyCheck.lua" />
-	<!--Script file="plugins\oUF_RuneBar.lua" /-->
 	<Script file="plugins\oUF_SpellRange.lua" />
-	<!--Script file="plugins\oUF_ThreatBar.lua" /-->
 	<Script file="plugins\oUF_TotemBar.lua" />
 	
 	<!--   RAID DEBUFF BEGIN   -->
 	<!--
 	
-	<Script file="RaidDebuff\oUF_RaidDebuff.lua" />
-	<Script file="RaidDebuff\oUF_RaidDebuff_Data.lua" />
-	
-	<Script file="RaidDebuff\BC\BlackTemple.lua" />
-	<Script file="RaidDebuff\BC\Hyjal.lua" />
-	<Script file="RaidDebuff\BC\Karazhan.lua" />
-	<Script file="RaidDebuff\BC\Serpent.lua" />
-	<Script file="RaidDebuff\BC\Sunwell.lua" />
-	<Script file="RaidDebuff\BC\Tempest.lua" />
-	<Script file="RaidDebuff\BC\Zulaman.lua" />
-	<Script file="RaidDebuff\WotLK\Coliseum.lua" />
-	<Script file="RaidDebuff\WotLK\Malygos.lua" />
-	<Script file="RaidDebuff\WotLK\Naxxramas.lua" />
-	<Script file="RaidDebuff\WotLK\Sartharion.lua" />
-	<Script file="RaidDebuff\WotLK\Ulduar.lua" />
-	
-	<Script file="RaidDebuff\oUF_RaidDebuff_Close.lua" />
+	<Include file="RaidDebuff\RaidDebuff.xml" />
 	
 	-->
 	<!--   RAID DEBUFF END   -->

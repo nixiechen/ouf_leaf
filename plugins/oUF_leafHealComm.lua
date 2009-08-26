@@ -6,7 +6,7 @@
 ]]
 
 local HealComm = LibStub and LibStub('LibHealComm-4.0')
-assert(HealComm, 'oUF_HealComm4 needs LibHealComm-4.0')
+assert(HealComm, 'oUF_leafHealComm requires LibHealComm-4.0')
 
 
 --[[local addon = {}

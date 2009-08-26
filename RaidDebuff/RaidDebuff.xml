@@ -1,0 +1,21 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+	<Script file="oUF_RaidDebuff.lua" />
+	<Script file="oUF_RaidDebuff_Data.lua" />
+	
+	<Script file="BC\BlackTemple.lua" />
+	<Script file="BC\Hyjal.lua" />
+	<Script file="BC\Karazhan.lua" />
+	<Script file="BC\Serpent.lua" />
+	<Script file="BC\Sunwell.lua" />
+	<Script file="BC\Tempest.lua" />
+	<Script file="BC\Zulaman.lua" />
+	
+	<Script file="WotLK\Coliseum.lua" />
+	<Script file="WotLK\Malygos.lua" />
+	<Script file="WotLK\Naxxramas.lua" />
+	<Script file="WotLK\Sartharion.lua" />
+	<Script file="WotLK\Ulduar.lua" />
+	
+	<Script file="oUF_RaidDebuff_Close.lua" />
+</Ui>

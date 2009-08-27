@@ -19,14 +19,13 @@ ouf_leaf.backdrop = {
 }
 
 ouf_leaf.playerAuraFilter = class == 'DRUID' and {
-	[GetSpellInfo(5171)] = true, -- Slice and Dice
-} or class == 'ROGUE' and {
 	[GetSpellInfo(52610)] = true, -- Savage Roar
 	[GetSpellInfo(48517)] = true, -- Eclipse
---[[
-} or class == 'YOUR_CLASS' and {
-	[GetSpellInfo(spellID)] = true, -- your custom buff here
-]]
+	[GetSpellInfo(50334)] = true, -- Berserk
+	[GetSpellInfo(5217)] = true, -- Tiger's Fury
+	[GetSpellInfo(16864)] = true, -- Omen of Clarity
+} or class == 'ROGUE' and {
+	[GetSpellInfo(5171)] = true, -- Slice and Dice
 }
 
 local colors = setmetatable({

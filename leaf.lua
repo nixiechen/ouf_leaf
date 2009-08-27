@@ -184,13 +184,19 @@ end
 
 local diffColor = GetQuestDifficultyColor or GetDifficultyColor
 oUF.Tags['[leafdifficulty]']  = function(u) local l = UnitLevel(u); return Hex(diffColor((l > 0) and l or 99)) end
-oUF.Tags['[leafcolorpower]'] = function(u) local n,s = UnitPowerType(u) return Hex(colors.power[s]) end
 oUF.Tags['[leafcurhp]'] = function(u) return truncate(UnitHealth(u)) end
 oUF.Tags['[leafcurpp]'] = function(u) return truncate(UnitPower(u)) end
 oUF.Tags['[leafmaxhp]'] = function(u) return truncate(UnitHealthMax(u)) end
 oUF.Tags['[leafmaxpp]'] = function(u) return truncate(UnitPowerMax(u)) end
 oUF.Tags['[leafraidcolor]']   = function(u) local _, x = UnitClass(u); return x and classColors[x] or '|cffffffff' end
 
+
+
+local color_power = {}
+for k, v in pairs(colors.power) do
+	color_power[k] = Hex(v)
+end
+oUF.Tags['[leafcolorpower]'] = function(u) local n,s = UnitPowerType(u) return color_power[s] end
 
 do
 	local lb = GetSpellInfo(33763)

@@ -228,7 +228,7 @@ local function styleFunc(self, unit)
 	
 	if(unit == 'target') then
 		self.CPoints = SetFontString(self.Health, 50, nil, DAMAGE_TEXT_FONT)
-		self.CPoints:SetPoint('TOPRIGHT', self, 'TOPLEFT', -5, 25)
+		self.CPoints:SetPoint('BOTTOM', UIParent, 'CENTER', 0, -150)
 		self.CPoints.unit = PlayerFrame.unit
 		self:RegisterEvent('UNIT_COMBO_POINTS', updateCPoints)
 		self:RegisterEvent('PLAYER_TARGET_CHANGED', function(self) self:UpdateElement('CPoints') end)
@@ -392,7 +392,7 @@ local function styleFunc(self, unit)
 	self.RaidIcon:SetWidth(16)
 	
 	if (unit == 'pet') or (unit == 'player') then
-		--self.BarFade = true
+		self.BarFade = true
 		
 		self.Threat = CreateFrame('Frame', nil, self)
 		if (unit == 'player') and (class == 'DEATHKNIGHT' or class == 'SHAMAN') then

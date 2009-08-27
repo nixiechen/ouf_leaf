@@ -1,6 +1,7 @@
-## Interface: 30100
+## Interface: 30200
 ## Title: |cffff8800o|rUF |cffff8800leaf|r
-## Notes: Simple layout
+## Notes: 
+## X-Embeds: LibHealComm-3.0
 ## X-oUF: oUF
 ## OptionalDeps: !ClassColors
 
@@ -13,5 +14,5 @@ layout.lua
 leafM.lua
 raid.lua
 arena.lua
-# hud.lua
+hud.lua
 

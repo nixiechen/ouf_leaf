@@ -71,6 +71,7 @@ local function Update(self, event, unit)
 				end
 			end
 		end
+		i = i + 1
 	until (not name)
 	
 	if debuffType then
@@ -93,7 +94,7 @@ local function Enable(self)
 		classFilter = classFilter or {}
 		
 		orig_colors[self] = {self:GetBackdropColor()}
-		self:UnregisterEvent('UNIT_AURA', Update)
+		self:RegisterEvent('UNIT_AURA', Update)
 		
 		return true
 	end

@@ -3,7 +3,7 @@
 local curve1 = [[Interface\AddOns\oUF_leaf\media\curve1]]
 local curve2 = [[Interface\AddOns\oUF_leaf\media\curve2]]
 
-local xOffset, yOffset = 120, -50
+local xOffset, yOffset = 140, -50
 local width, heigh = 100, 200
 local GAP = 15
 

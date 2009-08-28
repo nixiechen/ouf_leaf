@@ -7,7 +7,7 @@ ouf_leaf.corner_indicators = false
 ouf_leaf.corner_indicators_frequent_update = true
 ouf_leaf.nofsr = true
 ouf_leaf.nogcd = true
-ouf_leaf.test_mod = true
+ouf_leaf.test_mod = false
 
 ouf_leaf.units = {}
 
@@ -183,6 +183,7 @@ end
 
 local diffColor = GetQuestDifficultyColor or GetDifficultyColor
 oUF.Tags['[leafdifficulty]']  = function(u) local l = UnitLevel(u); return Hex(diffColor((l > 0) and l or 99)) end
+
 oUF.Tags['[leafcurhp]'] = function(u) return truncate(UnitHealth(u)) end
 oUF.TagEvents['[leafcurhp]'] = 'UNIT_HEALTH'
 
@@ -270,6 +271,19 @@ oUF.Tags['[leafsmartlevel]'] = function(u)
 	end
 end
 
+local cp_color = {
+	[1] = '|cffffffff1|r',
+	[2] = '|cffffffff2|r',
+	[3] = '|cffffffff3|r',
+	[4] = '|cffffd8194|r',
+	[5] = '|cffff00005|r',
+}
+oUF.Tags['[leafcp]'] = function(u)
+	local cp = GetComboPoints(PlayerFrame.unit, 'target')
+	return cp_color[cp]
+end
+oUF.TagEvents['[leafcp]'] = 'UNIT_COMBO_POINTS UNIT_TARGET'
+
 oUF.Tags['[leafthreatpct]'] = function(u)
 	local isTanking, status, threatpct, rawthreatpct, threatvalue = UnitDetailedThreatSituation(u, 'target')
 	if not threatpct then return end
@@ -278,6 +292,7 @@ oUF.Tags['[leafthreatpct]'] = function(u)
 	local r,g,b = oUF.ColorGradient(threatpct/100, unpack(colors.smooth))
 	return Hex(r,g,b) .. (isTanking and 'Aggro' or ceil(threatpct) .. '%')
 end
+oUF.TagEvents['[leafthreatpct]'] = 'UNIT_THREAT_SITUATION_UPDATE'
 
 oUF.Tags['[leafdruidpower]'] = function(u)
 	local mana = UnitPowerType(u) == 0

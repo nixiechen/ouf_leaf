@@ -6,12 +6,6 @@ local texture = [=[Interface\AddOns\oUF_leaf\media\FlatSmooth]=]
 local SetFontString = ouf_leaf.createfont
 local backdrop = ouf_leaf.backdrop
 
-local function updateCPoints(self, event, unit)
-	if(unit == PlayerFrame.unit and unit ~= self.CPoints.unit) then
-		self.CPoints.unit = unit
-	end
-end
-
 local function playerAuraFilter(icons, unit, icon, name, rank, texture, count, dtype, duration, timeLeft, caster)
 	return ouf_leaf.playerAuraFilter[leafname]
 end
@@ -227,15 +221,6 @@ local function styleFunc(self, unit)
 	end
 	
 	if(unit == 'target') then
-		self.CPoints = SetFontString(self.Health, 50, nil, DAMAGE_TEXT_FONT)
-		self.CPoints:SetPoint('BOTTOM', UIParent, 'CENTER', 0, -150)
-		self.CPoints.unit = PlayerFrame.unit
-		self:RegisterEvent('UNIT_COMBO_POINTS', updateCPoints)
-		self:RegisterEvent('PLAYER_TARGET_CHANGED', function(self) self:UpdateElement('CPoints') end)
-		if(class == 'DRUID') then
-			self:RegisterEvent('UPDATE_SHAPESHIFT_FORM', updateCPoints)
-		end
-		
 		self.Buffs = CreateFrame('Frame', nil, self)
 		self.Buffs:SetPoint('BOTTOMRIGHT', self, 'TOPRIGHT', 0, 5)
 		self.Buffs:SetHeight(22)
@@ -255,12 +240,11 @@ local function styleFunc(self, unit)
 		self.Debuffs['growth-y'] = 'DOWN'
 		
 		self.Auras = CreateFrame('Frame', nil, self)
-		self.Auras:SetPoint('BOTTOMRIGHT', oUF.units.player, 'TOPRIGHT', 0, 13)
-		self.Auras:SetHeight(30)
-		self.Auras:SetWidth(30)
-		self.Auras.size = 30
+		self.Auras:SetPoint('CENTER', UIParent, 90, -85)
+		self.Auras:SetHeight(20)
+		self.Auras:SetWidth(20)
+		self.Auras.size = 20
 		self.Auras.spacing = 4
-		self.Auras['growth-x'] = 'LEFT'
 		self.Auras.initialAnchor = 'BOTTOMRIGHT'
 		self.Auras.onlyShowPlayer = true
 		self.Auras.numBuffs = 0
@@ -268,14 +252,13 @@ local function styleFunc(self, unit)
 	elseif unit == 'player' then
 		if ouf_leaf.playerAuraFilter then
 			self.Auras = CreateFrame('Frame', nil, self)
-			self.Auras:SetPoint('BOTTOMRIGHT', self, 'TOPRIGHT', -40, 43)
-			self.Auras:SetHeight(50)
-			self.Auras:SetWidth(50)
-			self.Auras.size = 50
-			self.Auras.spacing = 5
-			self.Auras['growth-x'] = 'LEFT'
+			self.Auras:SetPoint('CENTER', UIParent, -90, -85)
+			self.Auras:SetHeight(20)
+			self.Auras:SetWidth(20)
+			self.Auras.size = 20
+			self.Auras.spacing = 4
 			self.Auras.initialAnchor = 'BOTTOMRIGHT'
-			self.Auras.numBuffs = 3
+			self.Auras.numBuffs = 6
 			self.Auras.numDebuffs = 0
 			
 			self.CustomAuraFilter = playerAuraFilter
@@ -293,6 +276,10 @@ local function styleFunc(self, unit)
 			self.FSR.Spark:SetHeight(self.FSR.height*2)
 			self.FSR.Spark:SetWidth(self.FSR.height)
 		end]=]
+		
+		local cp = SetFontString(self.Health, 50, nil, DAMAGE_TEXT_FONT)
+		cp:SetPoint('BOTTOM', UIParent, 'CENTER', 0, -135)
+		self:Tag(cp, '[leafcp]')
 		
 		self.Leader = self.Health:CreateTexture(nil, 'OVERLAY')
 		self.Leader:SetPoint('TOPLEFT', self, 0, 8)

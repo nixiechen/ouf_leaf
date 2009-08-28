@@ -424,8 +424,8 @@ local function styleFunc(self, unit)
 	
 	self.disallowVehicleSwap = true
 	
-	self.DebuffHighlightBackdrop = true
-	self.DebuffHighlightFilter = true
+	self.leafDebuffHighlight = true
+	self.leafDebuffFilter = true
 	
 	self.PostCreateAuraIcon = PostCreateAuraIcon
 	

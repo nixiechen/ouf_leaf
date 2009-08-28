@@ -159,6 +159,10 @@ local function styleFunc(self, unit)
 	--text.frequentUpdates = .5
 	self:Tag(text, '[leafraid]')
 	
+	local aggro = SetFontString(self.Health, 24)
+	aggro:SetPoint('TOPRIGHT', self, 0, 0)
+	self:Tag(aggro, '[leafthreat]')
+	
 	--[[if class == 'DRUID' then
 		local lifebloom = SetFontString(self.Health, 10)
 		lifebloom:SetPoint('BOTTOM', self.Health, 1, 1)
@@ -166,8 +170,8 @@ local function styleFunc(self, unit)
 		self:Tag(lifebloom, '|cff64ff64[leaflifebloom]')
 	end]]
 	
-	self.DebuffHighlightBackdrop = true
-	self.DebuffHighlightFilter = true
+	self.leafDebuffHighlight = true
+	self.leafDebuffFilter = true
 	
 	--self.Range = true
 	self.SpellRange = .5
@@ -199,19 +203,8 @@ local function styleFunc(self, unit)
 	self.ReadyCheck:SetHeight(12)
 	self.ReadyCheck:SetWidth(12)
 	
-	self.Threat = CreateFrame('Frame', nil, self)
-	self.Threat:SetPoint('TOPLEFT', self, 'TOPLEFT', -4, 4)
-	self.Threat:SetPoint('BOTTOMRIGHT', self, 4.5, -4.5)
-	self.Threat:SetFrameStrata('BACKGROUND')
-	self.Threat:SetBackdrop({
-		edgeFile = [[Interface\AddOns\oUF_leaf\media\glowTex]], edgeSize = 5,
-		insets = {left = 3, right = 3, top = 3, bottom = 3}
-	})
-	
 	self.RaidDebuffIcon = true
 	self.RaidDebuffIcon_Size = 20
-	
-	self.OverrideUpdateThreat = ouf_leaf.OverrideUpdateThreat
 	
 	self.leafHealComm = true
 	

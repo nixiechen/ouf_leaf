@@ -195,19 +195,19 @@ oUF.TagEvents['[leafmaxhp]'] = 'UNIT_MAXHEALTH'
 oUF.Tags['[leafmaxpp]'] = function(u) return truncate(UnitPowerMax(u)) end
 oUF.TagEvents['[leafmaxpp]'] = 'UNIT_MAXENERGY UNIT_MAXFOCUS UNIT_MAXMANA UNIT_MAXRAGE UNIT_MAXRUNIC_POWER'
 
-oUF.Tags['[leafraidcolor]']   = function(u) local _, x = UnitClass(u); return x and classColors[x] or '|cffffffff' end
+oUF.Tags['[leafraidcolor]'] = function(u) local _, x = UnitClass(u); return x and classColors[x] or '|cffffffff' end
 
 oUF.Tags['[leafperhp]'] = function(u)
 	local m = UnitHealthMax(u)
 	return m == 0 and 0 or floor(UnitHealth(u)/m*100+0.5)
 end
-oUF.TagEvents['[leafperhp]']               = 'UNIT_HEALTH UNIT_MAXHEALTH'
+oUF.TagEvents['[leafperhp]'] = 'UNIT_HEALTH UNIT_MAXHEALTH'
 
 oUF.Tags['[leafperpp]'] = function(u)
 	local m = UnitPowerMax(u)
 	return m == 0 and 0 or floor(UnitPower(u)/m*100+0.5)
 end
-oUF.TagEvents['[leafperpp]']               = 'UNIT_MAXENERGY UNIT_MAXFOCUS UNIT_MAXMANA UNIT_MAXRAGE UNIT_ENERGY UNIT_FOCUS UNIT_MANA UNIT_RAGE UNIT_MAXRUNIC_POWER UNIT_RUNIC_POWER'
+oUF.TagEvents['[leafperpp]'] = 'UNIT_MAXENERGY UNIT_MAXFOCUS UNIT_MAXMANA UNIT_MAXRAGE UNIT_ENERGY UNIT_FOCUS UNIT_MANA UNIT_RAGE UNIT_MAXRUNIC_POWER UNIT_RUNIC_POWER'
 
 oUF.Tags['[leafsmartpp]'] = function(u)
 	if select(2,UnitPowerType(u)) == 'MANA' then
@@ -216,21 +216,23 @@ oUF.Tags['[leafsmartpp]'] = function(u)
 		return UnitPower(u)
 	end
 end
-oUF.TagEvents['[leafsmartpp]']               = 'UNIT_MAXENERGY UNIT_MAXFOCUS UNIT_MAXMANA UNIT_MAXRAGE UNIT_ENERGY UNIT_FOCUS UNIT_MANA UNIT_RAGE UNIT_MAXRUNIC_POWER UNIT_RUNIC_POWER'
+oUF.TagEvents['[leafsmartpp]'] = 'UNIT_MAXENERGY UNIT_MAXFOCUS UNIT_MAXMANA UNIT_MAXRAGE UNIT_ENERGY UNIT_FOCUS UNIT_MANA UNIT_RAGE UNIT_MAXRUNIC_POWER UNIT_RUNIC_POWER'
 
 oUF.Tags['[leafname]'] = function(u)
 	local name, realm = UnitName(u)
 	if realm then name = name .. '-' .. realm end
 	return name
 end
-oUF.TagEvents['[leafname]']                = 'UNIT_NAME_UPDATE'
-
+oUF.TagEvents['[leafname]'] = 'UNIT_NAME_UPDATE'
 
 local color_power = {}
 for k, v in pairs(colors.power) do
 	color_power[k] = Hex(v)
 end
 oUF.Tags['[leafcolorpower]'] = function(u) local n,s = UnitPowerType(u) return color_power[s] end
+
+oUF.Tags['[leafthreat]'] = function(u) local s = UnitThreatSituation(u) return s and (s>2) and '|cffff0000.|r' end
+oUF.TagEvents['[leafthreat]'] = 'UNIT_THREAT_SITUATION_UPDATE'
 
 do
 	local lb = GetSpellInfo(33763)

@@ -7,10 +7,11 @@
 	<!--Script file="libs\utf8.lua" /-->
 	
 	<Script file="plugins\oUF_BarFader.lua" />
-	<Script file="plugins\oUF_DebuffHighlight.lua" />
+	<!--Script file="plugins\oUF_DebuffHighlight.lua" /-->
 	<!--Script file="plugins\oUF_FSR.lua" /-->
 	<!--Script file="plugins\oUF_GCDBar.lua" /-->
 	<Script file="plugins\oUF_HealComm.lua" />
+	<Script file="plugins\oUF_leafDebuffHighlight.lua" />
 	<!--Script file="plugins\oUF_leafHealComm.lua" /-->
 	<Script file="plugins\oUF_ReadyCheck.lua" />
 	<Script file="plugins\oUF_SpellRange.lua" />

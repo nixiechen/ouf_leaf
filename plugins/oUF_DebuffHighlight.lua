@@ -87,5 +87,3 @@ local function Disable(object)
 end
 
 oUF:AddElement('DebuffHighlight', Update, Enable, Disable)
-
-for i, frame in ipairs(oUF.objects) do Enable(frame) end

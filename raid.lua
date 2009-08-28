@@ -213,6 +213,8 @@ local function styleFunc(self, unit)
 	
 	self.OverrideUpdateThreat = ouf_leaf.OverrideUpdateThreat
 	
+	self.leafHealComm = true
+	
 	if ouf_leaf.corner_indicators then
 		local fu = ouf_leaf.corner_indicators_frequent_update and 1
 		

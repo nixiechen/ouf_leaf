@@ -144,12 +144,12 @@ local function styleFunc(settings, self, unit)
 	
 	local tag1 = SetFontString(self.Health)
 	tag1:SetPoint('RIGHT', self.Health, -2, 0)
-	self:Tag(tag1, '|cff50a050[perhp]|r%')
+	self:Tag(tag1, '|cff50a050[leafperhp]|r%')
 	
 	if settings.style ~= 'pet' then
 		local tag2 = SetFontString(self.Health)
 		tag2:SetPoint('LEFT', self.Health, 2, 0)
-		self:Tag(tag2, '[name]')
+		self:Tag(tag2, '[leafperhp]')
 	end
 	
 	if settings.style == 'pet' then
@@ -211,6 +211,8 @@ local function styleFunc(settings, self, unit)
 		--self.Debuffs:SetFrameLevel(self.Buffs:GetFrameLevel() + 1)
 		--self.Castbar:SetFrameLevel(self.Debuffs:GetFrameLevel() + 1)
 	end
+	
+	self.ignoreHealComm = true
 end
 
 oUF:RegisterStyle('leafArena', setmetatable({

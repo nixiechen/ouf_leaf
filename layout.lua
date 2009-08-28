@@ -13,7 +13,7 @@ local function updateCPoints(self, event, unit)
 end
 
 local function playerAuraFilter(icons, unit, icon, name, rank, texture, count, dtype, duration, timeLeft, caster)
-	return ouf_leaf.playerAuraFilter[name]
+	return ouf_leaf.playerAuraFilter[leafname]
 end
 
 local function PostCreateAuraIcon(self, button, icons)
@@ -110,15 +110,15 @@ local function styleFunc(self, unit)
 	tag2:SetPoint('RIGHT', self.Health, -2, 0)
 	
 	if unit == 'target' or unit == 'player' then
-		self:Tag(tag2, '|cff50a050[leafcurhp] |r- |cff50a050[perhp]|r%')
+		self:Tag(tag2, '|cff50a050[leafcurhp] |r- |cff50a050[leafperhp]|r%')
 		if unit == 'player' then
-			self:Tag(tag1, '[leafcolorpower][leafcurpp]|r - [leafcolorpower][perpp]|r%')
+			self:Tag(tag1, '[leafcolorpower][leafcurpp]|r - [leafcolorpower][leafperpp]|r%')
 		else
-			self:Tag(tag1, '[leafdifficulty][leafsmartlevel] [leafraidcolor][name]')
+			self:Tag(tag1, '[leafdifficulty][leafsmartlevel] [leafraidcolor][leafname]')
 		end
 	else
-		self:Tag(tag1, '[leafraidcolor][name]')
-		self:Tag(tag2, '|cff50a050[perhp]|r%')
+		self:Tag(tag1, '[leafraidcolor][leafname]')
+		self:Tag(tag2, '|cff50a050[leafperhp]|r%')
 	end
 	
 	if unit == 'player' or unit == 'target' then
@@ -412,6 +412,8 @@ local function styleFunc(self, unit)
 	
 	if(unit and unit:match'%wtarget$') then
 		self.ignoreHealComm = true
+	else
+		self.leafHealComm = true
 	end
 	
 	if (unit ~= 'player') then

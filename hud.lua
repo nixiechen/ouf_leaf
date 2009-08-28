@@ -86,12 +86,12 @@ local function styleFunc(self, unit)
 	else
 		mp:SetPoint('BOTTOMLEFT', self.Health, 'BOTTOMLEFT', 5, 15)
 	end
-	self:Tag(mp, '[leafcolorpower][perpp]')
+	self:Tag(mp, '[leafcolorpower][leafperpp]')
 	
 	local hp = SetFontString(self.Health)
 	--hp.frequentUpdates = 0.5
 	hp:SetPoint('BOTTOM', mp, 'TOP', 0, 5)
-	self:Tag(hp, '|cff50a050[perhp]')
+	self:Tag(hp, '|cff50a050[leafperhp]')
 	
 	self.ignoreHealComm = true
 	

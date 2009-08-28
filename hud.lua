@@ -109,8 +109,8 @@ local function styleFunc(self, unit)
 	return self
 end
 
-oUF:RegisterStyle('leaf - Hud', styleFunc)
-oUF:SetActiveStyle'leaf - Hud'
+oUF:RegisterStyle('leafHud', styleFunc)
+oUF:SetActiveStyle'leafHud'
 
 oUF:Spawn('player'):SetPoint('TOPRIGHT', UIParent)
 oUF:Spawn('target'):SetPoint('TOPRIGHT', UIParent)

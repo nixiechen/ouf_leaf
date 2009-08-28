@@ -251,20 +251,20 @@ target:SetPoint('TOPLEFT', player, 'TOPRIGHT', 5, 0)
 local f = CreateFrame'Frame'
 f:RegisterEvent'PLAYER_ENTERING_WORLD'
 f:SetScript('OnEvent', function(self)
-	SetCVar('showArenaEnemyFrames', '0')
-	
 	local isIn, instanceType = IsInInstance()
 	if instanceType ~= 'arena' then return end
 	
 	self:UnregisterAllEvents()
 	self:SetScript('OnEvent', nil)
 	
+	SetCVar('showArenaEnemyFrames', '0')
+	
 	if ArenaEnemyFrames then
 		ArenaEnemyFrames:UnregisterAllEvents()
 		ArenaEnemyFrames:Hide()
 		
-		hooksecurefunc(ArenaEnemyFrame_OnLoad, function(self) self:UnregisterAllEvents() end)
-		hooksecurefunc(ArenaEnemyPetFrame_OnLoad, function(self) self:UnregisterAllEvents() end)
+		hooksecurefunc('ArenaEnemyFrame_OnLoad', function(self) self:UnregisterAllEvents() end)
+		hooksecurefunc('ArenaEnemyPetFrame_OnLoad', function(self) self:UnregisterAllEvents() end)
 	end
 	
 	local arenas = {}

@@ -6,7 +6,7 @@
 	.leafHealComm [boolean]
 	.leafHealComm_Color [table]	default: {0,1,0,.5}
 	.leafHealComm_BarTexture [string]	nil for Health bar texture
-	.PostleafHealCommUpdate [function] ()
+	.PostleafHealCommUpdate [function] (self, guid, modifiedIncoming)
 	
 	.leafHealCommBar [statusbar]
 ]]

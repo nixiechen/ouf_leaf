@@ -33,7 +33,11 @@ local oUF = _G[global]
 local OnHealthUpdate
 do
 	local UnitHealth = UnitHealth
-	OnHealthUpdate = function(self)
+	OnHealthUpdate = function(self, elps)
+		self.total = self.total + elps
+		if self.total < .1 then return end
+		self.total = 0
+		
 		if(self.disconnected) then return end
 		local health = UnitHealth(self.unit)
 
@@ -103,6 +107,7 @@ local Enable = function(self)
 	if(health) then
 		if(health.frequentUpdates and (self.unit and not self.unit:match'%w+target$') or not self.unit) then
 			health.disconnected = true
+			health.total = 0
 			health:SetScript('OnUpdate', OnHealthUpdate)
 		else
 			self:RegisterEvent("UNIT_HEALTH", Update)

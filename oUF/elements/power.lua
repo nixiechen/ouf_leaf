@@ -36,7 +36,11 @@ local min, max, bar
 local OnPowerUpdate
 do
 	local UnitMana = UnitMana
-	OnPowerUpdate = function(self)
+	OnPowerUpdate = function(self, elps)
+		self.total = self.total + elps
+		if self.total < .1 then return end
+		self.total = 0
+		
 		if(self.disconnected) then return end
 		local power = UnitMana(self.unit)
 
@@ -108,6 +112,7 @@ local Enable = function(self, unit)
 	if(power) then
 		if(power.frequentUpdates and (unit == 'player' or unit == 'pet')) then
 			power.disconnected = true
+			power.total = 0
 			power:SetScript("OnUpdate", OnPowerUpdate)
 		else
 			self:RegisterEvent("UNIT_MANA", Update)

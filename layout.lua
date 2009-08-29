@@ -19,6 +19,14 @@ local function PostCreateAuraIcon(self, button, icons)
 	--button.overlay:SetVertexColor(.25, .25, .25)
 	button.overlay.SetVertexColor = function() end
 	button.overlay.Hide = function() end
+	
+	local parent = button:GetParent()
+	
+	if parent.noTooltip then
+		button:SetScript('OnEnter', nil)
+		button:SetScript('OnLeave', nil)
+		button:SetScript('OnClick', nil)
+	end
 end
 
 local function CustomTimeText(self, duration)
@@ -241,25 +249,30 @@ local function styleFunc(self, unit)
 		
 		self.Auras = CreateFrame('Frame', nil, self)
 		self.Auras:SetPoint('CENTER', UIParent, 90, -85)
-		self.Auras:SetHeight(20)
-		self.Auras:SetWidth(20)
-		self.Auras.size = 20
+		self.Auras:SetHeight(24)
+		self.Auras:SetWidth(24)
+		self.Auras.size = 24
 		self.Auras.spacing = 4
 		self.Auras.initialAnchor = 'BOTTOMRIGHT'
 		self.Auras.onlyShowPlayer = true
 		self.Auras.numBuffs = 0
 		self.Auras.numDebuffs = 6
+		
+		self.Auras.noTooltip = true
+		
 	elseif unit == 'player' then
 		if ouf_leaf.playerAuraFilter then
 			self.Auras = CreateFrame('Frame', nil, self)
 			self.Auras:SetPoint('CENTER', UIParent, -90, -85)
-			self.Auras:SetHeight(20)
-			self.Auras:SetWidth(20)
-			self.Auras.size = 20
+			self.Auras:SetHeight(24)
+			self.Auras:SetWidth(24)
+			self.Auras.size = 24
 			self.Auras.spacing = 4
 			self.Auras.initialAnchor = 'BOTTOMRIGHT'
 			self.Auras.numBuffs = 6
 			self.Auras.numDebuffs = 0
+			
+			self.Auras.noTooltip = true
 			
 			self.CustomAuraFilter = playerAuraFilter
 		end
@@ -278,7 +291,7 @@ local function styleFunc(self, unit)
 		end]=]
 		
 		local cp = SetFontString(self.Health, 50, nil, DAMAGE_TEXT_FONT)
-		cp:SetPoint('BOTTOM', UIParent, 'CENTER', 0, -135)
+		cp:SetPoint('BOTTOM', UIParent, 'CENTER', 0, -150)
 		self:Tag(cp, '[leafcp]')
 		
 		self.Leader = self.Health:CreateTexture(nil, 'OVERLAY')

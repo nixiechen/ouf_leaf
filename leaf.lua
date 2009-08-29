@@ -64,7 +64,7 @@ end
 function ouf_leaf.updatemasterlooter(self)
 	self.MasterLooter:ClearAllPoints()
 	if ((UnitInParty(unit) or UnitInRaid(unit)) and UnitIsPartyLeader(unit)) then
-		self.MasterLooter:SetPoint('LEFT', self.Leader, 'RIGHT')
+		self.MasterLooter:SetPoint('TOPLEFT', self.Leader, 'TOPRIGHT', 1, 0)
 	else
 		self.MasterLooter:SetPoint('TOPLEFT', self, 0, 8)
 	end

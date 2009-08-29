@@ -299,6 +299,9 @@ local function styleFunc(self, unit)
 		self.Leader:SetHeight(16)
 		self.Leader:SetWidth(16)
 		
+		self.Assistant = self.Health:CreateTexture(nil, 'OVERLAY')
+		self.Assistant:SetAllPoints('TOPLEFT', self.Leader)
+		
 		self.MasterLooter = self.Health:CreateTexture(nil, 'OVERLAY')
 		self.MasterLooter:SetPoint('LEFT', self.Leader, 'RIGHT')
 		self.MasterLooter:SetHeight(16)

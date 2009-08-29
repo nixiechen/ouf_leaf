@@ -61,12 +61,19 @@ function ouf_leaf.createfont(parent, fontHeight, fontStyle, font)
 	return fontObj
 end
 
+local function isLeader(unit)
+	return (UnitInParty(unit) or UnitInRaid(unit)) and UnitIsPartyLeader(unit)
+end
+local function isAssistant(unit)
+	return UnitInRaid(unit) and UnitIsRaidOfficer(unit) and not UnitIsPartyLeader(unit)
+end
+
 function ouf_leaf.updatemasterlooter(self)
 	self.MasterLooter:ClearAllPoints()
-	if ((UnitInParty(unit) or UnitInRaid(unit)) and UnitIsPartyLeader(unit)) then
-		self.MasterLooter:SetPoint('TOPLEFT', self.Leader, 'TOPRIGHT', 1, 0)
+	if isLeader(self.unit) or isAssistant(self.unit) then
+		self.MasterLooter:SetPoint('LEFT', self.Leader, 'RIGHT')
 	else
-		self.MasterLooter:SetPoint('TOPLEFT', self, 0, 8)
+		self.MasterLooter:SetPoint('TOPLEFT', self.Leader)
 	end
 end
 

@@ -2,7 +2,7 @@
 	yleaf (yaroot@gmail.com)
 	oUF_leafDebuffHighlight
 	
-	.leafDebuffHighlight [boolean]
+	.leafDebuffHighlight [boolean or Texture]	
 	.leafDebuffFilter [boolean]
 ]]
 
@@ -77,23 +77,37 @@ local function Update(self, event, unit)
 	if debuffType then
 		if self.leafDebuffHighlighted ~= debuffType then
 			self.leafDebuffHighlighted = debuffType
-			local c = debuffColors[debuffType]
-			self:SetBackdropColor(unpack(c))
+			
+			if orig_colors[self] then
+				local c = debuffColors[debuffType]
+				self:SetBackdropColor(unpack(c))
+			else
+				self.leafDebuffHighlight:SetTexture(icon)
+				self.leafDebuffHighlight:Show()
+			end
 		end
 	else
 		if self.leafDebuffHighlighted then
-			self:SetBackdropColor(unpack(orig_colors[self]))
+			self.leafDebuffHighlighted = nil
+			local c = orig_colors[self]
+			if c then
+				self:SetBackdropColor(unpack(c))
+			else
+				self.leafDebuffHighlight:Hide()
+			end
 		end
 	end
 end
 
-
 local function Enable(self)
 	if self.leafDebuffHighlight then
-		if leafDebuffFilter and (not classFilter) then return end
-		classFilter = classFilter or {}
+		if self.leafDebuffFilter and (not classFilter) then return end
+		if type(self.leafDebuffHighlight) == 'table' then
+			self.leafDebuffHighlight:Hide()
+		else
+			orig_colors[self] = {self:GetBackdropColor()}
+		end
 		
-		orig_colors[self] = {self:GetBackdropColor()}
 		self:RegisterEvent('UNIT_AURA', Update)
 		
 		return true
@@ -103,8 +117,13 @@ end
 local function Disable(self)
 	if self.leafDebuffHighlight then
 		self:UnregisterEvent('UNIT_AURA', Update)
-		self:SetBackdropColor(unpack(orig_colors[self]))
-		orig_colors[self] = nil
+		
+		if type(self.leafDebuffHighlight) == 'table' then
+			self.leafDebuffHighlight:Hide()
+		else
+			orig_colors[self] = nil
+			self:SetBackdropColor(unpack(orig_colors[self]))
+		end
 	end
 end
 

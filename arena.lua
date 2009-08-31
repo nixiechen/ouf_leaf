@@ -138,7 +138,7 @@ local function styleFunc(settings, self, unit)
 	self.RaidIcon:SetHeight(16)
 	self.RaidIcon:SetWidth(16)
 	
-	self.leafRange = .5
+	self.SpellRange = .5
 	self.inRangeAlpha = 1
 	self.outsideRangeAlpha = .4
 	

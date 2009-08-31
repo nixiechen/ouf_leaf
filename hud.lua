@@ -96,7 +96,7 @@ local function styleFunc(self, unit)
 	self.ignoreHealComm = true
 	
 	if unit == 'target' then
-		self.leafRange = true
+		self.SpellRange = .5
 		self.inRangeAlpha = 1
 		self.outsideRangeAlpha = .4
 	else

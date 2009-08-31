@@ -16,6 +16,7 @@
 	<Script file="plugins\oUF_leafRange.lua" />
 	<Script file="plugins\oUF_ReadyCheck.lua" />
 	<Script file="plugins\oUF_SmoothUpdate.lua" />
+	<Script file="plugins\oUF_SpellRange.lua" />
 	<!--Script file="plugins\oUF_Swing.lua" /-->
 	<Script file="plugins\oUF_TotemBar.lua" />
 	

@@ -185,16 +185,16 @@ local function styleFunc(self, unit)
 	
 	self.Leader = self.Health:CreateTexture(nil, 'OVERLAY')
 	self.Leader:SetPoint('TOPLEFT', self, 0, 6)
-	self.Leader:SetHeight(12)
-	self.Leader:SetWidth(12)
+	self.Leader:SetHeight(10)
+	self.Leader:SetWidth(10)
 	
 	self.Assistant = self.Health:CreateTexture(nil, 'OVERLAY')
 	self.Assistant:SetAllPoints(self.Leader)
 		
 	self.MasterLooter = self.Health:CreateTexture(nil, 'OVERLAY')
 	self.MasterLooter:SetPoint('LEFT', self.Leader, 'RIGHT')
-	self.MasterLooter:SetHeight(12)
-	self.MasterLooter:SetWidth(12)
+	self.MasterLooter:SetHeight(10)
+	self.MasterLooter:SetWidth(10)
 	
 	table.insert(self.__elements, ouf_leaf.updatemasterlooter)
 	self:RegisterEvent('PARTY_LOOT_METHOD_CHANGED', ouf_leaf.updatemasterlooter)

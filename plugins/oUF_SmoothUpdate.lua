@@ -1,6 +1,6 @@
 --local oUF = _G.oUF
 
-local MAX = 1
+local MAX_TIME = 1
 
 local objects = {}
 local function SetValue(self, value)
@@ -28,7 +28,7 @@ oUF:RegisterInitCallback(hook)
 
 local updateFrame = CreateFrame('Frame', 'oUF_SmoothUpdate', UIParent)
 updateFrame:SetScript('OnUpdate', function(self, elps)
-	local rate = elps/MAX
+	local rate = elps/MAX_TIME
 	
 	for bar, value in pairs(objects) do
 		local cur = bar:GetValue()

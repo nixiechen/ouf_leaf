@@ -209,7 +209,7 @@ local function styleFunc(self, unit)
 	self.RaidDebuffIcon = true
 	self.RaidDebuffIcon_Size = 20
 	
-	self.leafHealComm = true
+	self.HealComm = true
 	
 	if ouf_leaf.corner_indicators then
 		local fu = ouf_leaf.corner_indicators_frequent_update and 1

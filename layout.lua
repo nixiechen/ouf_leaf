@@ -442,7 +442,7 @@ local function styleFunc(self, unit)
 	end
 	
 	if unit then
-		self.leafHealComm = true
+		self.HealComm = true
 	else
 		self.ignoreHealComm = true
 	end

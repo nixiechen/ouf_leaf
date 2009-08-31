@@ -178,11 +178,6 @@ local function styleFunc(self, unit)
 	self.inRangeAlpha = 1
 	self.outsideRangeAlpha = .4
 	
-	self.RaidIcon = self.Health:CreateTexture(nil, 'OVERLAY')
-	self.RaidIcon:SetPoint('TOP', self, 0, 4)
-	self.RaidIcon:SetHeight(12)
-	self.RaidIcon:SetWidth(12)
-	
 	self.Leader = self.Health:CreateTexture(nil, 'OVERLAY')
 	self.Leader:SetPoint('TOPLEFT', self, 0, 6)
 	self.Leader:SetHeight(10)
@@ -200,6 +195,11 @@ local function styleFunc(self, unit)
 	self:RegisterEvent('PARTY_LOOT_METHOD_CHANGED', ouf_leaf.updatemasterlooter)
 	self:RegisterEvent('PARTY_MEMBERS_CHANGED', ouf_leaf.updatemasterlooter)
 	self:RegisterEvent('PARTY_LEADER_CHANGED', ouf_leaf.updatemasterlooter)
+	
+	self.RaidIcon = self.Health:CreateTexture(nil, 'OVERLAY')
+	self.RaidIcon:SetPoint('TOP', self, 0, 4)
+	self.RaidIcon:SetHeight(12)
+	self.RaidIcon:SetWidth(12)
 	
 	self.ReadyCheck = self.Health:CreateTexture(nil, 'OVERLAY')
 	self.ReadyCheck:SetPoint('BOTTOM', self)

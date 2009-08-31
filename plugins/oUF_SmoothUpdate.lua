@@ -3,7 +3,7 @@
 local MAX = 1
 
 local objects = {}
-local function Smooth(self, value)
+local function SetValue(self, value)
 	if value ~= self:GetValue() or value == 0 then
 		objects[self] = value
 	else
@@ -11,15 +11,16 @@ local function Smooth(self, value)
 	end
 end
 
+local function setup(self)
+	if self.SmoothUpdate then
+		self.Smooth_orig_SetValue = self.SetValue
+		self.SetValue = SetValue
+	end
+end
+
 local function hook(self)
-	if self.Health and self.Health.SmoothUpdate then
-		self.Health.Smooth_SetValue = self.Health.SetValue
-		self.Health.SetValue = Smooth
-	end
-	if self.Power and self.Power.SmoothUpdate then
-		self.Power.Smooth_SetValue = self.Power.SetValue
-		self.Power.SetValue = Smooth
-	end
+	setup(self.Health)
+	setup(self.Power)
 end
 
 for i, frame in ipairs(oUF.objects) do hook(frame) end
@@ -37,6 +38,6 @@ updateFrame:SetScript('OnUpdate', function(self, elps)
 			objects[bar] = nil
 		end
 		
-		bar:Smooth_SetValue(new)
+		bar:Smooth_orig_SetValue(new)
 	end
 end)

@@ -1,5 +1,6 @@
 --[[
 	yleaf (yaroot@gmail.com)
+	Five-seconds-rule
 	
 	.FSR (frame)
 	

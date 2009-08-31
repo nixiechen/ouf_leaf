@@ -1,88 +1,129 @@
-if not oUF then return end
+--[[
+	yleaf (yaroot@gmail.com)
+	oUF_DebuffHighlight
+	
+	.DebuffHighlight [boolean or Texture]	
+	.DebuffFilter [boolean]
+]]
 
-local playerClass = select(2,UnitClass("player"))
-local CanDispel = {
-	PRIEST = { Magic = true, Disease = true, },
-	SHAMAN = { Poison = true, Disease = true, },
-	PALADIN = { Magic = true, Poison = true, Disease = true, },
-	MAGE = { Curse = true, },
-	DRUID = { Curse = true, Poison = true, }
-}
-local dispellist = CanDispel[playerClass] or {}
-local origColors = {}
-local origBorderColors = {}
-local origPostUpdateAura = {}
+--local oUF = _G.oUF
 
-local function GetDebuffType(unit, filter)
-	if not UnitCanAssist("player", unit) then return nil end
+local _, class = UnitClass'player'
+local orig_colors = {}
+local classFilter, debuffColors
+
+do
+	t = {
+		['PRIEST'] = {
+			['Magic'] = true,
+			['Disease'] = true,
+		},
+		['SHAMAN'] = {
+			['Poison'] = true,
+			['Disease'] = true,
+			['Curse'] = true,
+		},
+		['PALADIN'] = {
+			['Poison'] = true,
+			['Magic'] = true,
+			['Disease'] = true,
+		},
+		['MAGE'] = {
+			['Curse'] = true,
+		},
+		['DRUID'] = {
+			['Curse'] = true,
+			['Poison'] = true,
+		},
+	}
+	
+	classFilter = t[class]
+end
+
+do
+	debuffColors = {}
+	local t = {
+		'Magic',
+		'Curse',
+		'Disease',
+		'Poison',
+	}
+	
+	for k, v in pairs(t) do
+		local c = DebuffTypeColor[v]
+		debuffColors[v] = {c.r, c.g, c.b}
+	end
+end
+
+local function Update(self, event, unit)
+	if unit ~= self.unit then return end
+	local name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable
 	local i = 1
-	while true do
-		local _, _, texture, _, debufftype = UnitAura(unit, i, "HARMFUL")
-		if not texture then break end
-		if debufftype and not filter or (filter and dispellist[debufftype]) then
-			return debufftype, texture
+	
+	repeat
+		name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable = UnitAura(unit, i, 'HARMFUL') 
+		if debuffType then
+			if (not self.DebuffFilter) then
+				break
+			else
+				if classFilter[debuffType] then
+					break
+				end
+			end
 		end
 		i = i + 1
-	end
-end
-
-local function Update(object, event, unit)
-	if object.unit ~= unit  then return end
-	local debuffType, texture  = GetDebuffType(unit, object.DebuffHighlightFilter)
+	until (not name)
+	
 	if debuffType then
-		local color = DebuffTypeColor[debuffType] 
-		if object.DebuffHighlightBackdrop then
-			object:SetBackdropColor(color.r, color.g, color.b, object.DebuffHighlightAlpha or 1)
-		elseif object.DebuffHighlightUseTexture then
-			object.DebuffHighlight:SetTexture(texture)
-		else
-			object.DebuffHighlight:SetVertexColor(color.r, color.g, color.b, object.DebuffHighlightAlpha or .5)
+		if self.DebuffHighlighted ~= debuffType then
+			self.DebuffHighlighted = debuffType
+			
+			if orig_colors[self] then
+				local c = debuffColors[debuffType]
+				self:SetBackdropColor(unpack(c))
+			else
+				self.DebuffHighlight:SetTexture(icon)
+				self.DebuffHighlight:Show()
+			end
 		end
 	else
-		if object.DebuffHighlightBackdrop then
-			local color = origColors[object]
-			object:SetBackdropColor(color.r, color.g, color.b, color.a)
-			color = origBorderColors[object]
-			object:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
-		elseif object.DebuffHighlightUseTexture then
-			object.DebuffHighlight:SetTexture(nil)
-		else
-			local color = origColors[object]
-			object.DebuffHighlight:SetVertexColor(color.r, color.g, color.b, color.a)
+		if self.DebuffHighlighted then
+			self.DebuffHighlighted = nil
+			local c = orig_colors[self]
+			if c then
+				self:SetBackdropColor(unpack(c))
+			else
+				self.DebuffHighlight:Hide()
+			end
 		end
 	end
 end
 
-local function Enable(object)
-	-- if we're not highlighting this unit return
-	if not object.DebuffHighlightBackdrop and not object.DebuffHighlight then
-		return
+local function Enable(self)
+	if self.DebuffHighlight then
+		if self.DebuffFilter and (not classFilter) then return end
+		if type(self.DebuffHighlight) == 'table' then
+			self.DebuffHighlight:Hide()
+		else
+			orig_colors[self] = {self:GetBackdropColor()}
+		end
+		
+		self:RegisterEvent('UNIT_AURA', Update)
+		
+		return true
 	end
-	-- if we're filtering highlights and we're not of the dispelling type, return
-	if object.DebuffHighlightFilter and not CanDispel[playerClass] then
-		return
-	end
-	
-	-- make sure aura scanning is active for this object
-	object:RegisterEvent("UNIT_AURA", Update)
-	
-	if object.DebuffHighlightBackdrop then
-		local r, g, b, a = object:GetBackdropColor()
-		origColors[object] = { r = r, g = g, b = b, a = a}
-		r, g, b, a = object:GetBackdropBorderColor()
-		origBorderColors[object] = { r = r, g = g, b = b, a = a}
-	elseif not object.DebuffHighlightUseTexture then -- color debuffs
-		-- object.DebuffHighlight
-		local r, g, b, a = object.DebuffHighlight:GetVertexColor()
-		origColors[object] = { r = r, g = g, b = b, a = a}
-	end
-
-	return true
 end
 
-local function Disable(object)
-	if object.DebuffHighlightBackdrop or object.DebuffHighlight then
-		object:UnregisterEvent("UNIT_AURA", Update)
+local function Disable(self)
+	if self.DebuffHighlight then
+		self:UnregisterEvent('UNIT_AURA', Update)
+		
+		if type(self.DebuffHighlight) == 'table' then
+			self.DebuffHighlight:Hide()
+		else
+			orig_colors[self] = nil
+			self:SetBackdropColor(unpack(orig_colors[self]))
+		end
 	end
 end
 

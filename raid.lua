@@ -170,8 +170,8 @@ local function styleFunc(self, unit)
 		self:Tag(lifebloom, '|cff64ff64[leaflifebloom]')
 	end]]
 	
-	self.leafDebuffHighlight = true
-	self.leafDebuffFilter = true
+	self.DebuffHighlight = true
+	self.DebuffFilter = true
 	
 	--self.Range = true
 	self.SpellRange = .5

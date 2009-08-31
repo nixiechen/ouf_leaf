@@ -12,17 +12,19 @@
 ]]
 
 --local oUF = _G.oUF
+oUF_HealComm = {}
+oUF_HealComm.debug = false
+
 local HealComm = LibStub and LibStub('LibHealComm-4.0')
 assert(HealComm, 'oUF_HealComm requires LibHealComm-4.0')
-local debug = false
 
-if debug then debug = function(...) print(...) end
-else debug = function() end end
-
-oUF_HealComm = {}
 local addon = oUF_HealComm
 local objs = {}
 addon.objects = objs
+
+local function debug(...)
+	if addon.debug then print(...) end
+end
 
 local healFLAG = bit.bor(HealComm.DIRECT_HEALS, HealComm.CHANNEL_HEALS)
 

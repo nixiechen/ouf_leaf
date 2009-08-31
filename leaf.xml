@@ -12,8 +12,6 @@
 	<!--Script file="plugins\oUF_GCDBar.lua" /-->
 	<Script file="plugins\oUF_HealComm.lua" />
 	<Script file="plugins\oUF_leafDebuffHighlight.lua" />
-	<!--Script file="plugins\oUF_leafHealComm.lua" /-->
-	<Script file="plugins\oUF_leafRange.lua" />
 	<Script file="plugins\oUF_ReadyCheck.lua" />
 	<Script file="plugins\oUF_SmoothUpdate.lua" />
 	<Script file="plugins\oUF_SpellRange.lua" />

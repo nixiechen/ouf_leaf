@@ -61,7 +61,7 @@ local function Update(self, event, unit)
 	local i = 1
 	
 	repeat
-		name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable = UnitAura(unit, i, 'HARMFUL CANCELABLE') 
+		name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable = UnitAura(unit, i, 'HARMFUL') 
 		if debuffType then
 			if (not self.leafDebuffFilter) then
 				break

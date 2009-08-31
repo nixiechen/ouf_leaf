@@ -29,6 +29,16 @@ local function PostCreateAuraIcon(self, button, icons)
 	end
 end
 
+local _is_mine = {player = true, vehicle = true, pet = true}
+local function PostUpdateAuraIcon(self, icons, unit, icon, index, offset, filter, isDebuff)
+	if not icon.debuff then return end
+	if (not _is_mine[icon.owner]) and (not UnitIsFriend('player', unit)) then
+		icon.icon:SetDesaturated(true)
+	else
+		icon.icon:SetDesaturated(false)
+	end
+end
+
 local function CustomTimeText(self, duration)
 	if self.casting then
 		self.Time:SetFormattedText('%.1f / %.1f', (self.max - duration), self.max)
@@ -181,7 +191,7 @@ local function styleFunc(self, unit)
 		self.Castbar:SetStatusBarTexture(texture)
 		self.Castbar:SetStatusBarColor(.15,.15,.15)
 		self.Castbar:SetBackdrop(backdrop)
-		self.Castbar:SetBackdropColor(0, 0, 0, .3)
+		self.Castbar:SetBackdropColor(.5,.5,.5,.5)
 		
 		self.Castbar.Text = SetFontString(self.Castbar)
 		self.Castbar.Text:SetPoint('LEFT', self.Castbar, 2, 0)
@@ -214,6 +224,19 @@ local function styleFunc(self, unit)
 				self.GCDBar:SetBackdropColor(0, 0, 0, .3)
 				self.GCDBar:SetPoint('TOPLEFT', self.Castbar, 'BOTTOMLEFT', 0, -1)
 			end]]
+			
+			--[[if (not ouf_leaf.noswing) then
+				self.Swing = CreateFrame('StatusBar', nil, self)
+				self.Swing:SetHeight(1)
+				self.Swing:SetWidth(self.Castbar:GetWidth())
+				
+				self.Swing:SetStatusBarTexture(texture)
+				self.Swing:SetStatusBarColor(0.55, 0.57, 0.61, 0.5)
+				self.Swing:SetBackdrop(backdrop)
+				self.Swing:SetBackdropColor(0, 0, 0, .3)
+				self.Swing:SetPoint('BOTTOMLEFT', self.Castbar, 'TOPLEFT', 0, 1)
+			end]]
+			
 		elseif unit == 'pet' then
 			self.Castbar:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', 0, 0)
 			self.Castbar:SetPoint('TOPRIGHT', self, 0, 20)
@@ -260,6 +283,7 @@ local function styleFunc(self, unit)
 		
 		self.Auras.noTooltip = true
 		
+		self.PostUpdateAuraIcon = PostUpdateAuraIcon
 	elseif unit == 'player' then
 		if ouf_leaf.playerAuraFilter then
 			self.Auras = CreateFrame('Frame', nil, self)
@@ -277,18 +301,7 @@ local function styleFunc(self, unit)
 			self.CustomAuraFilter = playerAuraFilter
 		end
 		
-		--[=[if (not ouf_leaf.nofsr) then
-			self.FSR = CreateFrame('frame', nil, self)
-			self.FSR:SetAllPoints(self.Power)
-			self.FSR.width = 230
-			self.FSR.height = 7
-			
-			self.FSR.Spark = self.Power:CreateTexture(nil, 'OVERLAY')
-			self.FSR.Spark:SetTexture[[Interface\CastingBar\UI-CastingBar-Spark]]
-			self.FSR.Spark:SetBlendMode('ADD')
-			self.FSR.Spark:SetHeight(self.FSR.height*2)
-			self.FSR.Spark:SetWidth(self.FSR.height)
-		end]=]
+		self.Health.SmoothUpdate = true
 		
 		local cp = SetFontString(self.Health, 50, nil, DAMAGE_TEXT_FONT)
 		cp:SetPoint('BOTTOM', UIParent, 'CENTER', 0, -150)
@@ -300,7 +313,7 @@ local function styleFunc(self, unit)
 		self.Leader:SetWidth(16)
 		
 		self.Assistant = self.Health:CreateTexture(nil, 'OVERLAY')
-		self.Assistant:SetAllPoints('TOPLEFT', self.Leader)
+		self.Assistant:SetAllPoints(self.Leader)
 		
 		self.MasterLooter = self.Health:CreateTexture(nil, 'OVERLAY')
 		self.MasterLooter:SetPoint('LEFT', self.Leader, 'RIGHT')
@@ -335,6 +348,21 @@ local function styleFunc(self, unit)
 		threatText:SetPoint('CENTER', self.Health)
 		threatText.frequentUpdates = .5
 		self:Tag(threatText, '[leafthreatpct]')
+		
+		--[=[if (not ouf_leaf.nofsr) then
+			self.FSR = CreateFrame('frame', nil, self)
+			self.FSR:SetAllPoints(self.Power)
+			self.FSR.width = 230
+			self.FSR.height = 7
+			
+			self.FSR.Spark = self.Power:CreateTexture(nil, 'OVERLAY')
+			self.FSR.Spark:SetTexture[[Interface\CastingBar\UI-CastingBar-Spark]]
+			self.FSR.Spark:SetBlendMode('ADD')
+			self.FSR.Spark:SetHeight(self.FSR.height*2)
+			self.FSR.Spark:SetWidth(self.FSR.height)
+		end]=]
+		
+		
 		
 		if class == 'DRUID' then
 			local druidPower = SetFontString(self.Health)
@@ -413,14 +441,14 @@ local function styleFunc(self, unit)
 		self.OverrideUpdateThreat = ouf_leaf.OverrideUpdateThreat
 	end
 	
-	if(unit and unit:match'%wtarget$') then
-		self.ignoreHealComm = true
-	else
+	if unit then
 		self.leafHealComm = true
+	else
+		self.ignoreHealComm = true
 	end
 	
 	if (unit ~= 'player') then
-		self.SpellRange = .5
+		self.leafRange = .5
 		self.inRangeAlpha = 1
 		self.outsideRangeAlpha = .4
 	end

@@ -159,8 +159,8 @@ local function styleFunc(self, unit)
 	--text.frequentUpdates = .5
 	self:Tag(text, '[leafraid]')
 	
-	local aggro = SetFontString(self.Health, 24)
-	aggro:SetPoint('TOPRIGHT', self, 0, 0)
+	local aggro = SetFontString(self.Health, 36)
+	aggro:SetPoint('TOPLEFT', self.Health, 0, 22)
 	self:Tag(aggro, '[leafthreat]')
 	
 	--[[if class == 'DRUID' then
@@ -174,7 +174,7 @@ local function styleFunc(self, unit)
 	self.leafDebuffFilter = true
 	
 	--self.Range = true
-	self.SpellRange = .5
+	self.leafRange = .5
 	self.inRangeAlpha = 1
 	self.outsideRangeAlpha = .4
 	
@@ -189,7 +189,7 @@ local function styleFunc(self, unit)
 	self.Leader:SetWidth(12)
 	
 	self.Assistant = self.Health:CreateTexture(nil, 'OVERLAY')
-	self.Assistant:SetAllPoints('TOPLEFT', self.Leader)
+	self.Assistant:SetAllPoints(self.Leader)
 		
 	self.MasterLooter = self.Health:CreateTexture(nil, 'OVERLAY')
 	self.MasterLooter:SetPoint('LEFT', self.Leader, 'RIGHT')

@@ -7,6 +7,7 @@ ouf_leaf.corner_indicators = false
 ouf_leaf.corner_indicators_frequent_update = true
 ouf_leaf.nofsr = true
 ouf_leaf.nogcd = true
+ouf_leaf.noswing = true
 ouf_leaf.test_mod = false
 
 ouf_leaf.units = {}
@@ -228,7 +229,7 @@ oUF.TagEvents['[leafsmartpp]'] = 'UNIT_MAXENERGY UNIT_MAXFOCUS UNIT_MAXMANA UNIT
 
 oUF.Tags['[leafname]'] = function(u)
 	local name, realm = UnitName(u)
-	if realm then name = name .. '-' .. realm end
+	if realm and (realm~='') then name = name .. '-' .. realm end
 	return name
 end
 oUF.TagEvents['[leafname]'] = 'UNIT_NAME_UPDATE'

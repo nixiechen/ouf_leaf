@@ -1,106 +1,100 @@
 --[[
-	Credits:	oUF_AutoShot by p3lim
-			ACB_Swing by Aezay
-			yleaf(yaroot@gmail.com)
-	
+
 	Elements handled:
 	 .Swing [statusbar]
 	 .Swing.Text [fontstring]
 
+	Shared:
+	 - disableMelee [boolean]
+	 - disableRanged [boolean]
+
 	Functions that can be overridden from within a layout:
-	 - :OverrideSwing(startTime, endTime, currentTime)
+	 - :OverrideText(elapsed)
 
 --]]
-local _, pClass = UnitClass('player')
-if (pClass == 'WARLOCK') or (pClass == 'MAGE') or (pClass == 'PRIEST') then return end
 
-local pGUID = UnitGUID('player')
-local start, finish, current = 0, 0, 0
-local GetTime = GetTime
-local spellSwingReset = {}
-for _, v in pairs{	78, -- Heroic Strike
-					1464, -- Slam
-					6807, -- Maul
-						} do
-	local name = GetSpellInfo(v)
-	spellSwingReset[name] = true
-end
+local OnDurationUpdate
+do
+	local elapsed = 0
+	function OnDurationUpdate(self)
+		elapsed = GetTime()
+		if(elapsed > self.max) then
+			self:Hide()
+			self:SetScript('OnUpdate', nil)
+		else
+			self:SetValue(self.min + (elapsed - self.min))
 
-local function UpdateDuration(self, elapsed)
-	current = GetTime()
-	if(current > finish) then
-		self:SetAlpha(0)
-		self:SetScript('OnUpdate', nil)
-	else
-		self:SetValue(current)
-		
-		if(self.Text) then
-			if(self.OverrideSwing) then
-				self:OverrideSwing(start, finish, current)
-			else
-				self.Text:SetFormattedText('%.1f', finish - current)
+			if(self.Text) then
+				if(self.OverrideText) then
+					self:OverrideText(elapsed)
+				else
+					self.Text:SetFormattedText('%.1f', self.max - elapsed)
+				end
 			end
 		end
 	end
 end
 
-local function Update(self,event,timeStamp,eventType,sourceGUID,sourceName,sourceFlags,destGUID,destName,destFlags,a,b)
-	if (sourceGUID ~= pGUID) and (destGUID ~= pGUID) then return end
-	if (not eventType) then return end
-	local prefix, suffix = eventType:match('(.-)_(.+)')
-	local swing = self.Swing
-	if sourceGUID == pGUID then
-		if (prefix == 'SWING') then
-			start = GetTime()
-			finish = start + UnitAttackSpeed('player')
-			
-			swing:SetScript('OnUpdate', UpdateDuration)
-			swing:SetAlpha(1)
-			swing:SetMinMaxValues(start, finish)
-		elseif (prefix == 'RANGE') and (a == 75) then
-			start = GetTime()
-			finish = start + UnitRangedDamage('player')
-			
-			swing:SetScript('OnUpdate', UpdateDuration)
-			swing:SetAlpha(1)
-			swing:SetMinMaxValues(start, finish)
-		elseif (prefix == 'SPELL') and spellSwingReset[b] then
-			start = GetTime()
-			finish = start + UnitAttackSpeed('player')
-			
-			swing:SetScript('OnUpdate', UpdateDuration)
-			swing:SetAlpha(1)
-			swing:SetMinMaxValues(start, finish)
-		end
-	elseif destGUID == pGUID then
-		if (suffix == 'MISSED') and (a == 'PARRY') then
-			if finish > GetTime() then
-				finish = finish - ((finish - GetTime()) * 0.5)
-				swing:SetMinMaxValues(start, finish)
-			end
-		end
-	end
+local function Melee(self, _, _, event, GUID)
+	if(UnitGUID(self.unit) ~= GUID) then return end
+	if(not string.find(event, 'SWING')) then return end
+
+	local bar = self.Swing
+	bar.min = GetTime()
+	bar.max = bar.min + UnitAttackSpeed(self.unit)
+
+	bar:Show()
+	bar:SetMinMaxValues(bar.min, bar.max)
+	bar:SetScript('OnUpdate', OnDurationUpdate)
 end
 
-local function Enable(self)
-	local swing = self.Swing
-	if(swing) then
-		self:RegisterEvent('COMBAT_LOG_EVENT_UNFILTERED', Update)
+local shoots = {
+	[GetSpellInfo(75)] = true
+	[GetSpellInfo(5019)] = true
+}
+local function Ranged(self, event, unit, spellName)
+	if not shoots[spellName] then return end
 
-		if(not swing:GetStatusBarTexture()) then
+	local bar = self.Swing
+	bar.min = GetTime()
+	bar.max = bar.min + UnitRangedDamage(unit)
+
+	bar:Show()
+	bar:SetMinMaxValues(bar.min, bar.max)
+	bar:SetScript('OnUpdate', OnDurationUpdate)
+end
+
+local function Enable(self, unit)
+	local swing = self.Swing
+	if(swing and unit == 'player') then
+		if(not swing.disableRanged) then
+			self:RegisterEvent('UNIT_SPELLCAST_SUCCEEDED', Ranged)
+		end
+
+		if(not swing.disableMelee) then
+			self:RegisterEvent('COMBAT_LOG_EVENT_UNFILTERED', Melee)
+		end
+
+		swing:Hide()
+		if(not swing:GetStatusBarTexture() and not swing:GetTexture()) then
 			swing:SetStatusBarTexture([=[Interface\TargetingFrame\UI-StatusBar]=])
 		end
-
-		swing:SetAlpha(0)
 
 		return true
 	end
 end
 
 local function Disable(self)
-	if(self.Swing) then
-		self:UnregisterEvent('COMBAT_LOG_EVENT_UNFILTERED', Update)
+	local swing = self.Swing
+	if(swing) then
+		if(not swing.disableRanged) then
+			self:UnregisterEvent('UNIT_SPELLCAST_SUCCEEDED', Ranged)
+		end
+
+		if(not swing.disableMelee) then
+			self:UnregisterEvent('COMBAT_LOG_EVENT_UNFILTERED', Melee)
+		end
 	end
 end
 
-oUF:AddElement('Swing', Update, Enable, Disable)
+oUF:AddElement('Swing', nil, Enable, Disable)

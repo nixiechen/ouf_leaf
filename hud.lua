@@ -96,10 +96,11 @@ local function styleFunc(self, unit)
 	self.ignoreHealComm = true
 	
 	if unit == 'target' then
-		self.SpellRange = true
+		self.leafRange = true
 		self.inRangeAlpha = 1
 		self.outsideRangeAlpha = .4
 	else
+		self.Health.SmoothUpdate = true
 		self.BarFade = true
 	end
 	

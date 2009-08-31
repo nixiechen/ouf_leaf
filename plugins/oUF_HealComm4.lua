@@ -1,26 +1,26 @@
 --[[
-	oUF_leafHealComm
+	oUF_HealComm
 		makes use of LibHealComm-4.0
 	
 	setup:
-	.leafHealComm [boolean]
-	.leafHealComm_Color [table]	default: {0,1,0,.5}
-	.leafHealComm_BarTexture [string]	nil for Health bar texture
-	.PostleafHealCommUpdate [function] (self, guid, modifiedIncoming)
+	.HealComm [boolean]
+	.HealComm_Color [table]	default: {0,1,0,.5}
+	.HealComm_BarTexture [string]	nil for Health bar texture
+	.PostHealCommUpdate [function] (self, guid, modifiedIncoming)
 	
-	.leafHealCommBar [statusbar]
+	.HealCommBar [statusbar]
 ]]
 
 --local oUF = _G.oUF
 local HealComm = LibStub and LibStub('LibHealComm-4.0')
-assert(HealComm, 'oUF_leafHealComm requires LibHealComm-4.0')
+assert(HealComm, 'oUF_HealComm requires LibHealComm-4.0')
 local debug = false
 
 if debug then debug = function(...) print(...) end
 else debug = function() end end
 
-oUF_leafHealComm = {}
-local addon = oUF_leafHealComm
+oUF_HealComm = {}
+local addon = oUF_HealComm
 local objs = {}
 addon.objects = objs
 
@@ -30,7 +30,7 @@ local function updateHCB(self, guid)
 	local incoming = HealComm:GetHealAmount(guid, healFLAG)
 	if incoming then
 		incoming = incoming * HealComm:GetHealModifier(guid)
-		local bar = self.leafHealCommBar
+		local bar = self.HealCommBar
 		local c,m = UnitHealth(self.unit), UnitHealthMax(self.unit)
 		local w,h = self.Health:GetWidth(), self.Health:GetHeight()
 		if bar.VERTICAL then
@@ -44,9 +44,9 @@ local function updateHCB(self, guid)
 		end
 		bar:Show()
 	else
-		self.leafHealCommBar:Hide()
+		self.HealCommBar:Hide()
 	end
-	if self.PostleafHealCommUpdate then self:PostleafHealCommUpdate(guid, incoming) end
+	if self.PostHealCommUpdate then self:PostHealCommUpdate(guid, incoming) end
 end
 
 local function updateGUIDs(...)
@@ -100,12 +100,12 @@ local function updateObjGUID(self)
 end
 
 local function PostUpdateHealth(self, ...)
-	if self.leafHealCommBar.PostUpdateHealth then self.leafHealCommBar.PostUpdateHealth(...) end
+	if self.HealCommBar.PostUpdateHealth then self.HealCommBar.PostUpdateHealth(...) end
 	updateHCB(self, self.GUID)
 end
 
 local function setPostUpdateHealth(self)
-	self.leafHealCommBar.PostUpdateHealth = self.PostUpdateHealth
+	self.HealCommBar.PostUpdateHealth = self.PostUpdateHealth
 	self.PostUpdateHealth = PostUpdateHealth
 end
 
@@ -120,15 +120,15 @@ end
 
 local default_color = {0,1,0,.5}
 local function setup(self)
-	if self.leafHealComm then
-		self.leafHealCommBar = CreateFrame('StatusBar', nil, self)
-		local bar = self.leafHealCommBar
+	if self.HealComm then
+		self.HealCommBar = CreateFrame('StatusBar', nil, self)
+		local bar = self.HealCommBar
 		bar.VERTICAL = self.Health:GetOrientation() == 'VERTICAL'
 		if bar.VERTICAL then
 			bar:SetOrientation('VERTICAL')
 		end
-		bar:SetStatusBarTexture(self.leafHealComm_BarTexture or self.Health:GetStatusBarTexture():GetTexture())
-		bar:SetStatusBarColor(unpack(self.leafHealComm_Color or default_color))
+		bar:SetStatusBarTexture(self.HealComm_BarTexture or self.Health:GetStatusBarTexture():GetTexture())
+		bar:SetStatusBarColor(unpack(self.HealComm_Color or default_color))
 		bar:SetMinMaxValues(0,1)
 		bar:SetValue(1)
 		bar:SetFrameStrata('TOOLTIP')

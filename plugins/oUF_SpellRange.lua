@@ -1,7 +1,7 @@
 --[[****************************************************************************
 	by yleaf (yaroot@gmail.com)
 	
-	.SpellRange [boolean] <or> [num] update rate
+	.leafRange [boolean] <or> [num] update rate
 		.inRangeAlpha [num] - Frame alpha value for units in range.
 		.outsideRangeAlpha [num] - Frame alpha for units out of range.
   ****************************************************************************]]
@@ -31,7 +31,7 @@ function IsInRange(u)
 	if UnitIsUnit(u, 'player') then
 		return true
 	elseif UnitCanAttack('player', u) then
-		return IsSpellInRange(mySpell, u) == 1
+		return UnitIsDead(u) or (IsSpellInRange(mySpell, u) == 1)
 	elseif (UnitIsUnit(u, 'pet') or UnitPlayerOrPetInParty(u) or UnitPlayerOrPetInRaid(u)) then -- UnitCanAssist('player', u)
 		return UnitInRange(u)
 	else
@@ -62,11 +62,6 @@ end
 
 local function Enable(self)
 	if self.SpellRange and (self.unit ~= 'player') then
-		if self.Range then -- Disable default range checking
-			self:DisableElement('Range')
-			self.Range = nil
-		end
-		
 		UpdateRate = (type(self.SpellRange) == 'number') and self.SpellRange or UpdateRate
 		Objects[self] = true
 		return true
@@ -77,9 +72,5 @@ local function Disable(self)
 	Objects[self] = nil
 end
 
-local function Update(self,event,unit)
-	UpdateRange(self)
-end
-
 UpdateFrame:SetScript('OnUpdate', OnUpdate)
-oUF:AddElement('SpellRange', Update, Enable, Disable)
+oUF:AddElement('SpellRange', UpdateRange, Enable, Disable)

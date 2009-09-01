@@ -43,10 +43,10 @@ local colors = setmetatable({
 	smooth = {
 		1, 0, 0,
 		1, 1, 0,
-		0, 1, 0
+		0, 1, 0,
 	},
 	revertSmooth = {
-		0, 1, 0
+		0, 1, 0,
 		1, 1, 0,
 		1, 0, 0,
 	},

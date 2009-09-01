@@ -40,6 +40,16 @@ local colors = setmetatable({
 	health = {.15,.15,.15},
 	disconnected = {.5,.5,.5},
 	tapped = {.5,.5,.5},
+	smooth = {
+		1, 0, 0,
+		1, 1, 0,
+		0, 1, 0
+	},
+	revertSmooth = {
+		0, 1, 0
+		1, 1, 0,
+		1, 0, 0,
+	},
 }, {__index = oUF.colors})
 ouf_leaf.colors = colors
 
@@ -297,7 +307,7 @@ oUF.Tags['[leafthreatpct]'] = function(u)
 	if not threatpct then return end
 	
 	if isTanking then threatpct = 100 end
-	local r,g,b = oUF.ColorGradient(threatpct/100, unpack(colors.smooth))
+	local r,g,b = oUF.ColorGradient(threatpct/100, unpack(colors.revertSmooth))
 	return Hex(r,g,b) .. (isTanking and 'Aggro' or ceil(threatpct) .. '%')
 end
 oUF.TagEvents['[leafthreatpct]'] = 'UNIT_THREAT_SITUATION_UPDATE'

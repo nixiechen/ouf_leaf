@@ -11,11 +11,20 @@ local SetFontString = ouf_leaf.createfont
 
 local function SetMinMaxValues(self, min, max)
 	self.maxvalue = max
-	--self.minvalue = min
+	self.minvalue = min
+end
+
+local function GetMinMaxValues(self)
+	return self.maxvalue or 0, self.minvalue or 0
 end
 
 local function SetValue(self, value)
+	self.value = value
 	self.tex:SetTexCoord(self.left and 1 or 0, self.left and 0 or 1, self.maxvalue == 0 and 1 or (1-value/self.maxvalue), 1)
+end
+
+local function GetValue(self)
+	return self.value or 0
 end
 
 local function setupStatusbar(self, texture)
@@ -28,7 +37,9 @@ local function setupStatusbar(self, texture)
 	self.tex = tex
 	
 	self.SetMinMaxValues = SetMinMaxValues
+	self.GetMinMaxValues = GetMinMaxValues
 	self.SetValue = SetValue
+	self.GetValue = GetValue
 end
 
 local function styleFunc(self, unit)
@@ -100,7 +111,6 @@ local function styleFunc(self, unit)
 		self.inRangeAlpha = 1
 		self.outsideRangeAlpha = .4
 	else
-		self.Health.SmoothUpdate = true
 		self.BarFade = true
 	end
 	

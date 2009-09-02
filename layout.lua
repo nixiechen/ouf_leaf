@@ -195,7 +195,7 @@ local function styleFunc(self, unit)
 		
 		self.Castbar.Text = SetFontString(self.Castbar)
 		self.Castbar.Text:SetPoint('LEFT', self.Castbar, 2, 0)
-		self.Castbar.Text:SetTextColor(0.84, 0.75, 0.65)
+		--self.Castbar.Text:SetTextColor(0.84, 0.75, 0.65)
 		
 		self.Castbar.Time = SetFontString(self.Castbar)
 		self.Castbar.Time:SetPoint('RIGHT', self.Castbar, -2, 0)
@@ -236,6 +236,29 @@ local function styleFunc(self, unit)
 				self.Swing:SetBackdropColor(0, 0, 0, .3)
 				self.Swing:SetPoint('BOTTOMLEFT', self.Castbar, 'TOPLEFT', 0, 1)
 			end]]
+			
+			self.MirrorBar = {}
+			
+			for i = 1, MIRRORTIMER_NUMTIMERS do
+				self.MirrorBar[i] = CreateFrame('StatusBar', nil, UIParent)
+				self.MirrorBar[i]:SetHeight(15)
+				self.MirrorBar[i]:SetWidth(200)
+				self.MirrorBar[i]:SetStatusBarTexture(texture)
+				self.MirrorBar[i]:SetBackdrop(backdrop)
+				self.MirrorBar[i]:SetBackdropColor(.5,.5,.5,.5)
+				
+				if i == 1 then
+					self.MirrorBar[i]:SetPoint('TOP', UIParent, 0, -100)
+				else
+					self.MirrorBar[i]:SetPoint('TOP', self.MirrorBar[i-1], 'BOTTOM', 0, -5)
+				end
+				
+				self.MirrorBar[i].Text = SetFontString(self.MirrorBar[i], 9)
+				self.MirrorBar[i].Text:SetPoint('CENTER', self.MirrorBar[i])
+				
+				self.MirrorBar[i].Time = SetFontString(self.MirrorBar[i], 9)
+				self.MirrorBar[i].Time:SetPoint('RIGHT', self.MirrorBar[i], -2, 0)
+			end
 			
 		elseif unit == 'pet' then
 			self.Castbar:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', 0, 0)

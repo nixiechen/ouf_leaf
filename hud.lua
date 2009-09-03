@@ -92,7 +92,6 @@ local function styleFunc(self, unit)
 	
 	local mp = SetFontString(self.Power)
 	if unit == 'player' then
-		_G.debug1 = self
 		mp.frequentUpdates = 0.1
 		mp:SetPoint('BOTTOMRIGHT', self.Health, 'BOTTOMRIGHT', -5, 15)
 	else
@@ -112,6 +111,7 @@ local function styleFunc(self, unit)
 		self.inRangeAlpha = 1
 		self.outsideRangeAlpha = .4
 	else
+		self.Health.SmoothUpdate = true
 		self.BarFade = true
 	end
 	

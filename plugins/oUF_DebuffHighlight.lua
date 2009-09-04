@@ -60,19 +60,21 @@ local function Update(self, event, unit)
 	local name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable
 	local i = 1
 	
-	repeat
-		name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable = UnitAura(unit, i, 'HARMFUL') 
-		if debuffType then
-			if (not self.DebuffFilter) then
-				break
-			else
-				if classFilter[debuffType] then
+	if UnitCanAssist('player', unit) then
+		repeat
+			name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable = UnitAura(unit, i, 'HARMFUL') 
+			if debuffType then
+				if (not self.DebuffFilter) then
 					break
+				else
+					if classFilter[debuffType] then
+						break
+					end
 				end
 			end
-		end
-		i = i + 1
-	until (not name)
+			i = i + 1
+		until (not name)
+	end
 	
 	if debuffType then
 		if self.DebuffHighlighted ~= debuffType then

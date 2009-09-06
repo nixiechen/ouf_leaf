@@ -272,7 +272,7 @@ for i = 1, 8 do
 	group:SetManyAttributes('groupFilter', tostring(i), 'showRaid', true, 'yOffset', -5)
 	tinsert(raid, group)
 	if(i == 1) then
-		group:SetManyAttributes('showParty', true, 'showPlayer', true)
+		group:SetManyAttributes('showParty', true, 'showPlayer', true, 'showSolo', true)
 		group:SetPoint('BOTTOMRIGHT', UIParent, -10, 10)
 	else
 		group:SetPoint('BOTTOMRIGHT', raid[i-1], 'BOTTOMLEFT', -5, 0)

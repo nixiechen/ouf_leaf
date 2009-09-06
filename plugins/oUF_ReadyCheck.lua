@@ -9,6 +9,12 @@
 
 	Add-on originally made by Starlon
 --]]
+local oUF
+do
+	local parent = debugstack():match[[\AddOns\(.-)\]]
+	local global = GetAddOnMetadata(parent, 'X-oUF')
+	oUF = _G[global or 'oUF']
+end
 
 local GetReadyCheckStatus = GetReadyCheckStatus
 

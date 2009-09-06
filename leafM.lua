@@ -1,5 +1,13 @@
 -- yleaf (yaroot@gmail.com)
 
+local oUF
+do
+	local parent = debugstack():match[[\AddOns\(.-)\]]
+	local global = GetAddOnMetadata(parent, 'X-oUF')
+	oUF = _G[global or 'oUF']
+end
+
+
 local mt_max = 5
 local ma_max = 2
 local pt_max = 5

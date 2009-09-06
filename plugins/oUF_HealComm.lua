@@ -7,7 +7,12 @@
 --
 --=============================================================================
 
-if not oUF then return end
+local oUF
+do
+	local parent = debugstack():match[[\AddOns\(.-)\]]
+	local global = GetAddOnMetadata(parent, 'X-oUF')
+	oUF = _G[global or 'oUF']
+end
 
 --set texture and color here
 local color = {

@@ -1,5 +1,13 @@
 -- yleaf (yaroot@gmail.com)
 
+local oUF
+do
+	local parent = debugstack():match[[\AddOns\(.-)\]]
+	local global = GetAddOnMetadata(parent, 'X-oUF')
+	oUF = _G[global or 'oUF']
+end
+
+
 local curve1 = [[Interface\AddOns\oUF_leaf\media\curve1]]
 local curve2 = [[Interface\AddOns\oUF_leaf\media\curve2]]
 

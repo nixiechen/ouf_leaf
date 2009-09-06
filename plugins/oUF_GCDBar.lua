@@ -5,10 +5,12 @@
 
 --]]
 if ouf_leaf.nogcd then return end
-local parent = debugstack():match[[\AddOns\(.-)\]]
-local global = GetAddOnMetadata(parent, 'X-oUF')
-global	= global or 'oUF'
-local oUF = _G[global]
+local oUF
+do
+	local parent = debugstack():match[[\AddOns\(.-)\]]
+	local global = GetAddOnMetadata(parent, 'X-oUF')
+	oUF = _G[global or 'oUF']
+end
 
 
 local function OnUpdate(self, elapsed)

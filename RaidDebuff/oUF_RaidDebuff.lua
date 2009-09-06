@@ -16,6 +16,14 @@
 		/ord
 ]]
 
+local oUF
+do
+	local parent = debugstack():match[[\AddOns\(.-)\]]
+	local global = GetAddOnMetadata(parent, 'X-oUF')
+	oUF = _G[global or 'oUF']
+end
+
+
 local debug, debugf = function() end
 local SetFontString = ouf_leaf.createfont
 local frame_pool, roster = {}, {}

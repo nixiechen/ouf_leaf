@@ -5,6 +5,12 @@
 		.inRangeAlpha [num] - Frame alpha value for units in range.
 		.outsideRangeAlpha [num] - Frame alpha for units out of range.
   ****************************************************************************]]
+local oUF
+do
+	local parent = debugstack():match[[\AddOns\(.-)\]]
+	local global = GetAddOnMetadata(parent, 'X-oUF')
+	oUF = _G[global or 'oUF']
+end
 
 local UpdateRate = 0.2
 

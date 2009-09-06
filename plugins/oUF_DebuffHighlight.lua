@@ -8,6 +8,14 @@
 
 --local oUF = _G.oUF
 
+local oUF
+do
+	local parent = debugstack():match[[\AddOns\(.-)\]]
+	local global = GetAddOnMetadata(parent, 'X-oUF')
+	oUF = _G[global or 'oUF']
+end
+
+
 local _, class = UnitClass'player'
 local orig_colors = {}
 local classFilter, debuffColors

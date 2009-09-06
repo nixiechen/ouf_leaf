@@ -7,19 +7,20 @@
 	.FSR.Spark (texture)
 	
 ]]
+
+
 if ouf_leaf.nofsr then return end
+
+local oUF
+do
+	local parent = debugstack():match[[\AddOns\(.-)\]]
+	local global = GetAddOnMetadata(parent, 'X-oUF')
+	oUF = _G[global or 'oUF']
+end
+
 local _,class = UnitClass'player'
 if (class == 'DEATHKNIGHT') or (class == 'ROGUE') or (class == 'WARRIOR') then return end
-local parent = debugstack():match[[\AddOns\(.-)\]]
-local global = GetAddOnMetadata(parent, 'X-oUF')
-global	= global or 'oUF'
-local oUF = _G[global]
 
-
-local parent = debugstack():match[[\AddOns\(.-)\]]
-local global = GetAddOnMetadata(parent, 'X-oUF')
-global = global or 'oUF'
-local oUF = _G[global]
 
 local TOTAL = 5
 local SHOW = true

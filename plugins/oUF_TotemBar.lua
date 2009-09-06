@@ -15,10 +15,12 @@
 			.multiplier : Sets the multiplier for the text or the background (can be two differents multipliers)
 
 --]]
-local parent = debugstack():match[[\AddOns\(.-)\]]
-local global = GetAddOnMetadata(parent, 'X-oUF')
-global = global or 'oUF'
-local oUF = _G[global]
+local oUF
+do
+	local parent = debugstack():match[[\AddOns\(.-)\]]
+	local global = GetAddOnMetadata(parent, 'X-oUF')
+	oUF = _G[global or 'oUF']
+end
 
 if select(2, UnitClass("player")) ~= 'SHAMAN' then return end
 local delay, colors = 1, {

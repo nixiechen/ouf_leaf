@@ -6,6 +6,13 @@
 	 - BarFadeMaxAlpha [value] default: 1
 
 --]]
+local oUF
+do
+	local parent = debugstack():match[[\AddOns\(.-)\]]
+	local global = GetAddOnMetadata(parent, 'X-oUF')
+	oUF = _G[global or 'oUF']
+end
+
 
 local function pending(self, unit)
 	local num, str = UnitPowerType(unit)

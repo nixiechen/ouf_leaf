@@ -1,6 +1,14 @@
 -- based on p3lim's work
 -- yleaf (yaroot@gmail.com)
 
+local oUF
+do
+	local parent = debugstack():match[[\AddOns\(.-)\]]
+	local global = GetAddOnMetadata(parent, 'X-oUF')
+	oUF = _G[global or 'oUF']
+end
+
+
 local _, class = UnitClass'player'
 local texture = [=[Interface\AddOns\oUF_leaf\media\FlatSmooth]=]
 local SetFontString = ouf_leaf.createfont

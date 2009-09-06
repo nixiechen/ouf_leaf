@@ -1,5 +1,13 @@
 -- yleaf (yaroot@gmail.com)
 
+local oUF
+do
+	local parent = debugstack():match[[\AddOns\(.-)\]]
+	local global = GetAddOnMetadata(parent, 'X-oUF')
+	oUF = _G[global or 'oUF']
+end
+
+
 _G.ouf_leaf = {}
 ouf_leaf.noarena = false
 ouf_leaf.noraid = false

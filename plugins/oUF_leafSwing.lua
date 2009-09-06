@@ -11,6 +11,13 @@
 	 - :OverrideSwing(startTime, endTime, currentTime)
 
 --]]
+local oUF
+do
+	local parent = debugstack():match[[\AddOns\(.-)\]]
+	local global = GetAddOnMetadata(parent, 'X-oUF')
+	oUF = _G[global or 'oUF']
+end
+
 local _, pClass = UnitClass('player')
 if (pClass == 'WARLOCK') or (pClass == 'MAGE') or (pClass == 'PRIEST') then return end
 

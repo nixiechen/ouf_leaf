@@ -11,7 +11,13 @@
 	.HealCommBar [statusbar]
 ]]
 
---local oUF = _G.oUF
+local oUF
+do
+	local parent = debugstack():match[[\AddOns\(.-)\]]
+	local global = GetAddOnMetadata(parent, 'X-oUF')
+	oUF = _G[global or 'oUF']
+end
+
 oUF_HealComm = {}
 oUF_HealComm.debug = false
 

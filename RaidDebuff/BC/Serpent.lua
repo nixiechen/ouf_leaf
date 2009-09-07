@@ -2,7 +2,7 @@
 
 --zone, debuffID, order, duration, stackable, color, disable, auraCheck
 local colorTable = {	
-	["disease"] = { r = .6, g = .4, b =  0, a = 1 },	
+	["disease"] = { r = .6, g = .4, b =  0 },	
 }
 --Trash
 GridStatusRaidDebuff:RegisterDebuff(zone, 39042, 1, nil, false, colorTable["disease"]) --Rampent Infection

@@ -11,6 +11,7 @@
 	<Script file="BC\Tempest.lua" />
 	<Script file="BC\Zulaman.lua" />
 	
+	<Script file="WotLK\Archavon.lua" />
 	<Script file="WotLK\Coliseum.lua" />
 	<Script file="WotLK\Malygos.lua" />
 	<Script file="WotLK\Naxxramas.lua" />

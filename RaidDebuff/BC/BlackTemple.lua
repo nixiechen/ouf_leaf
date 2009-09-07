@@ -2,7 +2,7 @@
 
 --zone, debuffID, order, duration, stackable, color, disable, auraCheck
 local colorTable = {		
-	["magic"] = { r = .2, g = .6, b =  1, a = 1 },	
+	["magic"] = { r = .2, g = .6, b =  1},	
 }
 
 --Trash

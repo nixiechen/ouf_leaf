@@ -2,11 +2,12 @@
 
 --zone, debuffID, order, duration, stackable, color, disable, auraCheck
 local colorTable = {	
-	["curse"] = { r = .6, g =  0, b =  1, a = 1 },
-	["magic"] = { r = .2, g = .6, b =  1, a = 1 },
-	["poison"] = {r =  0, g = .6, b =  0, a = 1},
-	["disease"] = { r = .6, g = .4, b =  0, a = 1 },	
-	["deadly"] = {r = 1, g = 0, b = 0, a = 1},
+	["curse"] = { r = .6, g =  0, b =  1},
+	["magic"] = { r = .2, g = .6, b =  1},
+	["poison"] = {r =  0, g = .6, b =  0},
+	["disease"] = { r = .6, g = .4, b =  0},	
+	["deadly"] = {r = 1, g = 0, b = 0},
+	["blue"] = {r = 0, g = 0, b = 1 }	
 }
 --Trash
 GridStatusRaidDebuff:RegisterDebuff(zone, 55314, 1 ,4, false, colorTable["magic"]) --Strangulate
@@ -54,9 +55,9 @@ GridStatusRaidDebuff:RegisterDebuff(zone, 29306, 62, nil, true) --Infected Wound
 
 --Thaddius
 GridStatusRaidDebuff:RegisterMenuHeader(zone, 65, BB["Thaddius"])
-GridStatusRaidDebuff:RegisterDebuff(zone, 28084, 66, nil, false, nil, true) --Negative Charge (Normal & Heroic)
+GridStatusRaidDebuff:RegisterDebuff(zone, 28084, 66, nil, false, colorTable["deadly"], true, false, true) --Negative Charge (Normal & Heroic)
 GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 28084, 28085) --Negative Charge (Normal & Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 28059, 67, nil, false, nil, true) --Positive Charge (Normal & Heroic)
+GridStatusRaidDebuff:RegisterDebuff(zone, 28059, 67, nil, false, colorTable["blue"], true, false, true) --Positive Charge (Normal & Heroic)
 GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 28059, 28062) --Positive Charge (Normal & Heroic)
 
 --Instructor Razuvious

@@ -2,8 +2,8 @@
 
 --zone, debuffID, order, duration, stackable, color, disable, auraCheck
 local colorTable = {	
-	["curse"] = { r = .6, g =  0, b =  1, a = 1 },
-	["magic"] = { r = .2, g = .6, b =  1, a = 1 },
+	["curse"] = { r = .6, g =  0, b =  1},
+	["magic"] = { r = .2, g = .6, b =  1},
 }
 
 --Nalorakk

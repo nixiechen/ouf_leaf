@@ -3,12 +3,12 @@
 --zone, debuffID, order, duration, stackable, color, disable, auraCheck
 
 local colorTable = {
-	["curse"] = { r = .6, g =  0, b =  1, a = 1 },
-	["magic"] = { r = .2, g = .6, b =  1, a = 1 },
-	["poison"] = {r =  0, g = .6, b =  0, a = 1},
-	["disease"] = { r = .6, g = .4, b =  0, a = 1 },
-	["warning"] = {r = 1, g = .6, b = 0, a = 1},
-	["deadly"] = {r = 1, g = 0, b = 0, a = 1}
+	["curse"] = { r = .6, g =  0, b =  1},
+	["magic"] = { r = .2, g = .6, b =  1},
+	["poison"] = {r =  0, g = .6, b =  0},
+	["disease"] = { r = .6, g = .4, b = 0},
+	["warning"] = {r = 1, g = .6, b = 0},
+	["deadly"] = {r = 1, g = 0, b = 0}
 }
 
 --Trash
@@ -108,7 +108,7 @@ GridStatusRaidDebuff:RegisterDebuff(zone, 64156, 106, 20, false, colorTable["mag
 GridStatusRaidDebuff:RegisterDebuff(zone, 64153, 107, 24) --Black Plague (Heroic)
 GridStatusRaidDebuff:RegisterDebuff(zone, 64157, 108, 12, false, colorTable["curse"]) --Curse of Doom (Heroic)
 GridStatusRaidDebuff:RegisterDebuff(zone, 64152, 109, 18, false, colorTable["poison"]) --Draining Poison (Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 64125, 110, nil, false, colorTable["warning"]) --Squeeze (Normal)
+GridStatusRaidDebuff:RegisterDebuff(zone, 64125, 110, nil, false, colorTable["deadly"]) --Squeeze (Normal)
 GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 64125, 64126) --Squeeze (Heroic)
 GridStatusRaidDebuff:RegisterDebuff(zone, 63050, 111, nil, true, nil, true) --Sanity (Normal & Heroic)
 

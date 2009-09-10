@@ -4,9 +4,8 @@
 	
 	.DebuffHighlight [boolean or Texture]	
 	.DebuffFilter [boolean]
+	.CustomDebuffFilter(name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable)
 ]]
-
---local oUF = _G.oUF
 
 local oUF
 do
@@ -70,8 +69,13 @@ local function Update(self, event, unit)
 	
 	if UnitCanAssist('player', unit) then
 		repeat
-			name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable = UnitAura(unit, i, 'HARMFUL') 
-			if debuffType then
+			name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable = UnitAura(unit, i, 'HARMFUL')
+			
+			if self.CustomDebuffFilter then
+				if self:CustomDebuffFilter(name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable) then
+					break
+				end
+			elseif debuffType then
 				if (not self.DebuffFilter) then
 					break
 				else
@@ -84,27 +88,20 @@ local function Update(self, event, unit)
 		until (not name)
 	end
 	
-	if debuffType then
-		if self.DebuffHighlighted ~= debuffType then
-			self.DebuffHighlighted = debuffType
-			
-			if orig_colors[self] then
-				local c = debuffColors[debuffType]
-				self:SetBackdropColor(unpack(c))
-			else
-				self.DebuffHighlight:SetTexture(icon)
-				self.DebuffHighlight:Show()
-			end
+	if icon then
+		if orig_colors[self] then
+			local c = debuffColors[debuffType] or orig_colors[self]
+			self:SetBackdropColor(unpack(c))
+		else
+			self.DebuffHighlight:SetTexture(icon)
+			self.DebuffHighlight:Show()
 		end
 	else
-		if self.DebuffHighlighted then
-			self.DebuffHighlighted = nil
-			local c = orig_colors[self]
-			if c then
-				self:SetBackdropColor(unpack(c))
-			else
-				self.DebuffHighlight:Hide()
-			end
+		local c = orig_colors[self]
+		if c then
+			self:SetBackdropColor(unpack(c))
+		else
+			self.DebuffHighlight:Hide()
 		end
 	end
 end

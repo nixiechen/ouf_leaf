@@ -1,13 +1,18 @@
 --[[ Runebar:
 	Author: Zariel
-	Usage: expects self.runes to be a frame, setup and positiononed by the layout itself, it also requires self.runes[1] through 6 to be a statusbar again setup by the user.
+	Usage: expects self.Runes to be a frame, setup and positiononed by the layout itself, it also requires self.Runes through 6 to be a statusbar again setup by the user.
 
-	Options: (All optional)
-	.spacing: (float)       Spacing between each bar
-	.anchor: (string)       Initial anchor to the parent rune frame
-	.growth: (string)       LEFT or RIGHT
+	Options
+
+	Required:
 	.height: (int)          Height of the bar
 	.width: (int)           Width of each bar
+
+	Optional:
+	.spacing: (float)       Spacing between each bar
+	.anchor: (string)       Initial anchor to the parent rune frame
+	.growth: (string)       LEFT or RIGHT or UP or DOWN
+	.order: (table)         Set custom order, full table of 1 -> 6 required
 ]]
 
 if select(2, UnitClass("player")) ~= "DEATHKNIGHT" then return end
@@ -37,9 +42,7 @@ local OnUpdate = function(self, elapsed)
 end
 
 local TypeUpdate = function(self, event, i)
-	local bar = self.runes[i]
-	if not bar then return end -- Just in case
-
+	local bar = self.Runes[i]
 	local r, g, b = unpack(self.colors.runes[GetRuneType(i)])
 	bar:SetStatusBarColor(r, g, b)
 
@@ -50,7 +53,7 @@ local TypeUpdate = function(self, event, i)
 end
 
 local Update = function(self, event, rune)
-	if event == "PLAYER_ENTERING_WORLD" or not coloured then
+	if event == "PLAYER_ENTERING_WORLD" then
 		for i = 1, 6 do
 			TypeUpdate(self, event, i)
 		end
@@ -58,7 +61,7 @@ local Update = function(self, event, rune)
 	end
 
 	-- Bar could be 7, 8 for some reason
-	local bar = self.runes[rune]
+	local bar = self.Runes[rune]
 	if not bar then return end
 
 	local start, dur, ready = GetRuneCooldown(rune)
@@ -72,16 +75,30 @@ local Update = function(self, event, rune)
 end
 
 local Enable = function(self)
-	local runes = self.runes
+	local runes = self.Runes
 	if not runes or self.unit ~= "player" then return end
 
 	RuneFrame:Hide()
 
 	local spacing = runes.spacing or 1
 	local anchor = runes.anchor or "BOTTOMLEFT"
-	local growth = runes.growth == "LEFT" and - 1 or 1
-	local width = runes.width or (runes:GetWidth() / 6) - spacing
-	local height = runes.height or runes:GetHeight()
+
+	local growthX, growthY = 0, 0
+
+	if runes.growth == "LEFT" then
+		growthX = - 1
+	elseif runes.growth == "DOWN" then
+		growthY = - 1
+	elseif runes.growth == "UP" then
+		growthY = 1
+	else
+		growthX = 1
+	end
+
+	local width = runes.width
+	local height = runes.height
+
+	local order = runes.order
 
 	for i = 1, 6 do
 		local bar = runes[i]
@@ -90,8 +107,7 @@ local Enable = function(self)
 			bar:SetHeight(height)
 			bar:SetMinMaxValues(0, 10)
 
-			-- Horizontal? Who wants vertical ones you freaks
-			bar:SetPoint(anchor, runes, anchor, (i - 1) * (width + spacing) * growth, 0)
+			bar:SetPoint(anchor, runes, anchor, ((order and order[i] or i) - 1) * (width + spacing) * growthX, ((order and order[i] or i) - 1) * (height + spacing) * growthY)
 		end
 	end
 
@@ -102,7 +118,8 @@ local Enable = function(self)
 end
 
 local Disable = function(self)
-	self.runes:Hide()
+	self.Runes:Hide()
+
 	RuneFrame:Show()
 
 	self:UnregisterEvent("RUNE_POWER_UPDATE", Update)

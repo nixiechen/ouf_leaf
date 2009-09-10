@@ -400,25 +400,25 @@ local function styleFunc(self, unit)
 			druidPower:SetPoint('BOTTOM', self.Power)
 			self:Tag(druidPower, '[leafdruidpower]')
 		elseif class == 'DEATHKNIGHT' then
-			self.runes = CreateFrame('Frame', nil, self)
-			self.runes:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', 0, 1)
-			self.runes:SetPoint('RIGHT', self, 'RIGHT')
-			self.runes:SetHeight(7)
-			self.runes:SetBackdrop(backdrop)
-			self.runes:SetBackdropColor(0, 0, 0, .5)
+			self.Runes = CreateFrame('Frame', nil, self)
+			self.Runes:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', 0, 1)
+			self.Runes:SetPoint('RIGHT', self, 'RIGHT')
+			self.Runes:SetHeight(7)
+			self.Runes:SetBackdrop(backdrop)
+			self.Runes:SetBackdropColor(0, 0, 0, .5)
 			
-			self.runes.growth = 'RIGHT'
-			self.runes.spacing = 1
-			self.runes.width = 230/6 - 1
+			self.Runes.growth = 'RIGHT'
+			self.Runes.spacing = 1
+			self.Runes.width = 230/6 - 1
 			
 			for i = 1, 6 do
-				self.runes[i] = CreateFrame('StatusBar', nil, self.runes)
-				self.runes[i]:SetStatusBarTexture(texture)
+				self.Runes[i] = CreateFrame('StatusBar', nil, self.Runes)
+				self.Runes[i]:SetStatusBarTexture(texture)
 				
-				self.runes[i].bg = self.runes[i]:CreateTexture(nil, 'BORDER')
-				self.runes[i].bg:SetAllPoints(self.runes[i])
-				self.runes[i].bg:SetTexture(texture)
-				self.runes[i].bg.multiplier = .5
+				self.Runes[i].bg = self.Runes[i]:CreateTexture(nil, 'BORDER')
+				self.Runes[i].bg:SetAllPoints(self.Runes[i])
+				self.Runes[i].bg:SetTexture(texture)
+				self.Runes[i].bg.multiplier = .5
 			end
 		elseif class == 'SHAMAN' then
 			self.TotemBar = {}

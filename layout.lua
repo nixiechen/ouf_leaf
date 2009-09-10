@@ -407,10 +407,14 @@ local function styleFunc(self, unit)
 			self.Runes:SetBackdrop(backdrop)
 			self.Runes:SetBackdropColor(0, 0, 0, .5)
 			
-			self.Runes.growth = 'RIGHT'
-			self.Runes.spacing = 1
+			self.Runes.height = 7
 			self.Runes.width = 230/6 - 1
 			
+			self.Runes.spacing = 1
+			self.Runes.anchor = 'BOTTOMLEFT'
+			self.Runes.growth = 'RIGHT'
+			--self.Runes.order = {1,2,3,4,5,6}
+
 			for i = 1, 6 do
 				self.Runes[i] = CreateFrame('StatusBar', nil, self.Runes)
 				self.Runes[i]:SetStatusBarTexture(texture)

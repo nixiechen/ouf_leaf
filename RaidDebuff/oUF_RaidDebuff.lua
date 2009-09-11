@@ -6,10 +6,10 @@
 	
 	
 	* layout setup
-	- RaidDebuffIcon
-	- RaidDebuffIcon_Size
+	- RaidDebuffIcon [boolean]
+	- RaidDebuffIcon_Size [number] size of the icon
 	
-	reset the mod:
+	slash to reset:
 		/oufrd
 		/oufraiddebuff
 		/raiddebuff

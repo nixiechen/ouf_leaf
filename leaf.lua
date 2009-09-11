@@ -258,31 +258,6 @@ for k, v in pairs(colors.power) do
 end
 oUF.Tags['[leafcolorpower]'] = function(u) local n,s = UnitPowerType(u) return color_power[s] end
 
-oUF.Tags['[leafthreat]'] = function(u) local s = UnitThreatSituation(u) return s and (s>2) and '|cffff0000.|r' end
-oUF.TagEvents['[leafthreat]'] = 'UNIT_THREAT_SITUATION_UPDATE'
-
-do
-	local lb = GetSpellInfo(33763)
-	oUF.Tags['[leaflifebloom]'] = function(u)
-		local name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable = UnitAura(u, lb)
-		if name and count and (unitCaster == 'player') then
-			local timeLeft = expirationTime - GetTime()
-			return format('%d - %ds', count, timeLeft)
-		end
-	end
-end
-
-do
-	local mark = GetSpellInfo(1126)
-	local gmark = GetSpellInfo(21849)
-	oUF.Tags['[leafmisswild]'] = function(u)
-		if UnitAura(u, mark) or UnitAura(u, gmark) then return end
-		return '|cff00FEBF.|r'
-	end
-end
-oUF.TagEvents['[leafmisswild]'] = 'UNIT_AURA'
-
-
 oUF.Tags['[leafsmartlevel]'] = function(u)
 	local c = UnitClassification(u)
 	if(c == 'worldboss') then
@@ -297,18 +272,51 @@ oUF.Tags['[leafsmartlevel]'] = function(u)
 	end
 end
 
-local cp_color = {
-	[1] = '|cffffffff1|r',
-	[2] = '|cffffffff2|r',
-	[3] = '|cffffffff3|r',
-	[4] = '|cffffd8194|r',
-	[5] = '|cffff00005|r',
-}
-oUF.Tags['[leafcp]'] = function(u)
-	local cp = GetComboPoints(PlayerFrame.unit, 'target')
-	return cp_color[cp]
+do
+	local cp_color = {
+		[1] = '|cffffffff1|r',
+		[2] = '|cffffffff2|r',
+		[3] = '|cffffffff3|r',
+		[4] = '|cffffd8194|r',
+		[5] = '|cffff00005|r',
+	}
+	oUF.Tags['[leafcp]'] = function(u)
+		local cp = GetComboPoints(PlayerFrame.unit, 'target')
+		return cp_color[cp]
+	end
+	oUF.TagEvents['[leafcp]'] = 'UNIT_COMBO_POINTS UNIT_TARGET'
 end
-oUF.TagEvents['[leafcp]'] = 'UNIT_COMBO_POINTS UNIT_TARGET'
+
+oUF.Tags['[leafthreat]'] = function(u) local s = UnitThreatSituation(u) return s and (s>2) and '|cffff0000.|r' end
+oUF.TagEvents['[leafthreat]'] = 'UNIT_THREAT_SITUATION_UPDATE'
+
+oUF.Tags['[leafstatus]'] = function(u)
+	return UnitIsDead(u) and 'Dead' or UnitIsGhost(u) and 'Ghost' or not UnitIsConnected(u) and 'Offline'
+end
+oUF.TagEvents['[leafstatus]'] = 'UNIT_HEALTH'
+
+do
+	local lb = GetSpellInfo(33763)
+	oUF.Tags['[leaflifebloom]'] = function(u)
+		local status = oUF.Tags['[leafstatus]'](u)
+		if status then return status end
+		local name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable = UnitAura(u, lb)
+		if name and count and (unitCaster == 'player') then
+			local timeLeft = expirationTime - GetTime()
+			return format('|cff64ff64%d - %ds|r', count, timeLeft)
+		end
+	end
+end
+
+do
+	local mark = GetSpellInfo(1126)
+	local gmark = GetSpellInfo(21849)
+	oUF.Tags['[leafmisswild]'] = function(u)
+		if UnitAura(u, mark) or UnitAura(u, gmark) then return end
+		return '|cff00FEBF.|r'
+	end
+end
+oUF.TagEvents['[leafmisswild]'] = 'UNIT_AURA'
 
 oUF.Tags['[leafthreatpct]'] = function(u)
 	local isTanking, status, threatpct, rawthreatpct, threatvalue = UnitDetailedThreatSituation(u, 'target')

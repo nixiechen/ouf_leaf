@@ -171,12 +171,10 @@ local function styleFunc(self, unit)
 	aggro:SetPoint('TOPLEFT', self.Health, 0, 22)
 	self:Tag(aggro, '[leafthreat]')
 	
-	--[[if class == 'DRUID' then
-		local lifebloom = SetFontString(self.Health, 10)
-		lifebloom:SetPoint('BOTTOM', self.Health, 1, 1)
-		lifebloom.frequentUpdates = 1
-		self:Tag(lifebloom, '|cff64ff64[leaflifebloom]')
-	end]]
+	local status = SetFontString(self.Health, 10)
+	status:SetPoint('BOTTOM', self.Health, 1, 1)
+	status.frequentUpdates = class == 'DRUID' and 1
+	self:Tag(status, class == 'DRUID' and '[leaflifebloom]' or '[leafstatus]')
 	
 	self.DebuffHighlight = true
 	self.DebuffFilter = true
@@ -193,7 +191,7 @@ local function styleFunc(self, unit)
 	
 	self.Assistant = self.Health:CreateTexture(nil, 'OVERLAY')
 	self.Assistant:SetAllPoints(self.Leader)
-		
+	
 	self.MasterLooter = self.Health:CreateTexture(nil, 'OVERLAY')
 	self.MasterLooter:SetPoint('LEFT', self.Leader, 'RIGHT')
 	self.MasterLooter:SetHeight(10)

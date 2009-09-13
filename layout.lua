@@ -137,7 +137,11 @@ local function styleFunc(self, unit)
 			self:Tag(tag1, '[leafdifficulty][leafsmartlevel] [leafraidcolor][leafname]')
 		end
 	else
-		self:Tag(tag1, '[leafraidcolor][leafname]')
+		if unit == 'pet' then
+			self:Tag(tag1, '[leafthreatcolor][leafname]')
+		else
+			self:Tag(tag1, '[leafraidcolor][leafname]')
+		end
 		self:Tag(tag2, '|cff50a050[leafperhp]|r%')
 	end
 	
@@ -459,21 +463,6 @@ local function styleFunc(self, unit)
 	
 	if (unit == 'pet') or (unit == 'player') then
 		self.BarFade = true
-		
-		self.Threat = CreateFrame('Frame', nil, self)
-		if (unit == 'player') and (class == 'DEATHKNIGHT' or class == 'SHAMAN') then
-			self.Threat:SetPoint('TOPLEFT', self, 'TOPLEFT', -4.5, 15.5)
-		else
-			self.Threat:SetPoint('TOPLEFT', self, 'TOPLEFT', -4.5, 4.5)
-		end
-		self.Threat:SetPoint('BOTTOMRIGHT', self, 4.5, -4.5)
-		self.Threat:SetFrameStrata'BACKGROUND'
-		self.Threat:SetBackdrop({
-			edgeFile = [[Interface\AddOns\oUF_leaf\media\glowTex]], edgeSize = 5,
-			insets = {left = 3, right = 3, top = 3, bottom = 3}
-		})
-		
-		self.OverrideUpdateThreat = ouf_leaf.OverrideUpdateThreat
 	end
 	
 	if unit then

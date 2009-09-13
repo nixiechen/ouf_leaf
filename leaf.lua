@@ -73,8 +73,8 @@ end
 function ouf_leaf.createfont(parent, fontHeight, fontStyle, font)
 	local fontObj = parent:CreateFontString(nil, 'OVERLAY')
 	fontObj:SetFont(font or STANDARD_TEXT_FONT, fontHeight or 11, fontStyle or 'OUTLINE')
-	fontObj:SetJustifyH('CENTER')
-	fontObj:SetJustifyV('CENTER')
+	--fontObj:SetJustifyH('CENTER')
+	--fontObj:SetJustifyV('CENTER')
 	--fontObj:SetShadowColor(0,0,0)
 	--fontObj:SetShadowOffset(1, -1)
 	return fontObj
@@ -93,16 +93,6 @@ function ouf_leaf.updatemasterlooter(self)
 		self.MasterLooter:SetPoint('LEFT', self.Leader, 'RIGHT')
 	else
 		self.MasterLooter:SetPoint('TOPLEFT', self.Leader)
-	end
-end
-
-function ouf_leaf.OverrideUpdateThreat(self, event, unit, status)
-	if(status and status > 0) then
-		local r, g, b = GetThreatStatusColor(status)
-		self.Threat:SetBackdropBorderColor(r, g, b)
-		self.Threat:Show()
-	else
-		self.Threat:Hide()
 	end
 end
 
@@ -289,6 +279,16 @@ end
 
 oUF.Tags['[leafthreat]'] = function(u) local s = UnitThreatSituation(u) return s and (s>2) and '|cffff0000.|r' end
 oUF.TagEvents['[leafthreat]'] = 'UNIT_THREAT_SITUATION_UPDATE'
+
+do
+	local ThreatStatusColor = {
+		[1] = Hex(1, 1, .47),
+		[2] = Hex(1, .6, 0),
+		[3] = Hex(1, 0, 0),
+	}
+	oUF.Tags['[leafthreatcolor]'] = function(u) return ThreatStatusColor[UnitThreatSituation(u)] or '|cffffffff' end
+	oUF.TagEvents['[leafthreatcolor]'] = 'UNIT_THREAT_SITUATION_UPDATE'
+end
 
 oUF.Tags['[leafstatus]'] = function(u)
 	return UnitIsDead(u) and 'Dead' or UnitIsGhost(u) and 'Ghost' or not UnitIsConnected(u) and 'Offline'

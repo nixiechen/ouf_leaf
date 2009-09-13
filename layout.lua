@@ -18,6 +18,14 @@ local function playerAuraFilter(icons, unit, icon, name, rank, texture, count, d
 	return ouf_leaf.playerAuraFilter[leafname]
 end
 
+local function PostCastStart(self)
+	if self.Castbar.interrupt then
+		self.Castbar.Text:SetTextColor(1,0,0)
+	else
+		self.Castbar.Text:SetTextColor(1,1,1)
+	end
+end
+
 local function PostCreateAuraIcon(self, button, icons)
 	button.icon:SetTexCoord(.1, .9, .1, .9)
 	button.overlay:SetTexture([=[Interface\AddOns\oUF_leaf\media\phish]=])
@@ -202,12 +210,14 @@ local function styleFunc(self, unit)
 		self.Castbar = CreateFrame('StatusBar', nil, self)
 		self.Castbar:SetStatusBarTexture(texture)
 		self.Castbar:SetStatusBarColor(.15,.15,.15)
-		self.Castbar:SetBackdrop(backdrop)
-		self.Castbar:SetBackdropColor(.5,.5,.5,.5)
+		
+		self.Castbar.bg = self.Castbar:CreateTexture(nil, 'BACKGROUND')
+		self.Castbar.bg:SetAllPoints(self.Castbar)
+		self.Castbar.bg:SetTexture(texture)
+		self.Castbar.bg:SetVertexColor(.5,.5,.5,.5)
 		
 		self.Castbar.Text = SetFontString(self.Castbar)
 		self.Castbar.Text:SetPoint('LEFT', self.Castbar, 2, 0)
-		--self.Castbar.Text:SetTextColor(0.84, 0.75, 0.65)
 		
 		self.Castbar.Time = SetFontString(self.Castbar)
 		self.Castbar.Time:SetPoint('RIGHT', self.Castbar, -2, 0)
@@ -217,11 +227,11 @@ local function styleFunc(self, unit)
 			self.Castbar:SetWidth(300)
 			self.Castbar:SetPoint('CENTER', UIParent, 0, -180)
 			
-			self.Castbar.SafeZone = self.Castbar:CreateTexture(nil,'BACKGROUND')
+			self.Castbar.SafeZone = self.Castbar:CreateTexture(nil,'BORDER')
 			self.Castbar.SafeZone:SetPoint('TOPRIGHT')
 			self.Castbar.SafeZone:SetPoint('BOTTOMRIGHT')
 			self.Castbar.SafeZone:SetTexture(texture)
-			self.Castbar.SafeZone:SetVertexColor(.8, .2, .2)	
+			self.Castbar.SafeZone:SetVertexColor(.8, .2, .2)
 			
 			self.Castbar.CustomTimeText = CustomTimeText
 			
@@ -250,7 +260,6 @@ local function styleFunc(self, unit)
 			end]]
 			
 			self.MirrorBar = {}
-			
 			for i = 1, MIRRORTIMER_NUMTIMERS do
 				self.MirrorBar[i] = CreateFrame('StatusBar', nil, UIParent)
 				self.MirrorBar[i]:SetHeight(15)
@@ -273,15 +282,17 @@ local function styleFunc(self, unit)
 			end
 			
 		elseif unit == 'pet' then
-			self.Castbar:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', 0, 0)
-			self.Castbar:SetPoint('TOPRIGHT', self, 0, 20)
+			self.Castbar:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', 0, 1)
+			self.Castbar:SetPoint('TOPRIGHT', self, 0, 15)
 		else
+			self.PostChannelStart = PostCastStart
+			self.PostCastStart = PostCastStart
 			self.Castbar:SetHeight(16)
-			self.Castbar:SetWidth(300)
+			self.Castbar:SetWidth(230)
 			if unit == 'target' then
-				self.Castbar:SetPoint('CENTER', UIParent, 0, -157)
-			else
-				self.Castbar:SetPoint('CENTER', UIParent, 0, -137)
+				self.Castbar:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', 0, 100)
+			else -- focus
+				self.Castbar:SetPoint('BOTTOMRIGHT', oUF.units.player, 'TOPRIGHT', 0, 100)
 			end
 		end
 	end

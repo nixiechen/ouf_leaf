@@ -134,8 +134,7 @@ local function updateMenu()
 	tinsert(menu, {text = '|cff00ff00Click to set or remove PT|r', disabled = true})
 end
 
-local LibDataBroker = LibStub('LibDataBroker-1.1')
-local dataobj = LibDataBroker:NewDataObject('oUF_leaf',{
+local dataobj = LibStub('LibDataBroker-1.1'):NewDataObject('oUF_leaf',{
 	type = 'data source',
 	text = 'oUF leaf',
 	icon = [[Interface\Icons\spell_holy_devotionaura]]

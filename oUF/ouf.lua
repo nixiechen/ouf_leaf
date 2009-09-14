@@ -292,7 +292,7 @@ local initObject = function(unit, style, ...)
 
 		object:SetAttribute("*type1", "target")
 		object:SetScript("OnAttributeChanged", OnAttributeChanged)
-		object:SetScript("OnShow", object.PLAYER_ENTERING_WORLD)
+		object:SetScript("OnShow",  object.PLAYER_ENTERING_WORLD)
 
 		object:RegisterEvent"PLAYER_ENTERING_WORLD"
 

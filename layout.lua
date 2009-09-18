@@ -15,7 +15,7 @@ local SetFontString = ouf_leaf.createfont
 local backdrop = ouf_leaf.backdrop
 
 local function playerAuraFilter(icons, unit, icon, name, rank, texture, count, dtype, duration, timeLeft, caster)
-	return ouf_leaf.playerAuraFilter[leafname]
+	return ouf_leaf.playerAuraFilter[name]
 end
 
 local function PostCastStart(self)

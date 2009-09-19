@@ -20,15 +20,16 @@ local mySpell
 do 
 	local _, class = UnitClass('player')
 	local spellsData = {
-		['DEATHKNIGHT'] = 6789, -- Death Coil
-		['DRUID'] = 5176, -- Wrath
-		['HUNTER'] = 75, -- Auto Shot
-		['MAGE'] = 133, -- Fireball
-		['PALADIN'] = 62124, -- Hand of Reckoning
-		['PRIEST'] = 585, -- Smite
-		['SHAMAN'] = 403, -- Lightning Bolt
-		['WARLOCK'] = 686, -- Shadow Bolt
-		['WARRIOR'] = 355, -- Taunt
+		['DRUID'] = 5176, -- ["Wrath"], -- 30 (Nature's Reach: 33, 36)
+		['HUNTER'] = 75, -- ["Auto Shot"], -- 5-35 (Hawk Eye: 37, 39, 41)
+		['MAGE'] = 44614, -- ["Frostfire Bolt"], -- 40
+		['PALADIN'] = 24275, -- ["Hammer of Wrath"],  -- 30 (Glyph of Hammer of Wrath: +5)
+		['PRIEST'] = 585, -- ["Smite"], -- 30 (Holy Reach: 33, 36)
+		['ROGUE'] = 26679, -- ["Deadly Throw"], -- 30 (Glyph of Deadly Throw: +5)
+		['SHAMAN'] = 403, -- ["Lightning Bolt"], -- 30 (Storm Reach: 33, 36)
+		['WARRIOR'] = 355, -- ["Taunt"], -- 30
+		['WARLOCK'] = 348, -- ["Immolate"], -- 30 (Destructive Reach: 33, 36)
+		['DEATHKNIGHT'] = 47541, -- ["Death Coil"], -- 30
 	}
 	mySpell = GetSpellInfo(spellsData[class])
 end

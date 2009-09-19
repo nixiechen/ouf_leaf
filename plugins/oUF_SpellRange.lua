@@ -1,9 +1,9 @@
 --[[****************************************************************************
 	by yleaf (yaroot@gmail.com)
 	
-	.leafRange [boolean] <or> [num] update rate
-		.inRangeAlpha [num] - Frame alpha value for units in range.
-		.outsideRangeAlpha [num] - Frame alpha for units out of range.
+	.SpellRange [boolean] <or> [num] update rate
+	.inRangeAlpha [num] - Frame alpha value for units in range.
+	.outsideRangeAlpha [num] - Frame alpha for units out of range.
   ****************************************************************************]]
 local oUF
 do
@@ -20,15 +20,15 @@ local mySpell
 do 
 	local _, class = UnitClass('player')
 	local spellsData = {
-		DEATHKNIGHT = 6789, -- Death Coil
-		DRUID = 5176, -- Wrath
-		HUNTER = 75, -- Auto Shot
-		MAGE = 133, -- Fireball
-		PALADIN = 62124, -- Hand of Reckoning
-		PRIEST = 585, -- Smite
-		SHAMAN = 403, -- Lightning Bolt
-		WARLOCK = 686, -- Shadow Bolt
-		WARRIOR = 355, -- Taunt
+		['DEATHKNIGHT'] = 6789, -- Death Coil
+		['DRUID'] = 5176, -- Wrath
+		['HUNTER'] = 75, -- Auto Shot
+		['MAGE'] = 133, -- Fireball
+		['PALADIN'] = 62124, -- Hand of Reckoning
+		['PRIEST'] = 585, -- Smite
+		['SHAMAN'] = 403, -- Lightning Bolt
+		['WARLOCK'] = 686, -- Shadow Bolt
+		['WARRIOR'] = 355, -- Taunt
 	}
 	mySpell = GetSpellInfo(spellsData[class])
 end

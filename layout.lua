@@ -15,6 +15,7 @@ local SetFontString = ouf_leaf.createfont
 local backdrop = ouf_leaf.backdrop
 
 local function playerAuraFilter(icons, unit, icon, name, rank, texture, count, dtype, duration, timeLeft, caster)
+	print(name)
 	return ouf_leaf.playerAuraFilter[name]
 end
 
@@ -37,7 +38,6 @@ local function PostCreateAuraIcon(self, button, icons)
 	button.overlay.Hide = function() end
 	
 	local parent = button:GetParent()
-	
 	if parent.noTooltip then
 		button:SetScript('OnEnter', nil)
 		button:SetScript('OnLeave', nil)

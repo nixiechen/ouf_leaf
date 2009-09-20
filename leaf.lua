@@ -33,6 +33,7 @@ ouf_leaf.playerAuraFilter = class == 'DRUID' and {
 	[GetSpellInfo(50334)] = true, -- Berserk
 	[GetSpellInfo(5217)] = true, -- Tiger's Fury
 	[GetSpellInfo(16864)] = true, -- Omen of Clarity
+	[GetSpellInfo(22812)] = true, -- Barkskin
 } or class == 'ROGUE' and {
 	[GetSpellInfo(5171)] = true, -- Slice and Dice
 }

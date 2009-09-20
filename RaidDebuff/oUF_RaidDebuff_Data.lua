@@ -27,31 +27,27 @@ local L = loc == 'zhCN' and {
 	['The Eye of Eternity'] = '永恆之眼',
 	['Ulduar'] = '奧杜亞',
 	['Trial of the Crusader'] = '十字軍試煉',
-}
+} or {}
 
-_G.oUF_RaidDebuff.DebuffData = {}
+oUF_RaidDebuff.DebuffData = {}
 
+GridStatusRaidDebuff = {}
 
-oUF_RaidDebuff.backupbz = _G.BZ
-oUF_RaidDebuff.backupbb = _G.BB
+GridStatusRaidDebuff.BZ = _G.BZ
+GridStatusRaidDebuff.BZ = _G.BB
 
 
 _G.BZ = setmetatable({}, {
 	__index = function(t,i)
-		t[i] = L and L[i] or i
-		return t[i]
+		return L[i] or i
 	end
 })
 
 _G.BB = setmetatable({}, {
 	__index = function(t,i)
-		t[i] = i
-		return t[i]
+		return i
 	end
 })
-
-
-_G.GridStatusRaidDebuff = {}
 
 
 function GridStatusRaidDebuff:RegisterDebuff(zone, debuffID, order, duration, stackable, color, disable, auraCheck)
@@ -87,6 +83,13 @@ function GridStatusRaidDebuff:RegisterMenuHeader(zone, order, header)
 end
 function GridStatusRaidDebuff:RegisterDebuffDelMod(zone, delID, debuffID, duration, stackable, color)
 end
+
+
+function GridStatusRaidDebuff:Wipe()
+	_G.BZ = GridStatusRaidDebuff.BZ
+	_G.BB = GridStatusRaidDebuff.BZ
+end
+
 
 if not ouf_leaf.test_mod then return end
 

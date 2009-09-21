@@ -18,13 +18,10 @@
 	<!--Script file="plugins\oUF_Swing.lua" /-->
 	<Script file="plugins\oUF_TotemBar.lua" />
 	
-	<!--   RAID DEBUFF BEGIN   -->
-	<!--
-	
+	<!-- RAID DEBUFF -->
 	<Include file="RaidDebuff\RaidDebuff.xml" />
-	
+	<!--
 	-->
-	<!--   RAID DEBUFF END   -->
 	
 	<Button name="ouf_leaf_tar" inherits="SecureUnitButtonTemplate" hidden="true" virtual="true">
 		<Frames>

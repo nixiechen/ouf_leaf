@@ -1,118 +1,85 @@
-﻿local zone = BZ["Ulduar"]
+﻿local zone = "Ulduar"
 
---zone, debuffID, order, duration, stackable, color, disable, auraCheck
-
-local colorTable = {
-	["curse"] = { r = .6, g =  0, b =  1},
-	["magic"] = { r = .2, g = .6, b =  1},
-	["poison"] = {r =  0, g = .6, b =  0},
-	["disease"] = { r = .6, g = .4, b = 0},
-	["warning"] = {r = 1, g = .6, b = 0},
-	["deadly"] = {r = 1, g = 0, b = 0}
-}
+--en_zone, debuffID, order, icon_priority, color_priority, timer, stackable, color, default_disable, noicon
 
 --Trash
-GridStatusRaidDebuff:RegisterDebuff(zone, 62310, 1, 5) --Impale (Normal)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 62310, 62928) --Impale (Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 63612, 2, 20, true) --Lightning Brand (Normal)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 63612, 63673) --Lightning Brand (Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 63615, 3, 19, true) --Ravage Armor (Normal & Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 62283, 5) --Iron Roots (Normal)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 62283, 62438) --Iron Roots (Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 63169, 6, 20, true) --Petrify Joints (Normal)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 63169, 63549) --Petrify Joints (Heroic)
+GridStatusRaidDebuff:Debuff(zone, 63612, 2, 5, 5, true, true) --Lightning Brand
+GridStatusRaidDebuff:Debuff(zone, 63615, 3, 10, 5, true, true) --Ravage Armor
+GridStatusRaidDebuff:Debuff(zone, 63169, 6, 5, 5, true, true) --Petrify Joints
 			
 --Razorscale
-GridStatusRaidDebuff:RegisterMenuHeader(zone, 10, BB["Razorscale"])
-GridStatusRaidDebuff:RegisterDebuff(zone, 64771, 11, 20, true) --Fuse Armor (Normal & Heroic)
+GridStatusRaidDebuff:BossName(zone, 10, "Razorscale")
+GridStatusRaidDebuff:Debuff(zone, 64771, 11, 5, 5, true) --Fuse Armor
 			
 --Ignis the Furnace Master
-GridStatusRaidDebuff:RegisterMenuHeader(zone, 15, BB["Ignis the Furnace Master"])
-GridStatusRaidDebuff:RegisterDebuff(zone, 62548, 16) --Scorch (Normal)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 62548, 63476) --Scorch (Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 62680, 17, 6) --Flame Jet (Normal)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 62680, 63472) --Flame Jet (Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 62717, 18, 10) --Slag Pot (Normal)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 62717, 63477) --Slag Pot (Heroic)
+GridStatusRaidDebuff:BossName(zone, 15, "Ignis the Furnace Master")
+GridStatusRaidDebuff:Debuff(zone, 62548, 16, 5, 5, true) --Scorch
+GridStatusRaidDebuff:Debuff(zone, 62680, 17, 5, 5) --Flame Jet
+GridStatusRaidDebuff:Debuff(zone, 62717, 18, 6, 5, true) --Slag Pot
 			
 --XT-002
-GridStatusRaidDebuff:RegisterMenuHeader(zone, 20, BB["XT-002 Deconstructor"])
-GridStatusRaidDebuff:RegisterDebuff(zone, 63024, 21, 9) --Gravity Bomb (Normal)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 63024, 64234) --Gravity Bomb (Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 63018, 22, 9) --Light Bomb (Normal)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 63018, 65121) --Light Bomb (Heroic)
+GridStatusRaidDebuff:BossName(zone, 20, "XT-002 Deconstructor")
+GridStatusRaidDebuff:Debuff(zone, 63024, 21, 5, 5, true) --Gravity Bomb
+GridStatusRaidDebuff:Debuff(zone, 63018, 22, 5, 5, true) --Light Bomb
 			
 --The Assembly of Iron
-GridStatusRaidDebuff:RegisterMenuHeader(zone, 30, BB["The Iron Council"])
-GridStatusRaidDebuff:RegisterDebuff(zone, 61888, 31, 35) --Overwhelming Power(Heroic)
-GridStatusRaidDebuff:RegisterDebuffDelMod(zone, 61888, 64637, 60) --Overwhelming Power (Normal)
-GridStatusRaidDebuff:RegisterDebuff(zone, 62269, 33) --Rune of Death (Normal)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 62269, 63490) --Rune of Death (Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 61903, 34, 4, false, colorTable["magic"]) --Fusion Punch (Normal)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 61903, 63493) --Fusion Punch (Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 61912, 35, 20) --Static Disruption(Normal)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 61912, 63494) --Static Disruption(Heroic)
+GridStatusRaidDebuff:BossName(zone, 30, "The Iron Council")
+GridStatusRaidDebuff:Debuff(zone, 61888, 31, 5, 5, true) --Overwhelming Power
+GridStatusRaidDebuff:Debuff(zone, 62269, 32, 6, 5) --Rune of Death
+GridStatusRaidDebuff:Debuff(zone, 61903, 33, 5, 5) --Fusion Punch
+GridStatusRaidDebuff:Debuff(zone, 61912, 34, 5, 5, true) --Static Disruption
 			
 --Kologarn
-GridStatusRaidDebuff:RegisterMenuHeader(zone, 40, BB["Kologarn"])
-GridStatusRaidDebuff:RegisterDebuff(zone, 64290, 41) --Stone Grip (Normal)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 64290, 64292) --Stone Grip (Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 63355, 42, 45, true) --Crunch Armor (Normal)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 63355, 64002) --Crunch Armor (Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 62055, 43, 8, true) --Brittle Skin (Normal& Heroic)			
+GridStatusRaidDebuff:BossName(zone, 40, "Kologarn")
+GridStatusRaidDebuff:Debuff(zone, 64290, 41, 5, 5, true) --Stone Grip
+GridStatusRaidDebuff:Debuff(zone, 63355, 42, 10, 5, true, true) --Crunch Armor
+GridStatusRaidDebuff:Debuff(zone, 62055, 43, 5, 5, false, true) --Brittle Skin
 			
 --Hodir
-GridStatusRaidDebuff:RegisterMenuHeader(zone, 50, BB["Hodir"])
-GridStatusRaidDebuff:RegisterDebuff(zone, 62469, 51, 10, false, colorTable["magic"]) --Freeze (Normal & Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 61969, 52) --Flash Freeze (Normal)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 61969, 61990) --Flash Freeze (Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 62188, 53, nil, true) --Biting Cold (Normal& Heroic)
+GridStatusRaidDebuff:BossName(zone, 50, "Hodir")
+GridStatusRaidDebuff:Debuff(zone, 62469, 51, 5, 5) --Freeze
+GridStatusRaidDebuff:Debuff(zone, 61969, 52, 10, 5) --Flash Freeze
+GridStatusRaidDebuff:Debuff(zone, 62188, 53, 5, 5, false, true, nil, true) --Biting Cold
 			
 --Thorim
-GridStatusRaidDebuff:RegisterMenuHeader(zone, 60, BB["Thorim"])
-GridStatusRaidDebuff:RegisterDebuff(zone, 62042, 61, 2) --Stormhammer (Normal & Heroic)				
-GridStatusRaidDebuff:RegisterDebuff(zone, 62130, 62, 15, true) --Unbalancing Strike (Normal & Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 62526, 63, 4) --Rune Detonation (Normal & Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 62470, 64, 8) --Deafening Thunder (Normal & Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 62331, 65, 8) --Impale (Normal)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 62331, 62418) --Impale (Heroic)
+GridStatusRaidDebuff:BossName(zone, 60, "Thorim")
+GridStatusRaidDebuff:Debuff(zone, 62042, 61, 5, 5) --Stormhammer
+GridStatusRaidDebuff:Debuff(zone, 62130, 62, 10, 5, true) --Unbalancing Strike
+GridStatusRaidDebuff:Debuff(zone, 62526, 63, 5, 5, true) --Rune Detonation
+GridStatusRaidDebuff:Debuff(zone, 62470, 64, 5, 5, false, false, nil, true) --Deafening Thunder
+GridStatusRaidDebuff:Debuff(zone, 62331, 65, 5, 5) --Impale
 			
 --Freya
-GridStatusRaidDebuff:RegisterMenuHeader(zone, 70, BB["Freya"])
-GridStatusRaidDebuff:RegisterDebuff(zone, 62589, 71, 10) --Nature's Fury (Normal)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 62589, 63571) --Nature's Fury (Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 62861, 73) --Iron Roots (Normal)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 62861, 62930) --Iron Roots (Heroic)
+GridStatusRaidDebuff:BossName(zone, 70, "Freya")
+GridStatusRaidDebuff:Debuff(zone, 62589, 71, 5, 5, true) --Nature's Fury
+GridStatusRaidDebuff:Debuff(zone, 62861, 73, 5, 5) --Iron Roots
 			
 --Mimiron
-GridStatusRaidDebuff:RegisterMenuHeader(zone, 80, BB["Mimiron"])
-GridStatusRaidDebuff:RegisterDebuff(zone, 63666, 81, 8) --Napalm Shell (Normal)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 63666, 65026) --Napalm Shell (Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 62997, 82, 6) --Plasma Blast (Normal)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 62997, 64529) --Plasma Blast (Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 64668, 83, 6) --Magnetic Field (Normal & Heroic)
+GridStatusRaidDebuff:BossName(zone, 80, "Mimiron")
+GridStatusRaidDebuff:Debuff(zone, 63666, 81, 5, 5, true) --Napalm Shell
+GridStatusRaidDebuff:Debuff(zone, 62997, 82, 5, 5, true) --Plasma Blast
+GridStatusRaidDebuff:Debuff(zone, 64668, 83, 5, 5) --Magnetic Field
 
 --General Vezax
-GridStatusRaidDebuff:RegisterMenuHeader(zone, 90, BB["General Vezax"])
-GridStatusRaidDebuff:RegisterDebuff(zone, 63276, 91, 10) --Mark of the Faceless (Normal & Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 63322, 92, nil, true) --Saronite Vapors (Normal & Heroic)
+GridStatusRaidDebuff:BossName(zone, 90, "General Vezax")
+GridStatusRaidDebuff:Debuff(zone, 63276, 91, 10, 5, true) --Mark of the Faceless
+GridStatusRaidDebuff:Debuff(zone, 63322, 92, 5, 5, false, true) --Saronite Vapors
 
 --Yogg-Saron
-GridStatusRaidDebuff:RegisterMenuHeader(zone, 100, BB["Yogg-Saron"])
-GridStatusRaidDebuff:RegisterDebuff(zone, 63134, 101, 20) --Sara's Bless(Normal & Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 63138, 102, 15, true, colorTable["deadly"]) --Sara's Fevor(Normal & Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 63830, 103, 4, false, colorTable["disease"]) --Malady of the Mind (Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 63802, 104, 30, false, colorTable["warning"]) --Brain Link(Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 63042, 105, 30, false, nil, true) --Dominate Mind (Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 64156, 106, 20, false, colorTable["magic"]) --Apathy (Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 64153, 107, 24) --Black Plague (Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 64157, 108, 12, false, colorTable["curse"]) --Curse of Doom (Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 64152, 109, 18, false, colorTable["poison"]) --Draining Poison (Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 64125, 110, nil, false, colorTable["deadly"]) --Squeeze (Normal)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 64125, 64126) --Squeeze (Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 63050, 111, nil, true, nil, true) --Sanity (Normal & Heroic)
+GridStatusRaidDebuff:BossName(zone, 100, "Yogg-Saron")
+GridStatusRaidDebuff:Debuff(zone, 63134, 101, 10, 5, true) --Sara's Bless
+GridStatusRaidDebuff:Debuff(zone, 63138, 102, 5, 10, true, false, {r=1,g=0,b=0}) --Sara's Fevor
+GridStatusRaidDebuff:Debuff(zone, 63830, 103, 5, 5, true) --Malady of the Mind
+GridStatusRaidDebuff:Debuff(zone, 63802, 104, 5, 5) --Brain Link(Heroic)
+GridStatusRaidDebuff:Debuff(zone, 63042, 105, 5, 5, true) --Dominate Mind
+GridStatusRaidDebuff:Debuff(zone, 64156, 106, 5, 7) --Apathy
+GridStatusRaidDebuff:Debuff(zone, 64153, 107, 5, 7) --Black Plague
+GridStatusRaidDebuff:Debuff(zone, 64157, 108, 5, 7) --Curse of Doom
+GridStatusRaidDebuff:Debuff(zone, 64152, 109, 5, 7) --Draining Poison (Heroic)
+GridStatusRaidDebuff:Debuff(zone, 64125, 110, 10, 5) --Squeeze
+GridStatusRaidDebuff:Debuff(zone, 63050, 111, 5, 5, false, false, nil, true) --Sanity
 
 --Algalon
-GridStatusRaidDebuff:RegisterMenuHeader(zone, 120, BB["Algalon the Observer"])
-GridStatusRaidDebuff:RegisterDebuff(zone, 64412, 121, 45, true, colorTable["warning"]) --Phase Punch
+GridStatusRaidDebuff:BossName(zone, 120, "Algalon the Observer")
+GridStatusRaidDebuff:Debuff(zone, 64412, 121, 5, 5, true, true) --Phase Punch
  

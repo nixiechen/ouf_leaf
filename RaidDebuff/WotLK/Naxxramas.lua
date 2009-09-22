@@ -1,80 +1,67 @@
-﻿local zone = BZ["Naxxramas"]
+﻿local zone = "Naxxramas"
 
---zone, debuffID, order, duration, stackable, color, disable, auraCheck
-local colorTable = {	
-	["curse"] = { r = .6, g =  0, b =  1},
-	["magic"] = { r = .2, g = .6, b =  1},
-	["poison"] = {r =  0, g = .6, b =  0},
-	["disease"] = { r = .6, g = .4, b =  0},	
-	["deadly"] = {r = 1, g = 0, b = 0},
-	["blue"] = {r = 0, g = 0, b = 1 }	
-}
+--en_zone, debuffID, order, icon_priority, color_priority, timer, stackable, color, default_disable, noicon
+
 --Trash
-GridStatusRaidDebuff:RegisterDebuff(zone, 55314, 1 ,4, false, colorTable["magic"]) --Strangulate
+GridStatusRaidDebuff:Debuff(zone, 55314, 1, 5, 5) --Strangulate
 
 --Anub'Rekhan
-GridStatusRaidDebuff:RegisterMenuHeader(zone, 10, BB["Anub'Rekhan"])
-GridStatusRaidDebuff:RegisterDebuff(zone, 28786, 11, 6, true) --Locust Swarm (Normal)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 28786, 54022) --Locust Swarm (Heroic)
+GridStatusRaidDebuff:BossName(zone, 10, "Anub'Rekhan")
+GridStatusRaidDebuff:Debuff(zone, 28786, 11, 5, 5, true, true) --Locust Swarm
+
 
 --Grand Widow Faerlina
-GridStatusRaidDebuff:RegisterMenuHeader(zone, 20, BB["Grand Widow Faerlina"])
-GridStatusRaidDebuff:RegisterDebuff(zone, 28796, 21, 8, true, colorTable["poison"]) --Poison Bolt Volley (Normal)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 28796, 54098) --Poison Bolt Volley (Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 28794, 22) --Rain of Fire (Normal)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 28794, 54099) --Rain of Fire (Heroic)
+GridStatusRaidDebuff:BossName(zone, 20, "Grand Widow Faerlina")
+GridStatusRaidDebuff:Debuff(zone, 28796, 21, 5, 5, false, true) --Poison Bolt Volley
+GridStatusRaidDebuff:Debuff(zone, 28794, 22, 5, 5) --Rain of Fire
+
 
 --Maexxna
-GridStatusRaidDebuff:RegisterMenuHeader(zone, 25, BB["Maexxna"])
-GridStatusRaidDebuff:RegisterDebuff(zone, 28622, 26) --Web Wrap (Normal & Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 54121, 27) --Necrotic Poison (Normal)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 54121, 28776) --Necrotic Poison (Heroic)
+GridStatusRaidDebuff:BossName(zone, 25, "Maexxna")
+GridStatusRaidDebuff:Debuff(zone, 28622, 26, 5, 5) --Web Wrap
+GridStatusRaidDebuff:Debuff(zone, 54121, 27, 5, 5) --Necrotic Poison
+
 
 --Noth the Plaguebringer
-GridStatusRaidDebuff:RegisterMenuHeader(zone, 30, BB["Noth the Plaguebringer"])
-GridStatusRaidDebuff:RegisterDebuff(zone, 29213, 31, 10, false, colorTable["curse"]) --Curse of the Plaguebringer (Normal)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 29213, 54835) --Curse of the Plaguebringer (Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 29214, 32, 10) --Wrath of the Plaguebringer (Normal)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 29214, 54836) --Wrath of the Plaguebringer (Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 29212, 33, nil, false, colorTable["magic"]) --Cripple (Normal & Heroic)
+GridStatusRaidDebuff:BossName(zone, 30, "Noth the Plaguebringer")
+GridStatusRaidDebuff:Debuff(zone, 29213, 31, 5, 5, true) --Curse of the Plaguebringer
+GridStatusRaidDebuff:Debuff(zone, 29214, 32, 5, 5, true) --Wrath of the Plaguebringer
+GridStatusRaidDebuff:Debuff(zone, 29212, 33, 5, 5) --Cripple
 
 --Heigan the Unclean
-GridStatusRaidDebuff:RegisterMenuHeader(zone, 40, BB["Heigan the Unclean"])
-GridStatusRaidDebuff:RegisterDebuff(zone, 29998, 41, 21, false, colorTable["disease"]) --Decrepit Fever (Normal)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 29998, 55011) --Decrepit Fever  (Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 29310, 42, 10, false, nil, true) --Spell Disruption (Normal & Heroic)
+GridStatusRaidDebuff:BossName(zone, 40, "Heigan the Unclean")
+GridStatusRaidDebuff:Debuff(zone, 29998, 41, 5, 5) --Decrepit Fever
+GridStatusRaidDebuff:Debuff(zone, 29310, 42, 5, 5, false, false, nil, true) --Spell Disruption
 
 --Grobbulus
-GridStatusRaidDebuff:RegisterMenuHeader(zone, 50, BB["Grobbulus"])
-GridStatusRaidDebuff:RegisterDebuff(zone, 28169, 51, 10, false, colorTable["deadly"]) --Mutating Injection (Normal & Heroic)
+GridStatusRaidDebuff:BossName(zone, 50, "Grobbulus")
+GridStatusRaidDebuff:Debuff(zone, 28169, 51, 5, 5, true) --Mutating Injection
 
 --Gluth
-GridStatusRaidDebuff:RegisterMenuHeader(zone, 60, BB["Gluth"])
-GridStatusRaidDebuff:RegisterDebuff(zone, 54378, 61, 15, true) --Mortal Wound			
-GridStatusRaidDebuff:RegisterDebuff(zone, 29306, 62, nil, true) --Infected Wound (Normal & Heroic)
+GridStatusRaidDebuff:BossName(zone, 60, "Gluth")
+GridStatusRaidDebuff:Debuff(zone, 54378, 61, 5, 5, true) --Mortal Wound			
+GridStatusRaidDebuff:Debuff(zone, 29306, 62, 5, 5) --Infected Wound
 
 --Thaddius
-GridStatusRaidDebuff:RegisterMenuHeader(zone, 65, BB["Thaddius"])
-GridStatusRaidDebuff:RegisterDebuff(zone, 28084, 66, nil, false, colorTable["deadly"], true, false, true) --Negative Charge (Normal & Heroic)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 28084, 28085) --Negative Charge (Normal & Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 28059, 67, nil, false, colorTable["blue"], true, false, true) --Positive Charge (Normal & Heroic)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 28059, 28062) --Positive Charge (Normal & Heroic)
+GridStatusRaidDebuff:BossName(zone, 65, "Thaddius")
+GridStatusRaidDebuff:Debuff(zone, 28084, 66, 5, 5, false, false, {r = 1, g = 0, b = 0}, true) --Negative Charge
+GridStatusRaidDebuff:Debuff(zone, 28059, 67, 5, 5, false, false, {r = 0, g = 0, b = 1}, true) --Positive Charge
+
 
 --Instructor Razuvious
-GridStatusRaidDebuff:RegisterMenuHeader(zone, 70, BB["Instructor Razuvious"])
-GridStatusRaidDebuff:RegisterDebuff(zone, 55550, 71, 5) --Jagged Knife (Normal & Heroic)
+GridStatusRaidDebuff:BossName(zone, 70, "Instructor Razuvious")
+GridStatusRaidDebuff:Debuff(zone, 55550, 71, 5, 5, true) --Jagged Knife
 			
 --Sapphiron
-GridStatusRaidDebuff:RegisterMenuHeader(zone, 80, BB["Sapphiron"])
-GridStatusRaidDebuff:RegisterDebuff(zone, 28522, 81) --Icebolt (Normal & Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 28542, 82, nil, false, colorTable["curse"]) --Life Drain (Normal)
-GridStatusRaidDebuff:RegisterDebuffDelegater(zone, 28542, 55665) --Life Drain (Heroic)
+GridStatusRaidDebuff:BossName(zone, 80, "Sapphiron")
+GridStatusRaidDebuff:Debuff(zone, 28522, 81, 5, 5) --Icebolt
+GridStatusRaidDebuff:Debuff(zone, 28542, 82, 5, 5) --Life Drain
 
 --Kel'Thuzad
-GridStatusRaidDebuff:RegisterMenuHeader(zone, 100, BB["Kel'Thuzad"])
-GridStatusRaidDebuff:RegisterDebuff(zone, 28410, 101, 21, false, nil, false, true) --Chains of Kel'Thuzad (Heroic only)
-GridStatusRaidDebuff:RegisterDebuff(zone, 27819, 102, 5, false, nil, true) --Detonate Mana (Normal & Heroic)
-GridStatusRaidDebuff:RegisterDebuff(zone, 27808, 103, 4) --Frost Blast (Normal & Heroic)
+GridStatusRaidDebuff:BossName(zone, 100, "Kel'Thuzad")
+GridStatusRaidDebuff:Debuff(zone, 28410, 101, 5, 5, true) --Chains of Kel'Thuzad
+GridStatusRaidDebuff:Debuff(zone, 27819, 102, 5, 5) --Detonate Mana
+GridStatusRaidDebuff:Debuff(zone, 27808, 103, 5, 5) --Frost Blast
 
 
 				

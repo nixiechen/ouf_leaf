@@ -85,7 +85,6 @@ end
 }]]
 
 local texture = [=[Interface\AddOns\oUF_leaf\media\FlatSmooth]=]
-local SetFontString = ouf_leaf.createfont
 
 local function CustomTimeText(self, duration)
 	if self.casting then
@@ -150,12 +149,14 @@ local function styleFunc(settings, self, unit)
 	self.inRangeAlpha = 1
 	self.outsideRangeAlpha = .4
 	
-	local tag1 = SetFontString(self.Health)
+	local tag1 = self.Health:CreateFontString(nil, 'OVERLAY')
+	tag1:SetFont(STANDARD_TEXT_FONT, 11, 'OUTLINE')
 	tag1:SetPoint('RIGHT', self.Health, -2, 0)
 	self:Tag(tag1, '|cff50a050[leafperhp]|r%')
 	
 	if settings.style ~= 'pet' then
-		local tag2 = SetFontString(self.Health)
+		local tag2 = self.Health:CreateFontString(nil, 'OVERLAY')
+		tag2:SetFont(STANDARD_TEXT_FONT, 11, 'OUTLINE')
 		tag2:SetPoint('LEFT', self.Health, 2, 0)
 		self:Tag(tag2, '[leafperhp]')
 	end
@@ -207,10 +208,15 @@ local function styleFunc(settings, self, unit)
 		self.Castbar.Icon:SetPoint('TOPRIGHT', self, 'TOPLEFT', -2, 0)
 		self.Castbar.Icon:SetTexCoord(.1,.9,.1,.9)
 		
-		self.Castbar.Text = SetFontString(self.Castbar)
+		
+		
+
+		self.Castbar.Text = self.Castbar:CreateFontString(nil, 'OVERLAY')
+		self.Castbar.Text:SetFont(STANDARD_TEXT_FONT, 11, 'OUTLINE')
 		self.Castbar.Text:SetPoint('LEFT', self.Castbar, 2, 0)
 		
-		self.Castbar.Time = SetFontString(self.Castbar)
+		self.Castbar.Time = self.Castbar:CreateFontString(nil, 'OVERLAY')
+		self.Castbar.Time:SetFont(STANDARD_TEXT_FONT, 11, 'OUTLINE')
 		self.Castbar.Time:SetPoint('RIGHT', self.Castbar, -2, 0)
 		
 		self.Castbar.CustomTimeText = CustomTimeText

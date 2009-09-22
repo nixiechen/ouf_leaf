@@ -11,7 +11,6 @@ end
 
 local _, class = UnitClass'player'
 local texture = [=[Interface\AddOns\oUF_leaf\media\FlatSmooth]=]
-local SetFontString = ouf_leaf.createfont
 local backdrop = ouf_leaf.backdrop
 
 local function playerAuraFilter(icons, unit, icon, name, rank, texture, count, dtype, duration, timeLeft, caster)
@@ -131,9 +130,11 @@ local function styleFunc(self, unit)
 	self.Power.bg:SetTexture(texture)
 	self.Power.bg.multiplier = .5
 	
-	local tag1 = SetFontString(self.Health)
+	local tag1 = self.Health:CreateFontString(nil, 'OVERLAY')
+	tag1:SetFont(STANDARD_TEXT_FONT, 11, 'OUTLINE')
 	tag1:SetPoint('LEFT', self.Health, 2, 0)
-	local tag2 = SetFontString(self.Health)
+	local tag2 = self.Health:CreateFontString(nil, 'OVERLAY')
+	tag2:SetFont(STANDARD_TEXT_FONT, 11, 'OUTLINE')
 	tag2:SetPoint('RIGHT', self.Health, -2, 0)
 	
 	if unit == 'target' or unit == 'player' then
@@ -215,10 +216,12 @@ local function styleFunc(self, unit)
 		self.Castbar.bg:SetTexture(texture)
 		self.Castbar.bg:SetVertexColor(.5,.5,.5,.5)
 		
-		self.Castbar.Text = SetFontString(self.Castbar)
+		self.Castbar.Text = self.Castbar:CreateFontString(nil, 'OVERLAY')
+		self.Castbar.Text:SetFont(STANDARD_TEXT_FONT, 11, 'OUTLINE')
 		self.Castbar.Text:SetPoint('LEFT', self.Castbar, 2, 0)
 		
-		self.Castbar.Time = SetFontString(self.Castbar)
+		self.Castbar.Time = self.Castbar:CreateFontString(nil, 'OVERLAY')
+		self.Castbar.Time:SetFont(STANDARD_TEXT_FONT, 11, 'OUTLINE')
 		self.Castbar.Time:SetPoint('RIGHT', self.Castbar, -2, 0)
 		
 		if unit == 'player' then
@@ -273,10 +276,12 @@ local function styleFunc(self, unit)
 					self.MirrorBar[i]:SetPoint('TOP', self.MirrorBar[i-1], 'BOTTOM', 0, -5)
 				end
 				
-				self.MirrorBar[i].Text = SetFontString(self.MirrorBar[i], 9)
+				self.MirrorBar[i].Text = self.MirrorBar[i]:CreateFontString(nil, 'OVERLAY')
+				self.MirrorBar[i].Text:SetFont(STANDARD_TEXT_FONT, 9, 'OUTLINE')
 				self.MirrorBar[i].Text:SetPoint('CENTER', self.MirrorBar[i])
 				
-				self.MirrorBar[i].Time = SetFontString(self.MirrorBar[i], 9)
+				self.MirrorBar[i].Time = self.MirrorBar[i]:CreateFontString(nil, 'OVERLAY')
+				self.MirrorBar[i].Time:SetFont(STANDARD_TEXT_FONT, 9, 'OUTLINE')
 				self.MirrorBar[i].Time:SetPoint('RIGHT', self.MirrorBar[i], -2, 0)
 			end
 			
@@ -348,7 +353,8 @@ local function styleFunc(self, unit)
 		
 		self.Health.SmoothUpdate = true
 		
-		local cp = SetFontString(self.Health, 50, nil, DAMAGE_TEXT_FONT)
+		local cp = self.Health:CreateFontString(nil, 'OVERLAY')
+		cp:SetFont(DAMAGE_TEXT_FONT, 50, 'OUTLINE')
 		cp:SetPoint('BOTTOM', UIParent, 'CENTER', 0, -150)
 		self:Tag(cp, '[leafcp]')
 		
@@ -389,7 +395,8 @@ local function styleFunc(self, unit)
 		self.PvP:SetWidth(30)
 		self.PvP:SetPoint('CENTER', self, 'TOPLEFT', 5, -10)
 		
-		local threatText = SetFontString(self.Health, 14)
+		local threatText = self.Health:CreateFontString(nil, 'OVERLAY')
+		threatText:SetFont(STANDARD_TEXT_FONT, 14, 'OUTLINE')
 		threatText:SetPoint('CENTER', self.Health)
 		threatText.frequentUpdates = .5
 		self:Tag(threatText, '[leafthreatpct]')
@@ -410,7 +417,8 @@ local function styleFunc(self, unit)
 		
 		
 		if class == 'DRUID' then
-			local druidPower = SetFontString(self.Health)
+			local druidPower = self.Health:CreateFontString(nil, 'OVERLAY')
+			druidPower:SetFont(STANDARD_TEXT_FONT, 11, 'OUTLINE')
 			druidPower:SetPoint('BOTTOM', self.Power)
 			self:Tag(druidPower, '[leafdruidpower]')
 		elseif class == 'DEATHKNIGHT' then

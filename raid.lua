@@ -12,7 +12,6 @@ end
 
 local _, class = UnitClass'player'
 local texture = [[Interface\AddOns\oUF_leaf\media\white]]
-local SetFontString = ouf_leaf.createfont
 local backdrop = ouf_leaf.backdrop
 
 --[[local backdrop = {
@@ -162,16 +161,19 @@ local function styleFunc(self, unit)
 	self.Power.bg:SetTexture(texture)
 	self.Power.bg.multiplier = .3
 	
-	local text = SetFontString(self.Health)
+	local text = self.Health:CreateFontString(nil, 'OVERLAY')
+	text:SetFont(STANDARD_TEXT_FONT, 11, 'OUTLINE')
 	text:SetPoint('CENTER', self.Health, 1, 0)
 	--text.frequentUpdates = .5
 	self:Tag(text, '[leafraid]')
 	
-	local aggro = SetFontString(self.Health, 36)
+	local aggro = self.Health:CreateFontString(nil, 'OVERLAY')
+	aggro:SetFont(STANDARD_TEXT_FONT, 36, 'OUTLINE')
 	aggro:SetPoint('TOPLEFT', self.Health, 0, 22)
 	self:Tag(aggro, '[leafthreat]')
 	
-	local status = SetFontString(self.Health, 10)
+	local status = self.Health:CreateFontString(nil, 'OVERLAY')
+	status:SetFont(STANDARD_TEXT_FONT, 10, 'OUTLINE')
 	status:SetPoint('BOTTOM', self.Health, 1, 1)
 	status.frequentUpdates = class == 'DRUID' and 1
 	self:Tag(status, class == 'DRUID' and '[leaflifebloom]' or '[leafstatus]')
@@ -229,28 +231,32 @@ local function styleFunc(self, unit)
 		br = indicators['BR']
 		
 		if tl then
-			self.CI.TL = SetFontString(self.Health, 22)
+			self.CI.TL = self.Health:CreateFontString(nil, 'OVERLAY')
+			self.CI.TL:SetFont(STANDARD_TEXT_FONT, 22, 'OUTLINE')
 			self.CI.TL:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', -5, -5)
 			self.CI.TL.frequentUpdates = fu
 			self:Tag(self.CI.TL, tl)
 		end
 		
 		if tr then
-			self.CI.TR = SetFontString(self.Health, 22)
+			self.CI.TR = self.Health:CreateFontString(nil, 'OVERLAY')
+			self.CI.TR:SetFont(STANDARD_TEXT_FONT, 22, 'OUTLINE')
 			self.CI.TR:SetPoint('BOTTOMRIGHT', self, 'TOPRIGHT', 5, -5)
 			self.CI.TR.frequentUpdates = fu
 			self:Tag(self.CI.TR, tr)
 		end
 		
 		if bl then
-			self.CI.BL = SetFontString(self.Health, 22)
+			self.CI.BL = self.Health:CreateFontString(nil, 'OVERLAY')
+			self.CI.BL:SetFont(STANDARD_TEXT_FONT, 22, 'OUTLINE')
 			self.CI.BL:SetPoint('BOTTOMLEFT', self, 'BOTTOMLEFT', -5, 5)
 			self.CI.BL.frequentUpdates = fu
 			self:Tag(self.CI.BL, bl)
 		end
 		
 		if br then
-			self.CI.BR = SetFontString(self.Health, 10)
+			self.CI.BR = self.Health:CreateFontString(nil, 'OVERLAY')
+			self.CI.BR:SetFont(STANDARD_TEXT_FONT, 10, 'OUTLINE')
 			self.CI.BR:SetPoint('BOTTOMRIGHT', self, 'BOTTOMRIGHT', -5, 0)
 			self.CI.BR.frequentUpdates = fu
 			self:Tag(self.CI.BR, br)

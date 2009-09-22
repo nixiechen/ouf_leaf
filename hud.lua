@@ -15,8 +15,6 @@ local xOffset, yOffset = 140, -50
 local width, heigh = 100, 200
 local GAP = 15
 
-local SetFontString = ouf_leaf.createfont
-
 local function SetMinMaxValues(self, min, max)
 	self.maxvalue = max
 	self.minvalue = min
@@ -98,7 +96,8 @@ local function styleFunc(self, unit)
 	end
 	powerbg:SetAlpha(.3)
 	
-	local mp = SetFontString(self.Power)
+	local mp = self.Power:CreateFontString(nil, 'OVERLAY')
+	mp:SetFont(STANDARD_TEXT_FONT, 11, 'OUTLINE')
 	if unit == 'player' then
 		mp.frequentUpdates = 0.1
 		mp:SetPoint('BOTTOMRIGHT', self.Health, 'BOTTOMRIGHT', -5, 15)
@@ -107,7 +106,8 @@ local function styleFunc(self, unit)
 	end
 	self:Tag(mp, '[leafcolorpower][leafperpp]')
 	
-	local hp = SetFontString(self.Health)
+	local hp = self.Health:CreateFontString(nil, 'OVERLAY')
+	hp:SetFont(STANDARD_TEXT_FONT, 11, 'OUTLINE')
 	--hp.frequentUpdates = 0.5
 	hp:SetPoint('BOTTOM', mp, 'TOP', 0, 5)
 	self:Tag(hp, '|cff50a050[leafperhp]')

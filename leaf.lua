@@ -71,16 +71,6 @@ do
 	end
 end
 
-function ouf_leaf.createfont(parent, fontHeight, fontStyle, font)
-	local fontObj = parent:CreateFontString(nil, 'OVERLAY')
-	fontObj:SetFont(font or STANDARD_TEXT_FONT, fontHeight or 11, fontStyle or 'OUTLINE')
-	--fontObj:SetJustifyH('CENTER')
-	--fontObj:SetJustifyV('CENTER')
-	--fontObj:SetShadowColor(0,0,0)
-	--fontObj:SetShadowOffset(1, -1)
-	return fontObj
-end
-
 local function isLeader(unit)
 	return (UnitInParty(unit) or UnitInRaid(unit)) and UnitIsPartyLeader(unit)
 end

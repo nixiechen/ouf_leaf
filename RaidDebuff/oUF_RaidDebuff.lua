@@ -138,10 +138,6 @@ function addon:Add(destGUID, spellID)
 		frame.Debuffs[spellID] = frame.Debuffs[spellID] or {}
 		local gained = frame.Debuffs[spellID]
 		
-		gained.GainTime = GetTime()
-		if debuffinfo.stackable then
-			gained.stack = gained.stack and (gained.stack + 1) or 1
-		end
 		self:UpdateDebuff(unit, frame)
 	end
 end
@@ -182,41 +178,50 @@ function addon:UpdateDebuff(unit, frame)
 		end
 	end
 	
-	if id then
-		debug('updating !got id!', id, 'and order', order)
+	if not id then
+		frame:Hide()
+		debug('Hide')
+	else
+		debug('updating id!', id, ' order!', order)
 		local data = frame.Debuffs[id]
 		
-		local debuffName, _, debuffIcon = GetSpellInfo(id)
-		
-		local startTime, debuffDuration, debuffType = data.GainTime, debuffData.duration, debuffData.debuffType
-		debug'got cd timer from addon data'
-		
-		if startTime and debuffDuration then
-			frame.cd:SetCooldown(startTime, debuffDuration)
-			frame.cd:Show()
-			debug'cd show'
-		else
-			frame.cd:Hide()
-			debug'cd hide'
+		local debuffName = GetSpellInfo(id)
+		local i = 1
+		local name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable
+		while true do
+			name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable = UnitAura(unit, i, 'HARMFUL')
+			if (not name) or (name == debuffName) then break end
+			i = i + 1
 		end
-		if debuffData.stackable and data.stack then
-			frame.stack:SetText(data.stack)
-			frame.stack:Show()
-			debug'stack show'
-		else
-			--frame.stack:SetText''
-			frame.stack:Hide()
-			debug'stack hide'
-		end
-		frame.icon:SetTexture(debuffIcon)
-		frame.icon:Show()
-		debug'icon show'
 		
-		frame:Show()
-		debug'update show debuff'
-	else
-		frame:Hide()
-		debug'update hide debuff'
+		if not name then
+			frame:Hide()
+			debug('Hide')
+		else
+			if expirationTime and duration then
+				frame.cd:SetCooldown(expirationTime-duration, duration)
+				frame.cd:Show()
+				debug'cd show'
+			else
+				frame.cd:Hide()
+				debug'cd hide'
+			end
+			if debuffData.stackable and count>0 then
+				frame.stack:SetText(count)
+				frame.stack:Show()
+				debug'stack show'
+			else
+				--frame.stack:SetText''
+				frame.stack:Hide()
+				debug'stack hide'
+			end
+			frame.icon:SetTexture(icon)
+			frame.icon:Show()
+			debug'icon show'
+			
+			frame:Show()
+			debug'update show debuff'
+		end
 	end
 	--debug'update finished'
 end

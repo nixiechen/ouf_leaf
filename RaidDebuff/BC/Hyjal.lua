@@ -1,6 +1,6 @@
 ﻿local zone = BZ["Hyjal Summit"]
 
---zone, debuffID, order, duration, stackable, color, disable, auraCheck
+--en_zone, debuffID, order, icon_priority, color_priority, timer, stackable, color, default_disable, noicon
 
 --Winterchill
 GridStatusRaidDebuff:RegisterMenuHeader(zone, 10, BB["Rage Winterchill"])

@@ -3,6 +3,10 @@
 	<Script file="oUF_RaidDebuff.lua" />
 	<Script file="oUF_RaidDebuff_Data.lua" />
 	
+	<Script file="WotLK\BlackTemple.lua" />
+	<Script file="WotLK\Hyjal.lua" />
+	<Script file="WotLK\Sunwell.lua" />
+	
 	<Script file="WotLK\Archavon.lua" />
 	<Script file="WotLK\Coliseum.lua" />
 	<Script file="WotLK\Malygos.lua" />

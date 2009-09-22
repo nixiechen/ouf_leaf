@@ -151,7 +151,7 @@ function addon:UNIT_DIED(destGUID)
 end
 
 function addon:UpdateDebuff(unit, frame)
-	if (not unit) or (not frame) then return end
+	if not (unit and frame) then return end
 	--debug'update called'
 	
 	local order,id,debuffData = -1

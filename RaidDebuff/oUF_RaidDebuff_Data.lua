@@ -57,9 +57,7 @@ end
 
 if not ouf_leaf.test_mod then return end
 
-GridStatusRaidDebuff:Debuff('沙塔斯城', 33763, 1, 7, true)
-GridStatusRaidDebuff:Debuff('沙塔斯城', 33763, 1, 7, true)
-
-GridStatusRaidDebuff:Debuff('沙塔斯城', 26982, 2, 12)
-GridStatusRaidDebuff:Debuff('沙塔斯城', 26982, 26981)
+GridStatusRaidDebuff:Debuff('沙塔斯城', 33763, 1, 5, 5, true)
+GridStatusRaidDebuff:Debuff('沙塔斯城', 26982, 2, 5, 5, true, true)
+GridStatusRaidDebuff:Debuff('沙塔斯城', 26981, 3, 5, 5, true, true)
 

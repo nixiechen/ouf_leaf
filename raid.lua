@@ -304,10 +304,10 @@ f:SetScript('OnEvent', function(self, event, ...)
 	end
 end)
 
-if ouf_leaf.test_mod then
+--[[if ouf_leaf.test_mod then
 	oUF:Spawn('player'):SetPoint('CENTER', UIParent)
 	oUF:Spawn('target'):SetPoint('CENTER', UIParent,55,0)
-end
+end]]
 
 --[[
 

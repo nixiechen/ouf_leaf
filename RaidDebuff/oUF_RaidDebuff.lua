@@ -220,7 +220,7 @@ local function Setup(self)
 	f:SetWidth(size)
 	f:SetHeight(size)
 	f:SetPoint('CENTER', self)
-	f:SetFrameStrata('HIGH')
+	f:SetFrameStrata'HIGH'
 	f:Hide()
 	
 	f.cd = CreateFrame'Cooldown'

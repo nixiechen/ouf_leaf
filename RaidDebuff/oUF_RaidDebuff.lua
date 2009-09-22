@@ -34,18 +34,12 @@ addon:SetScript('OnEvent', function(self, event, ...) self[event](self, event, .
 
 function addon:GetDebufFrameByGUID(GUID)
 	local unit = roster[GUID]
-	--print(GUID, unit)
 	if not unit then return end
-	local uframe
-	
 	for i = 1, #frame_pool do
 		if frame_pool[i].unit == unit then
-			uframe = frame_pool[i]
-			break
+			return frame_pool[i].RaidDebuff, unit
 		end
 	end
-	
-	return uframe and uframe.RaidDebuff, unit
 end
 
 function addon:PLAYER_LOGIN()

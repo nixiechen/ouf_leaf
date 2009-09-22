@@ -75,7 +75,6 @@ function addon:COMBAT_LOG_EVENT_UNFILTERED(event, timeStamp, eventType, sourceGU
 	end
 end
 
--- GUID => UNIT ID
 function addon:RAID_ROSTER_UPDATE()
 	debug'RAID_ROSTER_UPDATE'
 	wipe(roster)

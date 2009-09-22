@@ -28,7 +28,7 @@ local debug, debugf = function() end
 local frame_pool, roster = {}, {}
 
 local addon = CreateFrame('Frame', 'oUF_RaidDebuff')
-addon.TEST_MOD = true -- ouf_leaf and ouf_leaf.test_mod
+addon.TEST_MOD = ouf_leaf and ouf_leaf.test_mod
 addon:RegisterEvent'PLAYER_LOGIN'
 addon:SetScript('OnEvent', function(self, event, ...) self[event](self, event, ...) end)
 

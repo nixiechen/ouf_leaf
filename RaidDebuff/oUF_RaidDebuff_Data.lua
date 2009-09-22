@@ -55,7 +55,7 @@ function GridStatusRaidDebuff:Wipe()
 	GridStatusRaidDebuff = nil
 end
 
-if not ouf_leaf.test_mod then return end
+if not oUF_RaidDebuff.TEST_MOD then return end
 
 GridStatusRaidDebuff:Debuff('沙塔斯城', 33763, 1, 5, 5, true)
 GridStatusRaidDebuff:Debuff('沙塔斯城', 26982, 2, 5, 5, true, true)

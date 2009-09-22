@@ -28,6 +28,7 @@ local debug, debugf = function() end
 local frame_pool, roster = {}, {}
 
 local addon = CreateFrame('Frame', 'oUF_RaidDebuff')
+addon.TEST_MOD = true -- ouf_leaf and ouf_leaf.test_mod
 addon:RegisterEvent'PLAYER_LOGIN'
 addon:SetScript('OnEvent', function(self, event, ...) self[event](self, event, ...) end)
 
@@ -77,7 +78,7 @@ end
 function addon:RAID_ROSTER_UPDATE()
 	debug'RAID_ROSTER_UPDATE'
 	wipe(roster)
-	if ouf_leaf and ouf_leaf.test_mod then
+	if self.TEST_MOD then
 		roster[UnitGUID('player')] = 'player'
 	end
 	local num = GetRealNumRaidMembers()
@@ -175,6 +176,7 @@ function addon:UpdateDebuff(unit, frame)
 		local name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable
 		while true do
 			name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable = UnitAura(unit, i, 'HARMFUL')
+			-- we could only get debuff info, there is no BUFF in this case right?
 			if (not name) or (name == debuffName) then break end
 			i = i + 1
 		end

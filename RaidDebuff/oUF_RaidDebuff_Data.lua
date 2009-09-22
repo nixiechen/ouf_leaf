@@ -1,7 +1,6 @@
 -- yleaf (yaroot@gmail.com)
 
-local loc = GetLocale()
-local L = loc == 'zhCN' and {
+local L = GetLocale() == 'zhCN' and {
 	['Karazhan'] = '卡拉赞',
 	['Zul\'Aman'] = '祖阿曼',
 	['Serpentshrine Cavern'] = '毒蛇神殿',
@@ -15,7 +14,7 @@ local L = loc == 'zhCN' and {
 	['Ulduar'] = '奥杜尔',
 	['Trial of the Crusader'] = '十字军试炼',
 	['Vault of Archavon'] = '阿尔卡冯的宝库',
-} or loc == 'zhTW' and {
+} or GetLocale() == 'zhTW' and {
 	['Karazhan'] = '卡拉贊',
 	['Zul\'Aman'] = '祖阿曼',
 	['Serpentshrine Cavern'] = '毒蛇神殿洞穴',

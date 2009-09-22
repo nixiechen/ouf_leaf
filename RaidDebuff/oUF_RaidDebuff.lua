@@ -123,8 +123,7 @@ function addon:Add(destGUID, spellID)
 		if not (frame and unit) then return end
 		debug('Adding',unit, 'spellID', spellID)
 		
-		frame.Debuffs[spellID] = frame.Debuffs[spellID] or {}
-		local gained = frame.Debuffs[spellID]
+		frame.Debuffs[spellID] = true
 		
 		self:UpdateDebuff(unit, frame)
 	end
@@ -147,7 +146,7 @@ function addon:UNIT_DIED(destGUID)
 	if not (frame and unit) then return end
 	debug('UNIT_DIED', destGUID)
 	
-	frame.Debuffs = {}
+	wipe(frame.Debuffs)
 	self:UpdateDebuff(unit, frame)
 end
 

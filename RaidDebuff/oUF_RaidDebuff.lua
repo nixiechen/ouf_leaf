@@ -25,7 +25,6 @@ end
 
 
 local debug, debugf = function() end
-local SetFontString = ouf_leaf.createfont
 local frame_pool, roster = {}, {}
 
 local addon = CreateFrame('Frame', 'oUF_RaidDebuff')
@@ -78,7 +77,7 @@ end
 function addon:RAID_ROSTER_UPDATE()
 	debug'RAID_ROSTER_UPDATE'
 	wipe(roster)
-	if ouf_leaf.test_mod then
+	if ouf_leaf and ouf_leaf.test_mod then
 		roster[UnitGUID('player')] = 'player'
 	end
 	local num = GetRealNumRaidMembers()
@@ -232,7 +231,8 @@ local function Setup(self)
 	f.icon:SetAllPoints(f)
 	f.icon:SetTexCoord(.1,.9,.1,.9)
 	
-	f.stack = SetFontString(f, 10)
+	f.stack = f:CreateFontString(nil, 'OVERLAY')
+	f.stack:SetFont(STANDARD_TEXT_FONT, 10, 'OUTLINE')
 	f.stack:SetPoint('BOTTOMRIGHT', f, -2, 0)
 	f.stack:SetJustifyH'RIGHT'
 	

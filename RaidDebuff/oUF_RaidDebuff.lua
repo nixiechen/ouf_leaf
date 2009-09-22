@@ -166,7 +166,7 @@ function addon:UpdateDebuff(unit, frame)
 	
 	if not id then
 		frame:Hide()
-		debug('Hide')
+		debug'Hide'
 	else
 		debug('updating id!', id, ' order!', order)
 		local data = frame.Debuffs[id]
@@ -182,7 +182,7 @@ function addon:UpdateDebuff(unit, frame)
 		
 		if not name then
 			frame:Hide()
-			debug('Hide')
+			debug'Hide'
 		else
 			if expirationTime and duration then
 				frame.cd:SetCooldown(expirationTime-duration, duration)

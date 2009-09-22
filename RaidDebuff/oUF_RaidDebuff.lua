@@ -45,11 +45,8 @@ end
 function addon:PLAYER_LOGIN()
 	self.PLAYER_LOGIN = nil
 	self:UnregisterEvent('PLAYER_LOGIN')
-	if not self.DebuffData then
-		return
-	end
+	if not self.DebuffData then return end
 	
-	-- tekDebug
 	debugf = tekDebug and tekDebug:GetFrame('oUF_RaidDebuff')
 	if debugf then
 		debug = function(...) debugf:AddMessage(string.join(', ', ...)) end
@@ -58,10 +55,8 @@ function addon:PLAYER_LOGIN()
 	self.roster = roster
 	self.frame_pool = frame_pool
 	
-	-- check if in raid
 	self:RAID_ROSTER_UPDATE()
 	
-	-- events
 	self:RegisterEvent'RAID_ROSTER_UPDATE'
 	self:RegisterEvent'PLAYER_ENTERING_WORLD'
 end

@@ -157,7 +157,6 @@ function addon:UpdateDebuff(unit, frame)
 	local order,id,debuffData = -1
 	for k,v in pairs(frame.Debuffs) do
 		local data = self.DebuffList[k]
-		data.order = data.order or 0
 		if data.order > order then
 			order = data.order
 			id = k

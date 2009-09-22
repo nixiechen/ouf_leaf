@@ -40,7 +40,7 @@ function GridStatusRaidDebuff:Debuff(en_zone, debuffID, order, icon_priority, co
 	ddata[zone] = ddata[zone] or {}
 	local zone_table = ddata[zone]
 	zone_table[debuffID] = {
-		['order'] = order,
+		['order'] = order or 0,
 		['timer'] = timer,
 		['stackable'] = stackable,
 		['color'] = color,

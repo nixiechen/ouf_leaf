@@ -14,11 +14,6 @@ local _, class = UnitClass'player'
 local texture = [[Interface\AddOns\oUF_leaf\media\white]]
 local backdrop = ouf_leaf.backdrop
 
---[[local backdrop = {
-	bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=], tile = true, tileSize = 16,
-	insets = {top = -1, left = -1, bottom = -1, right = -1},
-}]]
-
 local function OverrideUpdateHealth(self, event, unit, bar, min, max)
 	if bar.disconnected or UnitIsDeadOrGhost(unit) then
 		bar.c = self.colors.disconnected
